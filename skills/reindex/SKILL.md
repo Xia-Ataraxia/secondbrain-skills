@@ -26,11 +26,15 @@ the notes. Force a full re-embed only when the embedding model changed. A
 non-zero exit or a status you cannot read is unfinished, never zero pending.
 When `qmd` is not installed, report that and stop.
 
-`scripts/qmd-reindex.sh` keeps the list of notes edited since the last refresh.
-Run it without arguments to see that list, and with `clear` after the refresh is
-done. A runtime with edit hooks calls it after each edit with the edited path as
-the argument or the hook's JSON on stdin; it records only notes inside a qmd
-collection and runs no qmd command. The Claude Code plugin wires this in
-`hooks/hooks.json`.
+`scripts/qmd-reindex.sh` is the edit hook, not this procedure. A runtime with
+edit hooks calls it after each edit with the edited path as the argument or the
+hook's JSON on stdin. For a note inside a qmd collection it records the path,
+then refreshes documents and embeddings in the background once edits settle
+(8 seconds). A run that fails or leaves embeddings pending keeps the notes in
+the list and writes a `FAILED` line to `$TMPDIR/secondbrain-qmd-reindex.log`.
+Before reporting, run the script without arguments to list notes not yet
+confirmed in the index and check that log; include both in the report. Run it
+with `clear` once your own refresh is done. The Claude Code plugin wires the
+hook in `hooks/hooks.json`.
 
 Document count and vector count are separate numbers and need not match.
