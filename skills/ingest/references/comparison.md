@@ -25,6 +25,6 @@ Upstream: 구요한 `/ingest`, commit `863ca43`. The row labels identify every S
 | Book Mode B-1–B-5 and Promotion: TOC, preface Index, chapter stubs, book Wiki, progressive reading | Yes24/Aladin TOC | Adopt progressive procedure: fetch two chapter URLs, verbatim preface/Reading Paths, TOC/Progress, book+author Entities, 1–3 preface anchor Concepts, optional Guide, existing Map link; preserve all five chapter fields on promotion. Only adaptations: Apatheia Books paths, compact frontmatter/status override, git instead of index/log. |
 | Guide mode: reusable methodology | no dedicated template | Adopt source-grounded Guide, explored:false and required Properties status, without manufactured methodology. |
 | Acquisition of URLs: WebFetch; the fetched content is Original Content; nothing attached | page HTML retained as an attachment | Adopt: `defuddle` text is the Raw body; no HTML or page copy kept. |
-| Acquisition of YouTube transcripts: not specified | `defuddle` or `yt-dlp`, caption file kept | Adapt: `defuddle` first, `yt-dlp` fallback, no caption file kept. |
+| Acquisition of YouTube transcripts: not specified | `defuddle` or `yt-dlp`, caption file kept | Adapt: spoken-language transcript from `defuddle` or `yt-dlp`, tool and track recorded, no caption file kept. |
 | Cited book: not specified | manifest-only Inbox candidate | Adapt: Book Index only; stubs when the owner reads. |
 | Concept `confidence`: free text | one-line, unconstrained | Adapt: `high`, `medium` or `low` only; reason under `## Sources`. |

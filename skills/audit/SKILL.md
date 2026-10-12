@@ -72,7 +72,7 @@ Invoke `principle-respect-des-fonds` when two pages disagree because they rest o
 
 **Audit-orphan handling.** Group the Map-less pages into a per-tag pseudo-cluster by their top tags, or list them as unclusterable with a suggested Map. Either way they are a structural finding; invoke `principle-collective-description` — a page no aggregate describes has no context for the next reader.
 
-**Cross-cluster** disagreement is rarer; run one `qmd query` per central claim of the high-confidence pages.
+**Cross-cluster** disagreement is rarer; search the vault for counter-evidence to each central claim of the high-confidence pages.
 
 ### Phase C — Confirmability Sampling (prioritized)
 
@@ -89,7 +89,7 @@ For each target, an abbreviated `verify` Confirmability read:
 
 - count primary, secondary and owner-original sources (external criticism as in `ingest` Step 1);
 - whether a cited Raw notes partial fidelity in `## Ingest Notes` while the page treats it as complete;
-- a `qmd query` and `rg` search for counter-evidence elsewhere in the vault;
+- a search for counter-evidence elsewhere in the vault, by meaning and by exact term (`qmd query`, `rg`);
 - **overclaim** — `high` on one source or on secondary sources only; **underclaim** — `low` despite several independent primary sources;
 - on high-confidence pages, a Bias Check naming both a counter-argument and a data gap.
 

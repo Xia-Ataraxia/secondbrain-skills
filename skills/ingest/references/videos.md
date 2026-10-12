@@ -6,7 +6,7 @@ A metadata lookup or a video link is not a transcript.
 Missing subtitles, inaccessible audio and absent segments remain explicit omissions.
 
 Use an actually obtained transcript/export; do not reconstruct words from a generated summary.
-For YouTube, use `defuddle` with `-l <spoken language>` first; fall back to `yt-dlp`.
+For YouTube, get the transcript in the spoken language with whichever tool can, choosing its options from its current help; `defuddle` and `yt-dlp` both can.
 Keep no caption file as an attachment.
 Transcribe a local audio or video file; keep no media file in the vault, and record its location, duration and transcription tool in Ingest Notes.
 Record the tool and the caption track (manual or auto-generated) in Ingest Notes.

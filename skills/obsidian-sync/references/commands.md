@@ -4,52 +4,15 @@ The manual for `obsidian-headless` **0.0.14**. [`../SKILL.md`](../SKILL.md) owns
 
 Everything here is checkable on the acting host without an account, without network access, and without a pairing: `--help` output, the package's bundled README, the bundled `cli.js`, and error paths that a non-vault directory triggers. Nothing here depends on a remote vault existing.
 
-`--help` on the installed build outranks this file. When the two disagree, the build is right and the task stops - see [Version gate](#version-gate).
+`--help` on the installed build outranks this file. The tables below describe 0.0.14 and are reference, not a required invocation - see [Version check](#version-check).
 
-## Version gate
+## Version check
 
-Run this before the first command that changes anything. It fails closed: a missing flag or flag value is version skew, not a naming detail to work around.
+Before the first command that changes anything, read `node --version` (v22 or later), `ob --version`, and the `--help` of each subcommand this task will run. Check only what the task uses: that the build still offers a way to get each intended effect - the target vault and path, the mode, and the safety it needs. A supported form that differs from this file is fine; record which one you used.
 
-```bash
-#!/usr/bin/env bash
-# Read-only. No account, no network, no pairing.
-set -euo pipefail
+Stop and report version skew only when the build offers no supported way to get an intended effect or its safety: for example no way to set `pull-only` before the first sync, or no way to pair without putting the passphrase on the command line. Never emulate a missing capability by hand-editing `config.json` or by installing a different version mid-task.
 
-node_version=$(node --version)
-node_major=${node_version#v}; node_major=${node_major%%.*}
-[ "$node_major" -ge 22 ] || { printf 'gate: node %s is older than v22\n' "$node_version" >&2; exit 1; }
-
-ob_version=$(ob --version)
-printf 'gate: ob %s on node %s\n' "$ob_version" "$node_version"
-
-gate() {                               # gate <subcommand> <literal>...
-  local sub=$1 help literal rc=0
-  shift
-  help=$(ob "$sub" --help) || { printf 'gate: no help for %s\n' "$sub" >&2; return 1; }
-  for literal in "$@"; do
-    case $help in
-      *"$literal"*) ;;
-      *) printf 'gate: %s --help does not mention %s\n' "$sub" "$literal" >&2; rc=1 ;;
-    esac
-  done
-  return "$rc"
-}
-
-gate sync-list-local  --json
-gate sync-list-remote --json
-gate sync-status      --path --json
-gate sync-unlink      --path
-gate sync             --path --continuous
-gate sync-setup       --vault --path --password --device-name --config-dir --json
-gate sync-config      --path --config-dir --json --device-name \
-                      --mode bidirectional pull-only mirror-remote \
-                      --conflict-strategy merge conflict \
-                      --excluded-folders --file-types --configs
-
-printf 'gate: ok\n'
-```
-
-Record `ob --version` and `node --version` in the task evidence. A gate failure is reported as version skew with the exact subcommand and literal that was missing; it is never resolved by guessing a replacement flag, by hand-editing `config.json`, or by installing a different version mid-task.
+Record `ob --version`, `node --version`, and the subcommands checked in the task evidence.
 
 ## Reach: which commands leave the machine
 
