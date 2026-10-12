@@ -55,7 +55,7 @@ In voice mode one question at a time, in text a batch. After each answer, confir
 
 **F2 — Write Core Context.md.** Draft §1 identity and §2 reuse axes (plus optional §3/§4) from the interview, and §5 listing the mothership's system files in Mode B; in Mode A delete §5. Show the draft and confirm. Then set `status: template` → `active`, `snapshot_date` to today, keep `version: "1.0"`.
 
-**F3 — Verify replacement.** Run the pre-flight `rg` again. No output passes; in Mode A the unused mothership placeholders may remain harmlessly.
+**F3 — Verify replacement.** No replaced token is left in the approved files and nothing else in them changed; the pre-flight `rg -l` without `| wc -l` lists any file still holding one. In Mode A the unused mothership placeholders may remain harmlessly.
 
 **Settings for an existing vault.** Only `.obsidian/app.json`, `.obsidian/daily-notes.json`, and the `data.json` of the `homepage`, `templater-obsidian` and `obsidian-excalidraw-plugin` plugins are in scope. Show the exact top-level keys to change with old and new values; apply only approved keys, leave every other key and the formatting untouched, with Obsidian closed or idle.
 

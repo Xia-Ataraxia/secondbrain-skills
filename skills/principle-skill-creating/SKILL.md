@@ -48,6 +48,7 @@ Before writing, search the sibling packages for the same trigger, step or rule.
 - Checks enforce package format only: valid frontmatter, a name that matches the directory, links that resolve. Do not write tests for a package's scripts or for its wording; routing evals for a description are format checks and stay.
 - Delete before adding. No speculative helper, compatibility alias, fallback path or retired stub; a retired thing is removed and stays in history. Build the missing piece when it is actually needed.
 - When a task can only proceed through a script's pipeline, the script is a gate. Delete it and state the steps in the body.
+- State the outcome a step must reach, not the command that reaches it; the agent picks the invocation from the tool's current help.
 - When a body step is counting, matching or tracking many items, give it a thin script.
 - Write each rule as one imperative line that names the tool or the action. Do not record the incident that prompted it, its reasons, or flag-level detail the tool's own help gives; that belongs in the commit message.
 - Keep a prohibition only when breaking it loses something that cannot be restored. Defensive prose that restates the obvious is weight.

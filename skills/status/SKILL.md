@@ -32,7 +32,7 @@ Status is read-only: it writes, repairs and reindexes nothing, and points at the
 7. **Exploration Gate check**: `rg -l '^explored:'` across `20. Wiki` → coverage %, and the `explored: false` count as the exploration backlog (not a defect). Scope the denominator to Entities, Concepts and Guides; a Map without `explored` is missing nothing. Count pages with a Bias Check too.
 8. **Core Context age**: `snapshot_date` from `Core Context.md` frontmatter → days since (fall back to `git log -1 --format=%cs -- "Core Context.md"`). Over 30 days, or older than a later change to a source it lists, is stale. A missing note or `status: template` means onboarding never finished.
 
-Use `rg -L` to list files missing a field when the owner wants names. Tools: `rg`, `find`, `git`.
+When the owner wants names, list the files in scope whose frontmatter lacks the field. Tools: `rg`, `find`, `git`.
 
 ## Output
 

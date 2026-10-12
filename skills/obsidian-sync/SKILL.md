@@ -15,7 +15,7 @@ Two properties of this client shape everything below:
 - **Download modes delete.** `pull-only` and `mirror-remote` both apply remote deletions to the local vault. Neither is read-only.
 - **Pairing resets policy.** `ob sync-setup` writes a fresh config whose mode is `bidirectional` and whose conflict strategy is `merge`. Pairing therefore *arms* uploads; it never leaves an earlier `pull-only` choice in place.
 
-## Binary identity and version gate
+## Binary identity and version check
 
 The executable is `ob`, installed by the npm package `obsidian-headless`. It requires Node.js 22 or later and talks directly to the Obsidian Sync service - it does **not** need or use a running desktop app.
 
@@ -27,7 +27,7 @@ ob --help           # authoritative command list for this build
 
 This manual was written against **`obsidian-headless` 0.0.14**. `--help` is the authority, not this document.
 
-Fail closed on skew. Before any command that changes something, read the `--help` of that exact subcommand. If a command, flag, or flag value named here is missing from the installed build's help, stop and report version skew. Never substitute a plausible-looking alternative flag, never fall back to editing the client's config files by hand to emulate a missing flag, and never assume an undocumented flag is merely undocumented. The machine-checkable gate is in [references/commands.md](references/commands.md#version-gate).
+Before any command that changes something, read the `--help` of that exact subcommand and choose the invocation from it. The commands in this manual are 0.0.14 examples. Use a form the build documents; never guess an undocumented flag or edit the client's config files by hand to emulate a missing one. When the build offers no documented way to get the intended effect and its safety, stop and report version skew. See [references/commands.md](references/commands.md#version-check).
 
 `ob` is not the official `obsidian` desktop CLI and not the unrelated third-party binary published as `obsidian-cli`. Three different programs, three different guarantees. If `ob` is absent, report the gap; do not install it as a side effect of a diagnosis, and do not reach for another tool.
 
@@ -139,11 +139,10 @@ Read the results as identity evidence:
 - A config comes back with a *different* `Location:` than your resolved root - you have a path-spelling mismatch or a second pairing. Resolve which is intended before touching either.
 - `Not logged in.` printed above the configuration - the stored config is intact but no token is present. That is a credential gap, not a broken pairing.
 
-Create the named restore point on every affected root, and record its name:
+Create a restore point on every affected root and record its identifier and what it covers. A Git tag or commit, or a tested file-level backup, both qualify; it must contain the root's current content, and you state whether uncommitted or unsynced changes are inside it. With Git, a tag over the current commit is one way:
 
 ```bash
 git -C "$OBSIDIAN_VAULT_PATH" tag "presync-$(date -u +%Y%m%dT%H%M%SZ)"
-git -C "$OBSIDIAN_VAULT_PATH" tag --list 'presync-*' --sort=-creatordate
 ```
 
 Do not stage, commit, or clean unrelated working-tree changes to make the snapshot look tidy. If the tree is dirty, the dirt is user work; record it in the baseline and leave it alone. A tag over a dirty tree does not capture uncommitted content - say so explicitly rather than treating the tag as a full restore point.
@@ -200,7 +199,7 @@ Never add `--continuous` here. The one-shot run in a download-only mode ends by 
 
 ### Phase 3 - Compare before believing
 
-Compare against the Phase 0 baseline, not against expectations.
+Compare against the Phase 0 baseline, not against expectations: the file count, what changed relative to the restore point, and `ob sync-status` for the root. With a Git restore point, for example:
 
 ```bash
 find "$OBSIDIAN_VAULT_PATH" -name '*.md' -not -path '*/.git/*' | wc -l
@@ -213,7 +212,7 @@ Accept only when all of these hold:
 
 - The run log ends with `Fully synced` and contains no repeated transport or authentication errors.
 - Every `Deleting` line in the log corresponds to a deletion you can explain from the remote side.
-- The file-count delta and `git status` shape match the direction you authorized: for a fresh replica, additions; for an established vault, a small explainable set.
+- The file-count delta and the shape of the changes match the direction you authorized: for a fresh replica, additions; for an established vault, a small explainable set.
 - No `Renaming conflicted file`, `Merge failed.`, or `Rejected server change` lines are unexplained.
 - At least one representative changed file opens and contains the content you expected - not just a plausible filename.
 - `sync-status` still reports the intended vault, root, and `pull-only`.
@@ -287,7 +286,7 @@ Out of scope: Obsidian Publish, GUI settings, third-party CLIs with similar name
 
 ## References
 
-- [references/commands.md](references/commands.md) - exact command surface, flag defaults, mode semantics, exit codes, error strings, on-disk layout, run-output vocabulary, version gate.
+- [references/commands.md](references/commands.md) - exact command surface, flag defaults, mode semantics, exit codes, error strings, on-disk layout, run-output vocabulary, version check.
 - [references/daemon.md](references/daemon.md) - supervision preconditions, start, graceful stop, restart scope, log growth, health evidence, crash-loop containment.
 - [references/recovery.md](references/recovery.md) - containment, classification, exact-version restore of configuration and client, safe re-admission, evidence receipt.
 
@@ -300,7 +299,7 @@ Out of scope: Obsidian Publish, GUI settings, third-party CLIs with similar name
 - [ ] `pull-only` was set after pairing and confirmed by `sync-status` before the first `ob sync`.
 - [ ] The first run was one-shot; `--continuous` appeared only after two clean one-shot runs.
 - [ ] Every `Deleting` and `Reverting` line in the run output was explained, not assumed benign.
-- [ ] File count, `git status`, `git diff --stat` against the tag, and a representative file's content were all compared to the Phase 0 baseline.
+- [ ] File count, the changes against the restore point, and a representative file's content were all compared to the Phase 0 baseline.
 - [ ] Only one sync writer touched the root; no desktop app and no second `ob sync`.
 - [ ] `(Conflicted copy ...)` files were reported with paths and left in place.
 - [ ] No passphrase was passed as an argument; no token, key, or salt appears in any output kept as evidence.

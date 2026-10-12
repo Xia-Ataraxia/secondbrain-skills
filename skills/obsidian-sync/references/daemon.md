@@ -56,7 +56,7 @@ What each property is doing:
 - **`SIGTERM` as the stop signal, with a stop timeout** long enough for an in-flight transfer to finish - see [Stopping](#stopping).
 - **A restart delay, and no unbounded restart burst.** Restart pacing belongs in the supervisor. Ordering the unit against network availability does not: the client already reconnects on its own with exponential backoff, so a start before the network is up is not a failure.
 
-Do not add flags the build does not have. Run the gate in [commands.md](commands.md#version-gate) against the exact binary the definition names.
+Do not add flags the build does not have. Run the [version check](commands.md#version-check) against the exact binary the definition names.
 
 ## Starting
 
@@ -120,7 +120,7 @@ Four different things get called "healthy". Report them separately and never let
 | The process is alive | Supervisor state and a stable restart count | Nothing about connectivity. `ob sync` does **not** exit when the server is unreachable; it stays up in a reconnect loop. |
 | Transport is up | A recent `Connection successful. Detecting changes...` with no later `Disconnected from server` or `Waiting to connect to server` | Nothing about whether files moved |
 | Reconciliation converged | A recent `Fully synced`, with its timestamp | Nothing about direction or correctness |
-| The vault holds what it should | File count, `git status`, a diff against the named restore point, and a representative file opened and read | Nothing about the other end |
+| The vault holds what it should | File count, the changes against the named restore point, and a representative file opened and read | Nothing about the other end |
 
 A recent timestamp on `Fully synced` is the single most useful liveness signal, because it is the only one that requires the transport, the state database, and the filesystem to all be working.
 
@@ -157,7 +157,7 @@ Anything that looks like content loss - a large or unexplained deletion set, `Re
 
 - [ ] The daemon was authorized as its own effect, after two clean one-shot runs.
 - [ ] The live definition was inspected and preserved; nothing was replaced by an example.
-- [ ] The binary path and `--path` were resolved on this host, and the version gate passed against that exact binary.
+- [ ] The binary path and `--path` were resolved on this host, and the version check passed against that exact binary.
 - [ ] The token is supplied from outside any repository; no passphrase appears in the definition.
 - [ ] Stop is `SIGTERM` with a timeout that lets an in-flight transfer finish.
 - [ ] `sync.log` and the supervisor's own capture both have a size plan, using copy-truncate or a stop-archive-restart cycle.

@@ -88,7 +88,7 @@ npm install -g "obsidian-headless@<exact-version-from-evidence>"
 ob --version
 ```
 
-Then re-run the [version gate](commands.md#version-gate) against that binary. A reinstall is a host change and needs its own authorization; without it, report the version mismatch and stop.
+Then re-run the [version check](commands.md#version-check) against that binary. A reinstall is a host change and needs its own authorization; without it, report the version mismatch and stop.
 
 ### Restore the configuration exactly
 
@@ -135,13 +135,14 @@ Never hand-edit `config.json` to emulate a flag, and never copy it between hosts
 
 Note content is user work. Restoring it is a separate authorization naming the exact paths and the exact revision, and it is not implied by permission to repair sync.
 
-The method is additive and path-scoped:
+The method is additive and path-scoped: bring back only the named paths from the recorded restore point. With a Git restore point, for example:
 
 ```bash
-git -C "$OBSIDIAN_VAULT_PATH" tag --list 'presync-*' --sort=-creatordate
 git -C "$OBSIDIAN_VAULT_PATH" diff --stat "<presync-tag>" --
 git -C "$OBSIDIAN_VAULT_PATH" restore --source "<presync-tag>" -- "<exact/path/one.md>" "<exact/path/two.md>"
 ```
+
+With a file-level backup, copy back the same named paths from it.
 
 Hard rules:
 
@@ -176,7 +177,7 @@ Re-admission repeats the staged workflow in [`../SKILL.md`](../SKILL.md). It is 
    printf 'exit=%s\n' "$?"
    ```
 
-7. Compare against the post-recovery baseline: file count, `git status`, `git diff --stat` against the new tag, and a representative file opened and read. Every `Deleting` line must be explainable from the remote side.
+7. Compare against the post-recovery baseline: file count, the changes against the new restore point, and a representative file opened and read. Every `Deleting` line must be explainable from the remote side.
 8. Stop on anything unexplained and return to step 1 of this file. Do not try a different mode to see whether it resolves itself.
 9. Promote the mode only on explicit request, and only after this run is accepted.
 10. Re-enable the daemon only after a second clean one-shot run - see [daemon.md](daemon.md).
@@ -193,7 +194,7 @@ Close the incident with a record that a later reader can act on.
 - Which of the three restores were performed, and which were not and why.
 - For a configuration restore: the captured configuration and the verified post-restore configuration, field by field.
 - For a note restore: the exact paths, the exact source revision, and the readback result for each.
-- Baseline comparison before and after: file count, `git status` shape, diff against the named tag.
+- Baseline comparison before and after: file count, shape of the changes, diff against the named restore point.
 - The one-shot re-admission result, and the daemon state if it was resumed.
 - Every unverified claim named as unverified - upload direction, remote backup contents, another host's state, anything not observed.
 - Paths of the preserved artifacts, and confirmation that they were removed when the incident closed.

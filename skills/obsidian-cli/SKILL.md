@@ -145,25 +145,17 @@ If readback is impossible because the app or bridge is unavailable, say the muta
 
 ### Develop/test cycle
 
-After making code changes to a plugin or theme, follow this workflow:
+After changing a plugin or theme, the cycle is done when the running app has loaded the changed code, its errors and warnings were read, and the rendered result was checked. Pick the commands from `obsidian help` on this build; for example:
 
-1. **Reload** the plugin to pick up changes:
-   ```bash
-   obsidian plugin:reload id=my-plugin
-   ```
-2. **Check for errors** — if errors appear, fix and repeat from step 1:
-   ```bash
-   obsidian dev:errors
-   ```
-3. **Verify visually** with a screenshot or DOM inspection:
-   ```bash
-   obsidian dev:screenshot path=screenshot.png
-   obsidian dev:dom selector=".workspace-leaf" text
-   ```
-4. **Check console output** for warnings or unexpected logs:
-   ```bash
-   obsidian dev:console level=error
-   ```
+```bash
+obsidian plugin:reload id=my-plugin                  # load the changed plugin
+obsidian dev:errors                                  # errors since the reload
+obsidian dev:console level=error                     # console warnings and errors
+obsidian dev:screenshot path=screenshot.png          # rendered state
+obsidian dev:dom selector=".workspace-leaf" text     # or the DOM it produced
+```
+
+When an error appears, fix it and repeat.
 
 ### Additional developer commands
 
