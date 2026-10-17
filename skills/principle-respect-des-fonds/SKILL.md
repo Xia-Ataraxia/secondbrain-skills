@@ -18,9 +18,9 @@ Keep records associated with their creator and functional context. Do not mix di
 
 ## Knowledge-vault ingest
 
-Identify the true creator rather than just the republisher. When a secondary article quotes a study, seek and verify the creator’s original. Keep the article and the study as separate Raw captures with their own locators and an explicit verified relationship. Attribute the secondary author’s interpretation to that author. If the original is unavailable, report the limitation; a quotation is not the original.
+Identify the true creator rather than just the republisher. When a secondary article quotes a study, identify the creator’s original and record its locator. Keep the article and the study as separate records with an explicit relationship; the study is captured on its own only when it is selected itself. Attribute the secondary author’s interpretation to that author. If the original is unavailable, report the limitation; a quotation is not the original.
 
-Example: an Example Newsletter summary and an Example Research Group report remain separate linked Raw captures. A Concept may synthesize both while identifying which evidence supports each claim.
+Example: an Example Newsletter summary is a Raw that links the Example Research Group report by locator; the report becomes its own Raw only when it is ingested. A Concept may synthesize both while identifying which evidence supports each claim.
 
 Read the destination’s live policy and exact task authorization. This contextual principle never authorizes a write, move, or deletion.
 

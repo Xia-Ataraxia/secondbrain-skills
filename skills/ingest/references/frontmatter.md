@@ -36,7 +36,7 @@ Common fields: `tags`, `type`, `date_created`, `date_modified`, `created_by`, `a
 | Acquisition time | source_obtained_at | Raw, books | date ingested, conversion-date |
 | Publication date | date_published | Raw, hub, books | date created |
 | In-vault evidence notes | source (wikilink list) | Entity, Concept, Persona, Guide, hub | source URL |
-| Originals/earlier captures | referenced (wikilink list; a non-book original not yet ingested is linked as its Inbox candidate, whose note name its Raw keeps; a cited book is linked as its Book Index) | secondary Raw, new full capture | traced_from |
+| Originals/earlier captures | referenced (list; a wikilink when the original is a Raw or Book Index in the vault, otherwise its canonical URL; never fetched) | secondary Raw, new full capture | traced_from |
 | Related knowledge | related (wikilink list) | Entity, Concept, Persona, Guide | — |
 | Collection purpose | purpose | Raw, books (inherited) | collectionPurpose, user_intent_interview |
 | Purpose basis | purpose_origin (stated/reused/inferred/unknown) | Raw, books | — |
