@@ -18,8 +18,11 @@ source_kind: article
 source_extraction: reader
 source_obtained_at: {{obtained_at}}
 date_published: {{publication_date}}
-purpose: {{purpose}}
+collectionPurpose: {{purpose}}
 purpose_origin: stated
+mainVaultRelated: []
+mainVaultCmds: []
+reusableFor: []
 referenced: []
 ---
 

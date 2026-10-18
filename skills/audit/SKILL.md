@@ -43,7 +43,7 @@ Record: pages in scope, Maps, pages in at least one Map, pages in none, the larg
 
 Pure search, no judgment; it should take seconds. Report each check as n/total plus at most twenty failing paths.
 
-- **A.1 Frontmatter coverage.** Wiki: `confidence`, `explored`, `source`, `related`, and the `verify` fields when the vault uses them. Raw: `purpose`, `purpose_origin`, `source_locator`; count `purpose_origin: inferred` and `unknown` separately, since an inferred purpose was never confirmed. `explored: false` is review backlog, not a failure.
+- **A.1 Frontmatter coverage.** Wiki: `confidence`, `explored`, `source`, `related`, and the `verify` fields when the vault uses them. Raw: `collectionPurpose`, `purpose_origin`, `source_locator`; count `purpose_origin: inferred` and `unknown` separately, since an inferred purpose was never confirmed. `explored: false` is review backlog, not a failure.
 - **A.2 SPO structure.** H1, `## Sources`, `## Related` present; every `confidence: high` page carries a Bias Check.
 - **A.3 Source citation density.** Pages whose body cites no Raw note are synthesis-only. Not a failure — a synthesis page may draw only on other Wiki pages — but it must say so, and its claims cannot be traced to an original.
 - **A.4 Policy violations.** Whatever the live policy states as mechanical rules (YAML form, quoted wikilinks, a page in the wrong role folder). Count them; their repair is `lint`.
@@ -129,4 +129,4 @@ The conversation summary follows [report](references/report.md): scope and cover
 
 ## Integration
 
-`lint` owns mechanical health: broken links, orphans, frontmatter presence, mothership link resolution. `verify` owns the per-claim taxonomy and any change to `confidence` or `explored`. Run `lint` before an audit so mechanical noise does not crowd the epistemic findings; after a large `ingest`, audit only the touched Map clusters.
+`lint` owns mechanical health: broken links, orphans, frontmatter presence, `mainVaultRelated` link resolution. `verify` owns the per-claim taxonomy and any change to `confidence` or `explored`. Run `lint` before an audit so mechanical noise does not crowd the epistemic findings; after a large `ingest`, audit only the touched Map clusters.

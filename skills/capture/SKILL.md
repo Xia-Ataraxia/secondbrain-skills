@@ -55,9 +55,9 @@ Resolve from the request or the visible browser session:
 - `platforms` — chat platforms, runtimes and source sites;
 - `captureMode` — per member `fidelity`: `transcript`, `excerpt` (his `curated-excerpts`), `manifest-only`, or `mixed` on the bundle when members differ;
 - `nextStep` — `inbox-only`, `run-inbox` or `ingest-now`;
-- **purpose** — why this is kept and where it will be used (미래의 나에게 보내는 편지). Ask it **once for the whole bundle** unless the owner already said it. Save the answer verbatim as `purpose` with `purpose_origin: stated`; reuse a purpose given earlier in the task as `reused`; record `unknown` only if the owner declines. `ingest` reads this field and does not ask again. A purpose never triggers compilation.
+- **collectionPurpose** — why this is kept and where it will be used (미래의 나에게 보내는 편지). Ask it **once for the whole bundle** unless the owner already said it. Save the answer verbatim as `collectionPurpose` with `purpose_origin: stated`; reuse a purpose given earlier in the task as `reused`; record `unknown` only if the owner declines. `ingest` reads this field and does not ask again. A purpose never triggers compilation.
 
-If the topic or target tab group / session set is ambiguous, ask one concise question before touching the browser. Read the destination's capture template and property conventions now; field names follow `ingest`'s frontmatter (`source_locator`, `source_extraction`, `fidelity`, `purpose`, `purpose_origin`, `referenced`).
+If the topic or target tab group / session set is ambiguous, ask one concise question before touching the browser. Read the destination's capture template and property conventions now; field names follow `ingest`'s frontmatter (`source_locator`, `source_extraction`, `fidelity`, `collectionPurpose`, `purpose_origin`, `referenced`).
 
 ### Step 1: Read Tab Metadata
 
@@ -86,7 +86,7 @@ Keep chronology within a conversation and the owner's order across members.
 
 Use the destination's capture template as the shape. Write a **new note**; never overwrite or reorder an existing candidate. A later capture on the same topic is a new note that links the earlier one in `referenced`.
 
-Frontmatter carries `type: inbox`, `source_url` / `source_locator` per member, `platforms`, `source_extraction`, `fidelity`, `description` (one English sentence), `author`, dates, `purpose`, `purpose_origin`, and the vault's tags. Agent session notes use the agent lane's conventions instead: `type: idea`, `created_by: agent`, `authorship: agent`, `tags: [agent-session]` and the runtime's `session_id`. No `capture_status`: location is the state.
+Frontmatter carries `type: inbox`, `source_url` / `source_locator` per member, `platforms`, `source_extraction`, `fidelity`, `description` (one English sentence), `author`, dates, `collectionPurpose`, `purpose_origin`, and the vault's tags. Agent session notes use the agent lane's conventions instead: `type: idea`, `created_by: agent`, `authorship: agent`, `tags: [agent-session]` and the runtime's `session_id`. No `capture_status`: location is the state.
 
 ### Step 4: Add Capture Notes
 
@@ -113,7 +113,7 @@ Read the written note back before reporting:
 2. `## Original Content` is non-empty and matches what was obtained, or the note is explicitly `manifest-only`.
 3. Every member has a locator and a fidelity, and every omission is named.
 4. Agent synthesis is separated from raw content; nothing in Original Content came from your own summary.
-5. `purpose` and `purpose_origin` are set.
+5. `collectionPurpose` and `purpose_origin` are set.
 6. If the next step was ingest, `ingest` preserved the Raw before the Inbox original left (its own review checks this).
 
 Report the path, the members with their fidelity, the omissions, and the purpose.

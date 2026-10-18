@@ -25,7 +25,7 @@ Use `templates/book-index.md` under `10. Raw Sources/03 Books`, named `YYYY-MM-D
 
 ### B-3 — Create N chapter stubs
 
-Use `templates/book-chapter.md` in the same Books location, named `YYYY-MM-DD-{authorSlug}-{bookSlug}-ch{NN}-{slug}.md`. Record a chapter `source_locator` only as obtained evidence (a direct chapter URL also fills `source_url`); never invent one. A stub without a recorded locator cannot be promoted later. Supply `toc_description` only when the source gives a one-liner: it becomes `description` and TOC Preview; otherwise `description` is `""` and TOC Preview states that none was supplied, and the title is never relabelled as a one-liner. The stub keeps inherited book purpose, `status: stub`, integer chapterNumber, original-language chapterPart, bookIndex and chapterPrev/chapterNext links (null at endpoints) to its adjacent TOC chapters. Its body renders the title, the Source section (direct URL or an explicit `Not recorded:` line, Book link, previous/next), TOC Preview, Original Content's explicit non-empty pending-fill placeholder, an empty human Reading Notes section and Ingest Notes. Acquisition time means scaffold time, not chapter-read time. No chapter-specific Wiki pages yet. Validation allows explicitly marked stubs without treating placeholders as source evidence.
+Use `templates/book-chapter.md` in the same Books location, named `YYYY-MM-DD-{authorSlug}-{bookSlug}-ch{NN}-{slug}.md`. Record a chapter `source_locator` only as obtained evidence (a direct chapter URL also fills `source_url`); never invent one. A stub without a recorded locator cannot be promoted later. Supply `toc_description` only when the source gives a one-liner: it becomes `description` and TOC Preview; otherwise `description` is `""` and TOC Preview states that none was supplied, and the title is never relabelled as a one-liner. The stub keeps inherited book `collectionPurpose`, `status: stub`, integer chapterNumber, original-language chapterPart, bookIndex and chapterPrev/chapterNext links (null at endpoints) to its adjacent TOC chapters. Its body renders the title, the Source section (direct URL or an explicit `Not recorded:` line, Book link, previous/next), TOC Preview, Original Content's explicit non-empty pending-fill placeholder, an empty human Reading Notes section and Ingest Notes. Acquisition time means scaffold time, not chapter-read time. No chapter-specific Wiki pages yet. Validation allows explicitly marked stubs without treating placeholders as source evidence.
 
 ### B-4 — Book-level Wiki only
 
@@ -37,7 +37,7 @@ One git commit records the whole scaffold and its actually compiled book-level k
 
 ### Promotion — when a chapter is selected for reading
 
-Promotion fills one chapter stub the owner has read. It reuses the book's purpose.
+Promotion fills one chapter stub the owner has read. It reuses the book's `collectionPurpose`.
 
 1. Acquire the chapter verbatim from the stub's recorded locator (`source_locator`, else `source_url`). The stub's Original Content must still be exactly the template's pending-fill placeholder.
 2. Replace only that placeholder with the acquired text, and rewrite `status` and `date_modified`. All other bytes stay, including Source, TOC Preview, human Reading Notes, Ingest Notes and the five navigation fields.

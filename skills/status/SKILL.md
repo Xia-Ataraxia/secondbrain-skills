@@ -10,7 +10,7 @@ metadata:
 
 Show the current state of the wiki at a glance. The skeleton is 구요한's `/status`; decisions against it are in [comparison](references/comparison.md).
 
-Status is read-only: it writes, repairs and reindexes nothing, and points at the skill that would. Counts are presence, never quality — a Raw with `purpose:` filled is not thereby well purposed. Run from the vault root, use the folder names the vault's AGENTS file declares (the ones below are the usual defaults), and report the roots you actually counted; a missing folder is reported missing, not zero.
+Status is read-only: it writes, repairs and reindexes nothing, and points at the skill that would. Counts are presence, never quality — a Raw with `collectionPurpose:` filled is not thereby well purposed. Run from the vault root, use the folder names the vault's AGENTS file declares (the ones below are the usual defaults), and report the roots you actually counted; a missing folder is reported missing, not zero.
 
 ## Process
 
@@ -27,8 +27,8 @@ Status is read-only: it writes, repairs and reindexes nothing, and points at the
    - `40. Paper Analyses/*/` → paper hubs (one citekey folder each), and `40. Paper Analyses/**/*.md` → paper files; report both, they answer different questions
    - `00. Inbox/**/*.md` → pending inbox items, all subfolders, plus how many are older than 30 days. Inbox location is the state; there is no queue field. Volume is not urgency.
 4. **Discrepancies.** With no index there is no index drift; instead report folders the AGENTS file declares but that are missing, and Markdown found outside every declared root.
-5. **Coverage check**: `rg -l '^purpose:'` across `10. Raw Sources` → coverage % (미래의 나에게 보내는 편지 — the letter each Raw carries to its future reader). Also count `purpose_origin: inferred|unknown`; those Raw are worth naming.
-6. **Cross-vault check**: `rg -l '^mothership:'` across `20. Wiki` → coverage %. Only meaningful when a mothership is configured in Core Context; otherwise report "not applicable", not 0%.
+5. **Coverage check**: `rg -l '^collectionPurpose:'` across `10. Raw Sources` → coverage % (미래의 나에게 보내는 편지 — the letter each Raw carries to its future reader). Also count `purpose_origin: inferred|unknown`; those Raw are worth naming.
+6. **Cross-vault check**: `rg -l '^mainVaultRelated:'` across `20. Wiki` → coverage %. Only meaningful when a mothership is configured in Core Context; otherwise report "not applicable", not 0%.
 7. **Exploration Gate check**: `rg -l '^explored:'` across `20. Wiki` → coverage %, and the `explored: false` count as the exploration backlog (not a defect). Scope the denominator to Entities, Concepts and Guides; a Map without `explored` is missing nothing. Count pages with a Bias Check too.
 8. **Core Context age**: `snapshot_date` from `Core Context.md` frontmatter → days since (fall back to `git log -1 --format=%cs -- "Core Context.md"`). Over 30 days, or older than a later change to a source it lists, is stale. A missing note or `status: template` means onboarding never finished.
 
@@ -39,14 +39,14 @@ When the owner wants names, list the files in scope whose frontmatter lacks the 
 ```
 LLM Wiki Status — <vault>  (<date>)
 ──────────────────────────
-Raw Sources:  <n>   (purpose coverage: <n/N> = <p>%; inferred/unknown <n>)
+Raw Sources:  <n>   (collectionPurpose coverage: <n/N> = <p>%; inferred/unknown <n>)
 Wiki Pages:   <n>   (Concepts <n>, Entities <n>, Guides <n>, Questions <n>)
 MOCs:         <n>
 Queries:      <n>   (filed-back ratio: <queries>/<wiki> = <p>%)
 Papers:       <hubs> hubs · <files> files
 Inbox:        <n> pending  (>30 days: <n>)
 
-mothership:   <n/N> wiki pages = <p>%  | not applicable
+mainVaultRelated: <n/N> wiki pages = <p>%  | not applicable
 explored:     <n/N> wiki pages = <p>%  · <n> still false
 Bias Check:   <n> pages
 
@@ -60,4 +60,4 @@ Issues (if any)
 Roots counted: <list>; missing: <list>
 ```
 
-Route each issue: large or old Inbox → `inbox`; purpose, mothership, explored or Bias Check gaps → `lint` for the per-file list; Core Context > 30 days → `refresh-context`; unfinished onboarding → `onboard`; search missing known pages → `reindex`. Do not rank the vault or turn the percentages into a score.
+Route each issue: large or old Inbox → `inbox`; collectionPurpose, mainVaultRelated, explored or Bias Check gaps → `lint` for the per-file list; Core Context > 30 days → `refresh-context`; unfinished onboarding → `onboard`; search missing known pages → `reindex`. Do not rank the vault or turn the percentages into a score.

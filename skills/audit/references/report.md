@@ -11,7 +11,7 @@ Use these sections in this order. Every count is written as n of total, the deno
 
 ## 1. Eligibility (지식요건해당성)
 
-A table of field and section presence (confidence, explored, source, related, H1, Sources, Related, Bias Check on high-confidence pages; purpose, purpose_origin with inferred and unknown counted separately, source_locator on Raw). Synthesis-only pages and policy violations as counts. Up to twenty failing paths per row; the rest are counted.
+A table of field and section presence (confidence, explored, source, related, H1, Sources, Related, Bias Check on high-confidence pages; collectionPurpose, purpose_origin with inferred and unknown counted separately, source_locator on Raw). Synthesis-only pages and policy violations as counts. Up to twenty failing paths per row; the rest are counted.
 
 ## 2. Consistency (정합성)
 

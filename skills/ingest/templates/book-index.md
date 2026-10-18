@@ -19,8 +19,11 @@ source_extraction: reader
 source_obtained_at: {{obtained_at}}
 date_published: {{publication_date}}
 isbn: {{isbn}}
-purpose: {{book_purpose}}
+collectionPurpose: {{book_purpose}}
 purpose_origin: stated
+mainVaultRelated: []
+mainVaultCmds: []
+reusableFor: []
 ---
 
 # {{book_title}}

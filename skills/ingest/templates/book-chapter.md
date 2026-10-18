@@ -19,8 +19,11 @@ source_kind: book
 source_extraction: none
 source_obtained_at: {{scaffold_date}}
 date_published: {{publication_date}}
-purpose: {{inherited_book_purpose}}
+collectionPurpose: {{inherited_book_purpose}}
 purpose_origin: reused
+mainVaultRelated: []
+mainVaultCmds: []
+reusableFor: []
 bookIndex: "[[{{book_index}}]]"
 chapterNumber: {{integer}}
 chapterPart: {{part_in_original_language}}

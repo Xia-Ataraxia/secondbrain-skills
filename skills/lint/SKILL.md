@@ -60,7 +60,7 @@ Invoke `principle-collective-description` when judging a Map or hub: does it say
 
 미래의 나에게 보내는 편지 — the fields that tell a later reader why a note exists — plus the Exploration Gate, Bias Check and Persona health. Report each as n/total with failing paths:
 
-- **Raw:** `purpose` (upstream `collectionPurpose`), `purpose_origin` with `inferred` and `unknown` counted separately as unconfirmed purposes, `source_locator` where the material has a location, `## Original Content` present and non-empty, and a limitation in `## Ingest Notes` when fidelity is partial. A secondary Raw carries `referenced` when its body reports another creator's work (invoke `principle-respect-des-fonds`).
+- **Raw:** `collectionPurpose`, `purpose_origin` with `inferred` and `unknown` counted separately as unconfirmed purposes, `source_locator` where the material has a location, `## Original Content` present and non-empty, and a limitation in `## Ingest Notes` when fidelity is partial. A secondary Raw carries `referenced` when its body reports another creator's work (invoke `principle-respect-des-fonds`).
 - **Attachment location:** embeds pointing outside the vault's attachments location.
 - **Exploration Gate:** `explored` on every Entity, Concept and Guide — missing is a gap, `false` is backlog, not an error.
 - **Wiki:** `confidence` on every Concept, `high`, `medium` or `low` only; `source` and `related` present; H1, `## Sources` and `## Related` sections.
@@ -74,7 +74,7 @@ When `refresh-context` keeps a context snapshot, compare its date with the lates
 
 ### Step 10: Cross-Vault Link Check (mothership only)
 
-Skipped when no mothership is configured. Every `mothership` entry (upstream `mainVaultRelated`) is an `obsidian://open?vault=…&file=…` deeplink built as in `ingest` Step 0-a. Decode the `file` component and stat it under the mothership root, with and without `.md`. Ignore links inside code spans and fenced blocks — those are examples. Report source note → missing target.
+Skipped when no mothership is configured. Every `mainVaultRelated` entry is an `obsidian://open?vault=…&file=…` deeplink built as in `ingest` Step 0-a. Decode the `file` component and stat it under the mothership root, with and without `.md`. Ignore links inside code spans and fenced blocks — those are examples. Report source note → missing target.
 
 For each broken one, `qmd query` the mothership read-only for a renamed equivalent and offer one to three candidates. **Do NOT auto-patch.** Lint never writes into the mothership.
 
@@ -89,7 +89,7 @@ Report in the conversation using [report](references/report.md):
 5. **Stale Pages**
 6. **Map Sync**
 7. **MOC Coverage**
-8. **Frontmatter Coverage** — purpose, Exploration Gate, Bias Check, `verify` fields, Persona health
+8. **Frontmatter Coverage** — collectionPurpose, Exploration Gate, Bias Check, `verify` fields, Persona health
 9. **Core Context**
 10. **Cross-Vault Integrity** (mothership only)
 11. **Not checked**
@@ -101,4 +101,4 @@ Counts are observations; do not combine them into a score.
 
 Apply only the fixes the owner picks — add a page to a Map, add a missing property whose value is known, repair a link to a confirmed renamed target — then read each changed note back. For a batch, show the diff for the first ten before continuing.
 
-Never as a lint fix: delete or rename a note, remove a Contradiction callout, set `explored: true` or change `confidence` (those belong to `verify`), invent a `purpose` or other unknown value, or touch the mothership. Commit the applied fixes per the vault's git practice; no `log.md`.
+Never as a lint fix: delete or rename a note, remove a Contradiction callout, set `explored: true` or change `confidence` (those belong to `verify`), invent a `collectionPurpose` or other unknown value, or touch the mothership. Commit the applied fixes per the vault's git practice; no `log.md`.

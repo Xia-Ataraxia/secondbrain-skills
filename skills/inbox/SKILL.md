@@ -40,7 +40,7 @@ For each candidate, read the frontmatter and the start of the body (about the fi
 - **source** — `source_url` or `source_locator`, platform or runtime, author when stated, date clipped;
 - **kind** — from the lane; for a root note, suggest one and mark it as a suggestion;
 - **fidelity** — `transcript`, `excerpt`, `manifest-only` or `mixed`, plus the omissions the note names. A manifest-only note is a list, not text; never present it as full content;
-- **purpose** — the recorded `purpose` and `purpose_origin`, or that none is recorded;
+- **collectionPurpose** — the recorded `collectionPurpose` and `purpose_origin`, or that none is recorded;
 - **size** — rough length of Original Content, language, and for a bundle the number of members;
 - **topics** — two or three, read from Original Content, not the capture notes alone. A claim found only in Agent Capture Notes is the capturer's reading.
 
@@ -62,7 +62,7 @@ Ask two questions in one turn:
 1. **Scope** — 전부 / 카테고리만 / 선택만: all, one lane, or named notes. No answer means nothing is selected; the whole Inbox is never assumed.
 2. **Purpose mode** — 미래의 나에게 보내는 편지: why were these kept, and where will they be used?
    - **Single-axis bulk** (the default) — one purpose for the whole selection, asked once and applied to every note;
-   - **Reuse** — keep the `purpose` a candidate already carries, where it does;
+   - **Reuse** — keep the `collectionPurpose` a candidate already carries, where it does;
    - **Per-file** — the owner says the reasons differ; `ingest` asks per note;
    - **Auto-infer** — "알아서 판단": `ingest` infers from the source and the vault, states its reason, and records `purpose_origin: inferred`.
 
