@@ -5,7 +5,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, mcp__qmd__query
 # Antigravity equivalents: view_file, write_to_file, replace_file_content, list_dir, grep_search, run_command
 license: MIT
 metadata:
-  version: "0.5.5"
+  version: "0.5.6"
 ---
 
 # /query — LLM Wiki Query
