@@ -10,7 +10,7 @@ metadata:
 
 [[Core Context]] is the owner's **시점 snapshot** — who they are at a point in time: §1 identity and continuity statement, §2 reuse axes, §3 frameworks, §4 philosophy, §5 mothership references. When the owner's thinking develops, or the (optional) mothership changes, the snapshot must follow. Every `ingest` purpose question and every `query` answer is tailored to it, so a stale snapshot quietly bends all later work. The sources stay the truth; this skill brings the snapshot back in line with them and nothing more. The skeleton is 구요한's `/refresh-context`; decisions against it are in [comparison](references/comparison.md).
 
-The note is usually `Core Context.md`, sometimes a derived file such as `90. Settings/Derived/agent-context.md`; use the one the vault's AGENTS file names.
+The note is usually `Core Context.md`, sometimes a derived file such as `90. Settings/Derived/agent-context.md`; use the one the vault's AGENTS file names. Where §6 defines Raw frontmatter, use `collectionPurpose`, `mainVaultRelated`, `mainVaultCmds` (list of strings for relevant mothership commands/notes) and `reusableFor` (list of strings from §2 reuse axes); keep `purpose_origin` unchanged.
 
 ## When to Run
 

@@ -4,13 +4,13 @@ Upstream: 구요한 `/audit`, commit `863ca43`. The row labels identify every up
 
 | 구요한 (863ca43) | secondbrain audit before this revision | Decision + reason |
 | --- | --- | --- |
-| Prerequisite: read Core Context for the 7 reuse axes | live policy only | Reject the Core Context read as a prerequisite; scope and live policy suffice, and purpose alignment is judged per page from `purpose`. |
+| Prerequisite: read Core Context for the 7 reuse axes | live policy only | Reject the Core Context read as a prerequisite; scope and live policy suffice, and purpose alignment is judged per page from `collectionPurpose`. |
 | Relation to /verify: planner vs worker | planner vs worker | Adopt verbatim framing. |
 | Input: `--full`, `--moc`, `--recent`, `--confidence high`, `--no-save`, `--compare` | Step 0 scope in prose | Adopt the same scopes and compare; `--recent` reads `git log --since` instead of `date modified`; `--no-save` becomes the default, since saving needs approval. Owner rule: never widen scope unasked. |
 | Conceptual Framework: 지식요건해당성 / 정합성 / 확증가능성, Claim Type taxonomy, Evidence Scope levels | criteria paraphrased as eligibility gaps, disagreement, confidence | Adopt his three names, Korean included; the taxonomy and levels stay owned by `verify`, named not restated. |
 | Scaling Strategy table | absent | Adopt; the Confirmability row adds disputed pages, matching his Phase C. |
 | Phase 0 — Inventory: find Wiki/MOC, cluster map, audit-orphan pages | Step 1 Inventory | Adopt; MOC becomes Map, folders from live policy; invoke principle-hierarchical-management. |
-| Phase A.1 — Frontmatter coverage: claimType, evidenceScope, confidence, explored, mainVaultRelated, verificationStatus | Step 2 sweep | Adapt to our names: mainVaultRelated → `mothership` (its resolution is `lint`), verification fields only when the vault uses them; add Raw `purpose`/`purpose_origin`/`source_locator` (collectionPurpose → `purpose`) with inferred/unknown counted apart. |
+| Phase A.1 — Frontmatter coverage: claimType, evidenceScope, confidence, explored, mainVaultRelated, verificationStatus | Step 2 sweep | Adopt (upstream name used): `mainVaultRelated` (its resolution is `lint`), verification fields only when the vault uses them; add Raw `collectionPurpose`/`purpose_origin`/`source_locator` with inferred/unknown counted apart. |
 | Phase A.2 — SPO structure: H1, Sources, Related | Step 2 | Adopt; Bias Check on high-confidence pages added here. |
 | Phase A.3 — Source citation density, synthesis-only must declare `evidenceScope` | synthesis pages noted | Adapt: synthesis-only reported, not a failure; declaration wording left to `verify`. |
 | Phase A.4 — Policy violations from CLAUDE.md (YAML/body indent, quoted wikilinks, Mermaid labels, layer mismatch) | absent | Adapt: count whatever the live policy defines; repair routed to `lint`; no copied rule list. |

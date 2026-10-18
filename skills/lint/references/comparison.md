@@ -12,7 +12,7 @@ Upstream: 구요한 `/lint`, commit `863ca43`. The row labels identify every ups
 | Step 5: Staleness Check — 30+ days, confidence low, by date modified | Staleness | Adapt: age from git log; `explored: false` also counts. |
 | Step 6: Index Sync — add/remove index entries, update stats | Map coverage sync gaps | Adapt to Map Sync: no index.md (git history); the same sync question asked of Maps, reported not auto-fixed. |
 | Step 7: MOC Coverage | Map coverage | Adopt his name; invoke principle-hierarchical-management and principle-collective-description. |
-| Step 8: v2/v4/v5 Frontmatter Coverage — 미래의 나에게 보내는 편지 | Frontmatter and section coverage | Adopt the heading and his terms; map collectionPurpose → `purpose`, mainVaultRelated → `mothership`; reject mainVaultCmds (no mothership category links). Add `purpose_origin` inferred/unknown, `source_locator`, `## Original Content`, partial-fidelity note, `referenced` (principle-respect-des-fonds). |
+| Step 8: v2/v4/v5 Frontmatter Coverage — 미래의 나에게 보내는 편지 | Frontmatter and section coverage | Adopt (upstream name used): `collectionPurpose`, `mainVaultRelated`, `mainVaultCmds`; keep the heading and his terms. Add `purpose_origin` inferred/unknown, `source_locator`, `## Original Content`, partial-fidelity note, `referenced` (principle-respect-des-fonds). |
 | Step 8 Attachment location | embeds outside attachments | Adopt. |
 | Step 8 Exploration Gate (v4): explored; exploredBy/exploredDate completeness | explored coverage | Adopt explored presence and backlog; reject exploredBy/exploredDate — git history records who and when. |
 | Step 8 Bias check (v4): Counter-argument and Data gap | Bias Check | Adopt. |
@@ -20,8 +20,8 @@ Upstream: 구요한 `/lint`, commit `863ca43`. The row labels identify every ups
 | Step 8 Persona health (v6.3): personaOf, personaMaturity, Simulation Boundary, Accumulation Log, stale persona, Quote Bank spot check | Persona health | Adopt personaOf, boundary, accumulation backlog and the Quote Bank spot check; maturity values left to live policy; owner addition: no Persona leak into shared pages. |
 | Step 9: Core Context Freshness — snapshot_date vs mothership, 30 days | Context freshness | Adopt; snapshot owned by `refresh-context`. |
 | Step 10: Cross-Vault Link Check (mothership only) | Mothership links | Adopt, mothership only. |
-| Step 10.1: Broken mainVaultRelated URLs — inline python, decode, stat with/without .md, strip code | deeplink stat | Adopt the method on the `mothership` field; reject the inline script — `rg` plus decode, named in checks. |
-| Step 10.2: Broken mainVaultCmds categories, pipe-alias strip | absent | Reject: this vault records no mothership category links. |
+| Step 10.1: Broken mainVaultRelated URLs — inline python, decode, stat with/without .md, strip code | deeplink stat | Adopt (upstream name used): the method on the `mainVaultRelated` field; reject the inline script — `rg` plus decode, named in checks. |
+| Step 10.2: Broken mainVaultCmds categories, pipe-alias strip | relevant mothership commands/notes as strings | Adopt (upstream name used): `mainVaultCmds`; strings are not necessarily category links, so category-link resolution applies only when live policy defines that format. |
 | Step 10.3: Auto-fix suggestion, READ-ONLY by default, qmd 1–3 candidates, do NOT auto-patch | candidates, no writes | Adopt. |
 | Step 10.3 `--fix-crossvault` auto-apply | absent | Reject: lint never writes into the mothership. |
 | Output 1–5: Stats, Orphans, Broken Links, Contradictions, Stale Pages | report items | Adopt names and order. |

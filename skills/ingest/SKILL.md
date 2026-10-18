@@ -17,7 +17,7 @@ Run Steps 0-a–1 in one subagent and Steps 3–4 in parallel subagents of at mo
 
 ## Step 0 — Purpose (mandatory)
 
-Ask one consolidated question before anything else: why was this collected and where will it be used. Save the answer verbatim as `purpose`.
+Ask one consolidated question before anything else: why was this collected and where will it be used. Save the answer verbatim as `collectionPurpose`. Record matching Core Context §2 reuse axes as strings in `reusableFor`; leave the list empty when none apply.
 
 - Skip the question only when the owner already stated the purpose in this task, or the source is a capture candidate that carries one. Record `reused`.
 - If the owner says to decide ("알아서", "자동으로"), infer the most likely use from the source and the vault's context, state the inference and its reason, and record it.
@@ -27,7 +27,7 @@ Select the per-type reference: [articles](references/articles.md), [videos](refe
 
 ## Step 0-a — Mothership connections
 
-When a mothership is configured, search it read-only with the source's key concepts and the purpose. Keep the 2–5 most relevant notes. Verify each target exists before recording `mothership` links, and build `obsidian://open?vault=…&file=…` with `urllib.parse.quote(value, safe='')` for both components. Never invent a target or write into the mothership.
+When a mothership is configured, search it read-only with the source's key concepts and the purpose. Keep the 2–5 most relevant notes. Verify each target exists before recording `mainVaultRelated` links, and build `obsidian://open?vault=…&file=…` with `urllib.parse.quote(value, safe='')` for both components. Record relevant mothership commands/notes as strings in `mainVaultCmds`; leave the list empty when none apply. Never invent a target or write into the mothership.
 
 ## Step 0.5 — Acquisition and conversion
 
@@ -66,7 +66,7 @@ Updating an existing page is the default when one matches:
 - when the new information contradicts the page, keep both and add a `> [!warning] Contradiction` callout only when two located claims cannot both be true; record a detail the checked material is silent about as unverified;
 - preserve human-written passages and unknown frontmatter keys.
 
-New pages: Concepts use Overview/Details/Related/Sources/Open Questions with a `confidence` per [frontmatter](references/frontmatter.md); Entities cover both the secondary author and each original author, tagged `person` for a person; relationship notes about people stay in the mothership People collection, linked through `mothership`, never created or edited; Guides hold step-by-step practice. Every new page starts `explored: false`. A `confidence: high` or synthesis-heavy page carries a Bias Check callout with a counter-argument and a data gap.
+New pages: Concepts use Overview/Details/Related/Sources/Open Questions with a `confidence` per [frontmatter](references/frontmatter.md); Entities cover both the secondary author and each original author, tagged `person` for a person; relationship notes about people stay in the mothership People collection, linked through `mainVaultRelated`, never created or edited; Guides hold step-by-step practice. Every new page starts `explored: false`. A `confidence: high` or synthesis-heavy page carries a Bias Check callout with a counter-argument and a data gap.
 
 ## Step 3.5 — Persona
 
@@ -89,7 +89,7 @@ Check every item and fix failures before reporting:
 - every new wikilink resolves and no duplicate page was created;
 - every secondary claim's original is in `referenced` as a Raw, a Book Index or a URL, or recorded as provenance unknown;
 - every new page has `explored: false`, and high-confidence pages have a Bias Check;
-- every mothership link resolves on disk;
+- every `mainVaultRelated` link resolves on disk;
 - every touched page is linked from a Map.
 
 ## Step 7 — Reindex and report

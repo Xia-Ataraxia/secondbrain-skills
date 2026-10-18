@@ -52,7 +52,7 @@ Scope is the named page. Other pages are read as counterparts; they are not veri
 
 **2.3 Policy consistency.** Placement, naming and the frontmatter reference of the destination's live policy. Report deviations; fixing them is `lint`'s job.
 
-**2.4 Purpose alignment.** Check that the page, through its Raw's `purpose` or its mothership links, serves a use the owner stated. None → soft flag "orphaned from user purpose" (not a fail; lowers Confirmability).
+**2.4 Purpose alignment.** Check that the page, through its Raw's `collectionPurpose` or its `mainVaultRelated` links, serves a use the owner stated. None → soft flag "orphaned from user purpose" (not a fail; lowers Confirmability).
 
 **Verdict**: conflicts grouped by reference frame, each with its proposed action (correct, soften, Contradiction, accept).
 
