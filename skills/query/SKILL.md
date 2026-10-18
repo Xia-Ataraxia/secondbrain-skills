@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, mcp__qmd__query
 
 Answer a question by searching the wiki, synthesizing information, and optionally saving the result.
 
-> **🧭 Prerequisite**: the owner's `Me.md` once per session (the vault's AGENTS file names it; for Ataraxia it is the root `Me.md`). Tailor answers to the intent, principles, and working preferences written there — a good answer connects to at least one of them.
+> **🧭 Prerequisite**: [[Core Context]] once per session. Tailor answers to the owner's reuse axes listed in [[Core Context]] §2 — a good answer connects to at least one axis. The axes are the owner's own; do not assume a fixed list or count.
 
 ## Input
 
@@ -56,7 +56,7 @@ Update wiki pages if the query revealed:
 
 ### Step 6: Connect to User's Reuse Axes
 
-Before finalizing, ask which part of the owner's `Me.md` the answer feeds — a stated intent, first principle, or area of work. If none fits, say so.
+Before finalizing, ask which of the owner's reuse axes the answer feeds — see [[Core Context]] §2. If none fits, say so.
 
 Add a closing line to the answer: **"이 답변은 ${axis}에 활용 가능합니다 — ${one-sentence why}."**
 
