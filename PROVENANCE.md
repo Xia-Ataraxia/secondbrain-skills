@@ -318,3 +318,13 @@ plugin or skill registry, listed in the README. A directory copy made by the
 script alongside a plugin install had shadowed the plugin, so plugin updates
 were not used (#25). Earlier records above that cite these files remain as
 history. No code, asset or licence changed.
+
+## Agent session archive — Unreleased
+
+Authored here from the requirement that an owner's own agent CLI sessions be kept
+as Raw notes with their original files. `skills/ingest/scripts/agent-sessions.py`
+is original, standard-library Python; it reads the on-disk stores of Claude Code,
+Codex, OpenCode, Cursor, GJC and OmO by their public file layouts and was checked
+only against synthetic transcripts. No file, schema or passage from those tools was
+copied, and no handler for the `agent-session://` scheme is shipped. Rights
+unchanged: MIT, no new upstream.
