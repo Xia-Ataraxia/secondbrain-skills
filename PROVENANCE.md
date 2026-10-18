@@ -324,7 +324,7 @@ history. No code, asset or licence changed.
 Authored here from the requirement that an owner's own agent CLI sessions be kept
 as Raw notes with their original files. `skills/ingest/scripts/agent-sessions.py`
 is original, standard-library Python; it reads the on-disk stores of Claude Code,
-Codex, OpenCode, Cursor, GJC and OmO by their public file layouts and was checked
+Codex, OpenCode, Cursor, GJC, OmO and Grok by their public file layouts and was checked
 only against synthetic transcripts. No file, schema or passage from those tools was
 copied, and no handler for the `agent-session://` scheme is shipped. Rights
 unchanged: MIT, no new upstream.

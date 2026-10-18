@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Archive agent CLI sessions (Claude Code, Codex, OpenCode, Cursor, GJC, OmO) as one chat Raw per session.
+"""Archive agent CLI sessions (Claude Code, Codex, OpenCode, Cursor, GJC, OmO, Grok) as one chat Raw per session.
 
 usage: agent-sessions.py --vault ROOT --out REL --purpose TEXT --model NAME [--attachments REL]
-                         [--host NAME[=ROOT]]... [--tool claude,codex,opencode,cursor,gjc,omo] [--dry]
+                         [--host NAME[=ROOT]]... [--tool claude,codex,opencode,cursor,gjc,omo,grok] [--dry]
        agent-sessions.py --check
 
 --out and --attachments are relative to the vault root. Notes go to <out>/<runtime>/; every original
@@ -21,10 +21,11 @@ VAULT = OUT = ATT = None  # set by main()/check()
 ATT_REL = LOCAL = PURPOSE = MODEL = ""
 TODAY = dt.date.today().isoformat()
 NOW = dt.datetime.now(dt.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
-LABEL = {"claude": "Claude Code", "codex": "Codex", "opencode": "OpenCode", "cursor": "Cursor", "gjc": "GJC", "omo": "OmO"}
+LABEL = {"claude": "Claude Code", "codex": "Codex", "opencode": "OpenCode", "cursor": "Cursor", "gjc": "GJC", "omo": "OmO", "grok": "Grok"}
 FOLDER = {"claude": "claude-code"}
 HARNESS = re.compile(r"^\s*(<(command-message|local-command-stdout|local-command-caveat|system-reminder|task-notification|environment_context|user_instructions|permissions instructions|turn_aborted|app_context|collaboration_mode|skills|apps)\b|# AGENTS\.md instructions|Caveat: The messages below|This session is being continued from|Another Claude session|Base directory for this skill|Stop hook feedback:|A session-scoped Stop hook|Goal check-in:)")
 SLASH = re.compile(r"<command-name>(.*?)</command-name>.*?<command-args>(.*?)</command-args>", re.S)
+GROK_WRAP = re.compile(r"<(user_info|rules)>.*?</\1>\s*", re.S)  # Grok prepends these blocks to the owner's prompt
 SNAP = None
 
 
@@ -284,6 +285,41 @@ def read_pi(tool, path, host):
         s.resume = f"cd '{s.cwd}' && omo --session " + (f"'{path}'" if "/.omo/sessions/" in path else s.id)
     return s
 
+def read_grok(path, host):
+    """Grok Build: one directory per session; chat_history.jsonl carries no timestamps, summary.json carries the span."""
+    d = pathlib.Path(path).parent
+    try:
+        meta = json.load(open(d / "summary.json"))
+    except (OSError, ValueError):
+        meta = {}
+    info = meta.get("info") or {}
+    s = S("grok", host, info.get("id") or d.name, info.get("cwd") or urllib.parse.unquote(d.parent.name), path)
+    s.title, s.model = meta.get("session_summary") or "", meta.get("current_model_id") or ""
+    s.ts0, s.ts1 = ts(meta.get("created_at")), ts(meta.get("updated_at"))
+    for line in open(path, errors="replace"):
+        try:
+            r = json.loads(line)
+        except ValueError:
+            continue
+        t, c = r.get("type"), r.get("content")
+        if t == "user" and r.get("synthetic_reason") != "system_reminder":
+            text = "".join(b.get("text", "") for b in c if isinstance(b, dict)) if isinstance(c, list) else c or ""
+            m = re.search(r"<user_query>(.*?)</user_query>", text, re.S)
+            s.add("user", user_text(m.group(1) if m else GROK_WRAP.sub("", text)), None)
+        elif t == "assistant":
+            s.add("assistant", c if isinstance(c, str) else "", None)
+            s.model = r.get("model_id") or s.model
+            for call in r.get("tool_calls") or []:
+                s.tool_call(call.get("name"), call.get("arguments"), None)
+        elif t == "reasoning":
+            s.omitted["thinking"] += 1
+        elif t == "tool_result":
+            s.omitted["tool_result"] += 1
+    s.rows = lambda: (l.rstrip("\n") for l in open(path, errors="replace"))  # every session file is chat_history.jsonl; keep it as <id>.jsonl.gz
+    s.limits.append("Grok records carry no timestamps; the span is the session's created and updated time, and turns are unstamped.")
+    s.resume = f"cd '{s.cwd}' && grok --resume {s.id}"
+    return s
+
 
 # ---------- writer ----------
 def jl(obj):
@@ -346,7 +382,7 @@ def note(s):
     label = LABEL[s.tool]
     title = s.title or s.first_user().strip().splitlines()[0][:60]
     t0 = getattr(s, "ts0", None) or next((t["ts"] for t in s.turns if t["ts"]), None) or dt.datetime.now().astimezone()
-    t1 = next((t["ts"] for t in reversed(s.turns) if t["ts"]), t0)
+    t1 = getattr(s, "ts1", None) or next((t["ts"] for t in reversed(s.turns) if t["ts"]), t0)
     desc = re.sub(r"\s+", " ", s.first_user())[:160]
     speaker = {"user": "You said:", "assistant": f"{label} said:"}
     link = deep_link(s)
@@ -427,6 +463,9 @@ def sources(tools, hosts):
         if "omo" in tools:
             for p in g(".omo/sessions/*/*.jsonl", ".omo/agent/sessions/*/*.jsonl"):
                 yield "omo", host, p
+        if "grok" in tools:
+            for p in g(".grok/sessions/*/*/chat_history.jsonl"):
+                yield "grok", host, p
         if "opencode" in tools:
             for p in g(".local/share/opencode/opencode.db"):
                 yield "opencode", host, p
@@ -442,6 +481,8 @@ def iter_sessions(tool, host, path):
         yield read_codex(path, host)
     elif tool in ("gjc", "omo"):
         yield read_pi(tool, path, host)
+    elif tool == "grok":
+        yield read_grok(path, host)
     elif tool == "opencode":
         yield from read_opencode(path, host)
     elif tool == "cursor":
@@ -553,6 +594,27 @@ def check():
     s.rows, s.id = (lambda: iter(['{"a":1}'])), "sid1"
     assert raw_rel(s).endswith("/sid1.jsonl.gz") and gzip.open(keep_raw(s)).read() == b'{"a":1}\n'
     assert safe_name('a/b: "c"? [d]#') == "a b c d"
+    k = d / ".grok/sessions/%2Fg/0f0f0f0f-1111-2222-3333-444444444444"
+    k.mkdir(parents=True)
+    (k / "summary.json").write_text(json.dumps({"info": {"id": "0f0f0f0f-1111-2222-3333-444444444444", "cwd": "/g"}, "created_at": "2026-07-01T10:00:00Z", "updated_at": "2026-07-01T10:30:00Z", "current_model_id": "grok-x"}))
+    (k / "chat_history.jsonl").write_text("\n".join(json.dumps(x) for x in [
+        {"type": "system", "content": "sys"},
+        {"type": "user", "content": [{"type": "text", "text": "<system-reminder>x</system-reminder>"}], "synthetic_reason": "system_reminder"},
+        {"type": "user", "content": [{"type": "text", "text": "<user_info>\nOS: x\n</user_info>\n\n<rules>\nr\n</rules>\n\n<user_query>q</user_query>"}], "prompt_index": 0},
+        {"type": "reasoning", "id": "rs_1", "summary": [], "encrypted_content": "e", "status": "completed"},
+        {"type": "assistant", "content": "a", "tool_calls": [{"id": "c1", "name": "read_file", "arguments": "{\"target_file\":\"f\"}"}], "model_id": "grok-x-build"},
+        {"type": "tool_result", "tool_call_id": "c1", "content": "1→x"},
+        {"type": "user", "content": [{"type": "text", "text": "<user_info>\nOS: x\n</user_info>\n\n<rules>\nr\n</rules>\n\nplain"}], "prompt_index": 1},
+        {"type": "assistant", "content": "done", "model_id": "grok-x-build"}]))
+    s = read_grok(str(k / "chat_history.jsonl"), LOCAL)
+    assert s.ok() and s.id == "0f0f0f0f-1111-2222-3333-444444444444" and s.cwd == "/g" and s.model == "grok-x-build", vars(s)
+    assert [t["text"] for t in s.turns] == ["q", "a", "plain", "done"] and s.omitted == {"thinking": 1, "tool_call": 1, "tool_result": 1}, s.turns
+    name, ident, text = note(s)
+    assert name == f"{ts('2026-07-01T10:00:00Z'):%Y-%m-%d} Grok - q" and ident == "urn:grok:session:0f0f0f0f-1111-2222-3333-444444444444"
+    assert f"- Span: {ts('2026-07-01T10:00:00Z'):%Y-%m-%d %H:%M} ~ {ts('2026-07-01T10:30:00Z'):%Y-%m-%d %H:%M}" in text and "### Turn 1 | You said:\n" in text, text[:1200]
+    assert s.resume == "cd '/g' && grok --resume 0f0f0f0f-1111-2222-3333-444444444444" and deep_link(s) == "agent-session://open?tool=grok&id=0f0f0f0f-1111-2222-3333-444444444444&cwd=%2Fg"
+    assert raw_rel(s) == "Raw/_attachments/laptop/grok/0f0f0f0f-1111-2222-3333-444444444444.jsonl.gz" and gzip.open(keep_raw(s)).read() == (k / "chat_history.jsonl").read_bytes() + b"\n"
+    assert len(list(sources(["grok"], {"laptop": str(d)}))) == 1
     assert len(list(sources(["gjc", "omo"], {"laptop": str(d)}))) == 1 and list(sources(["claude"], {"laptop": str(d)})) == []
     if zstd:
         z = d / "rollout-2026-06-07T22-44-15-019ea253-b6ea-75c0-bad3-b1b8448c9da9.jsonl.zst"
