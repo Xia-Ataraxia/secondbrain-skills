@@ -40,7 +40,8 @@ Common fields: `tags`, `type`, `date_created`, `date_modified`, `created_by`, `a
 | Related knowledge | related (wikilink list) | Entity, Concept, Persona, Guide | — |
 | Collection purpose | purpose | Raw, books (inherited) | collectionPurpose, user_intent_interview |
 | Purpose basis | purpose_origin (stated/reused/inferred/unknown) | Raw, books | — |
-| Retained document | source_attachment | Raw converted from a document file, PDF hub; never a fetched page or media | source-attachment |
+| Retained document | source_attachment | Raw converted from a document file, PDF hub, the original file of an archived agent session; never a fetched page or media | source-attachment |
+| Runtime session id | session_id | chat Raw of an archived agent session: the id the runtime resumes by | — |
 | Read-only mothership connection | mothership (verified deeplink list) | Raw, Entity, Concept | mainVaultRelated; reject mainVaultCmds/source-vault |
 | Knowledge confidence | confidence: `high`, `medium` or `low` only; the reason is the last item under `## Sources` | Concept | not fidelity |
 | Exploration flag | explored | Entity, Concept, Guide | — |

@@ -1,6 +1,6 @@
 ---
 name: ingest
-description: Turn one selected URL, file, text or Inbox candidate into a preserved Raw source plus 10–15 created or updated Wiki pages, updated Maps and a refreshed index, in a single run. Use for ingest, paper analysis (12-axis), book notes (책 노트, 독서 노트, 목차 넣어줘), chapter promotion and attributed Persona updates. Not automatic collection, personal profiles or undesignated research questions.
+description: Turn one selected URL, file, text or Inbox candidate into a preserved Raw source plus 10–15 created or updated Wiki pages, updated Maps and a refreshed index, in a single run. Use for ingest, paper analysis (12-axis), book notes (책 노트, 독서 노트, 목차 넣어줘), chapter promotion, attributed Persona updates and an owner-requested archive of agent CLI sessions (세션 전부 보관, CLI 세션 저장). Not automatic collection, personal profiles or undesignated research questions.
 metadata:
   version: "0.5.5"
 ---
@@ -103,6 +103,10 @@ Mandatory for every paper. Follow [papers](references/papers.md): purpose and sc
 ## Book mode
 
 Follow [Book B-1–B-5 and Promotion](references/books.md): fetch the table of contents, write the Book Index and chapter stubs, compile a small set of book-level Wiki pages, and promote a chapter when the owner reads it. Never compile unread chapter content.
+
+## Session archive mode
+
+When the owner asks to keep their agent CLI sessions (Claude Code, Codex, OpenCode, Cursor, GJC, OmO) in the vault, follow [Agent session archive](references/conversations.md#agent-session-archive). Every session becomes one `type: chat` Raw with the original file retained as `source_attachment`. Steps 1, 3, 3.5 and 4 do not run: the archive preserves and does not compile. Ask the purpose once (Step 0), copy remote stores with `rsync` (Step 0.5), run `scripts/agent-sessions.py` over the whole store, then Steps 5–7 on the run as a whole: one commit, the review items that apply to a Raw, reindex, and a report of new, already-archived and empty sessions per runtime and host.
 
 ## Tools
 
