@@ -8,7 +8,7 @@ This differs from a multi-platform research bundle, where one question goes to s
 
 ## Building a bundle
 
-1. The owner names the topic and the sessions, or a bounded way to find them ("today's sessions about the inbox redesign"). Read through an available read-only runtime interface or a selected export. Never sweep every session, schedule exports or archive whole sessions.
+1. The owner names the topic and the sessions, or a bounded way to find them ("today's sessions about the inbox redesign"). Read through an available read-only runtime interface or a selected export. Never sweep every session or schedule exports; archiving whole sessions is the `ingest` session archive mode, not a capture.
 2. Give each session one source entry with its stable session id, the agent or runtime and range as `source_locator`, and `role`: the task that session was given, in one line.
 3. Choose the mode per member by density:
    - `excerpt` — the default for a working session: the owner's own turns verbatim (questions, decisions, corrections, concerns) and the agent's conclusions, with tool output left out and named as an omission;
