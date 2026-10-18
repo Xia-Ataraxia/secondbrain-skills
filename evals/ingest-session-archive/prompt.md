@@ -11,4 +11,4 @@ Answer in a few sentences, exactly per the skill:
 1. Which skill owns this request, and which steps of the ingest run do not happen?
 2. How does each session become a note: by hand, or with what? What makes a rerun skip sessions already archived?
 3. For one Codex session with id `019ea253-b6ea-75c0-bad3-b1b8448c9da9` and working directory `/src/app` on the build server: what are `source_url`, `source_identity` and `purpose_origin`, and what does `source_attachment` name?
-4. What happens to thinking blocks and tool results?
+4. What happens to tool calls, thinking blocks and tool results?

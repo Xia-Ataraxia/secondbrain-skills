@@ -21,7 +21,6 @@ VAULT = OUT = ATT = None  # set by main()/check()
 ATT_REL = LOCAL = PURPOSE = MODEL = ""
 TODAY = dt.date.today().isoformat()
 NOW = dt.datetime.now(dt.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
-CUT = 300  # tool-call input preview length
 LABEL = {"claude": "Claude Code", "codex": "Codex", "opencode": "OpenCode", "cursor": "Cursor", "gjc": "GJC", "omo": "OmO"}
 FOLDER = {"claude": "claude-code"}
 HARNESS = re.compile(r"^\s*(<(command-message|local-command-stdout|local-command-caveat|system-reminder|task-notification|environment_context|user_instructions|permissions instructions|turn_aborted|app_context|collaboration_mode|skills|apps)\b|# AGENTS\.md instructions|Caveat: The messages below|This session is being continued from|Another Claude session|Base directory for this skill|Stop hook feedback:|A session-scoped Stop hook|Goal check-in:)")
@@ -55,7 +54,7 @@ class S:  # one session
         self.tool, self.host, self.id, self.cwd, self.locator = tool, host, sid, cwd or "", locator
         self.title = self.model = self.url = self.resume = self.remote = ""
         self.turns, self.limits = [], []
-        self.omitted = {"thinking": 0, "tool_result": 0}
+        self.omitted = {"thinking": 0, "tool_call": 0, "tool_result": 0}
         self.rows = None  # db-backed sessions: callable yielding the raw rows as JSON lines
 
     def add(self, role, text, when):
@@ -68,8 +67,7 @@ class S:  # one session
             self.turns.append({"role": role, "text": text, "ts": when})
 
     def tool_call(self, name, args, when):
-        a = args if isinstance(args, str) else json.dumps(args, ensure_ascii=False)
-        self.add("assistant", f"> 🔧 {name}: {a[:CUT].replace(chr(10), ' ')}", when)
+        self.omitted["tool_call"] += 1  # the note is the owner's record; the original attachment holds every call
 
     def ok(self):
         roles = {t["role"] for t in self.turns}
@@ -362,8 +360,8 @@ def note(s):
         when = f" | {t['ts']:%Y-%m-%d %H:%M}" if t["ts"] else ""
         body += [f"### Turn {i} | {speaker[t['role']]}{when}", "", t["text"], ""]
     body += ["## Ingest Notes", "", f"- Extracted from `{s.locator}` on {s.host} by agent-sessions.py.",
-             f"- Kept: user and assistant text verbatim; a tool call keeps its name and the first {CUT} characters of its input.",
-             f"- Omitted: {s.omitted['thinking']} thinking blocks, {s.omitted['tool_result']} tool results."]
+             "- Kept: user and assistant text verbatim; tool calls, thinking and tool results are in the original attachment.",
+             f"- Omitted: {s.omitted['tool_call']} tool calls, {s.omitted['thinking']} thinking blocks, {s.omitted['tool_result']} tool results."]
     body += [f"- {x}" for x in s.limits]
     fm = f"""---
 type: chat
@@ -526,13 +524,14 @@ def check():
     assert s.ok() and s.title == "Say hi" and s.cwd == "/tmp/x" and s.model == "m1", vars(s)
     assert [t["role"] for t in s.turns] == ["user", "assistant"], s.turns
     assert s.turns[0]["text"] == "hello\n\n/goal do it", s.turns[0]["text"]
-    assert s.turns[1]["text"] == 'hi\n\n> 🔧 Bash: {"command": "ls"}\n\ndone', s.turns[1]["text"]
-    assert s.omitted == {"thinking": 1, "tool_result": 1}
+    assert s.turns[1]["text"] == 'hi\n\ndone', s.turns[1]["text"]
+    assert s.omitted == {"thinking": 1, "tool_call": 1, "tool_result": 1}
     name, ident, text = note(s)
     assert name == "2026-01-02 Claude Code - Say hi" and ident == "urn:claude:session:11111111-2222-3333-4444-555555555555"
     assert 'source_url: "agent-session://open?tool=claude&id=11111111-2222-3333-4444-555555555555&cwd=%2Ftmp%2Fx"' in text, text[:900]
     assert 'purpose_origin: stated\nreferenced: []\nsession_id: "11111111-2222-3333-4444-555555555555"\n---' in text and 'model: "model-x"' in text
     assert "- App link: [claude-cli://open?cwd=%2Ftmp%2Fx]" in text and "### Turn 2 | Claude Code said: | 2026-01-02" in text
+    assert "- Omitted: 1 tool calls, 1 thinking blocks, 1 tool results." in text and "🔧" not in text
     g = d / "2026-06-16T07-24-39-319Z_019ecf51-6817-7000-a85d-1c96c1d0bb9a.jsonl"
     g.write_text("\n".join(json.dumps(x) for x in [
         {"type": "session", "id": "019ecf51-6817-7000-a85d-1c96c1d0bb9a", "cwd": "/w", "title": "T", "timestamp": "2026-06-16T07:24:39Z"},
