@@ -7,7 +7,9 @@ This repository owns twenty-six independent Agent Skills, the `secondbrain-skill
 - Principles: `principle-respect-des-fonds`, `principle-original-order`, `principle-hierarchical-management`, and `principle-collective-description` belong to the knowledge group. They provide contextual guidance and grant no write authorization.
 - Authoring: `principle-skill-creating` decides what a package keeps in Markdown and what it hands to templates, thin scripts and agents; read it before changing a package. `secondbrain-mode` is an optional stance for multi-package work; it dispatches nothing and every package still runs directly.
 
-There is no callable root skill, mandatory shared runtime, compatibility alias, or hidden dispatcher. `docs/naming.md` fixes package and file names. Each capability has exactly one owning package; checks stay at package format (`claude plugin validate . --strict`).
+There is no callable root skill, mandatory shared runtime, compatibility alias, or hidden dispatcher. `docs/naming.md` fixes package and file names. Each capability has exactly one owning package; checks stay at package format (`claude plugin validate . --strict`), plus behavior tests in `evals/` where the owner approved verification of our own skill's composition, output or permission contract, or of a script that owns a domain responsibility no packaged tool provides (for example `evals/test_paper_verifier.py`). Never assert prose wording, and never test a packaged CLI's own behavior.
+
+Use packaged CLIs (`qmd`, `obsidian-cli`, `defuddle`, `yt-dlp`, `git`) directly. Write a wrapper only for an identified responsibility the CLI lacks, state that reason in the owning package, and keep it to that responsibility; never reimplement a CLI or its regression suite.
 
 ## Authoring
 

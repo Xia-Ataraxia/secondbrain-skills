@@ -1,13 +1,13 @@
 ---
 name: onboard
-description: Initializes an independent personal or knowledge vault through a short owner interview that fills template placeholders and writes the core context note, proposes settings changes for an existing vault, and resumes an interrupted setup by detecting what is already done. Use for fresh vault setup, additive onboarding, or a zero-diff rerun. Not for moving existing notes, installing skills, Sync pairing, source ingestion, or editing vault policy.
+description: Initializes a fresh personal or knowledge vault through a short owner interview that fills template placeholders and writes Core Context, index.md and log.md, gives an existing vault a read-only diagnosis and proposal, and resumes an interrupted setup by detecting what is already done. Use for fresh vault setup, existing-vault onboarding diagnosis, or a zero-diff rerun. Not for moving existing notes, installing skills, Sync pairing, source ingestion, or editing vault policy.
 metadata:
   version: "0.5.6"
 ---
 
 # Onboard
 
-Turn a starting vault into the owner's vault in about ten minutes by interviewing them and filling everything in, without requiring or creating a counterpart vault. The skeleton is 구요한's `/onboard`; decisions against it are in [comparison](references/comparison.md).
+Turn a starting vault into the owner's vault in about ten minutes by interviewing them and filling everything in, without requiring or creating a counterpart vault. The skeleton is 구요한's `/onboard` (commit `54cf2ab`, shipped as a Claude command only; there is no Codex counterpart); decisions against it are in [comparison](references/comparison.md).
 
 ## Philosophy
 
@@ -20,14 +20,19 @@ Turn a starting vault into the owner's vault in about ten minutes by interviewin
 
 ```bash
 pwd
-rg -l '\{(your-name|Your Name|PATH_TO_[A-Z_]+|your-mothership-vault-name|YYYY-MM-DD)\}' -g '*.{md,json,yml,yaml,sh}' . | wc -l
+# Mode A mandatory tokens
+rg -l '\{(your-name|Your Name|PATH_TO_YOUR_LLM_WIKI|YYYY-MM-DD)\}' -g '*.{md,json,yml,yaml,sh}' . | wc -l
+# Mode B mothership tokens (mandatory only in Mode B)
+rg -l '\{(PATH_TO_YOUR_MOTHERSHIP_VAULT|PATH_TO_YOUR_MOTHERSHIP|your-mothership-vault-name)\}' -g '*.{md,json,yml,yaml,sh}' . | wc -l
 rg -m1 '^status:' "Core Context.md"
 ```
 
-- 0 placeholder files and `status: active` → already onboarded. Say so and ask whether to revisit anything (identity or axis changes belong to `refresh-context`).
-- Target missing or empty → lay down the starting vault first: ask the role (`personal` or `knowledge`) and the template folder, copy it into the empty target (`cp -R "$TEMPLATE/." "$VAULT"`), and recommend `git init` — Git is the vault's log. Never copy over an existing vault; confirm the owner may use the template's files and plugins.
-- A vault that already has notes but was never onboarded → no copy; touch only what the owner approves (settings below).
-- Otherwise → Interview.
+Completion is judged per mode. Mode A mandatory: `{your-name}`, `{Your Name}`, `{PATH_TO_YOUR_LLM_WIKI}`, `{YYYY-MM-DD}`. Mode B adds `{PATH_TO_YOUR_MOTHERSHIP_VAULT}`, `{PATH_TO_YOUR_MOTHERSHIP}`, `{your-mothership-vault-name}`. The mode is Mode B only when the owner chose it (Q2) or Core Context registers a concrete mothership: a real path that exists and a vault name, no `{…}` token. A §5 heading alone proves nothing, because the template ships one; without either signal the mode is Mode A, and when the owner's choice is not recorded say the mode was inferred. A Mode A vault with only mothership tokens left is complete; any Mode A mandatory token left is incomplete in either mode.
+
+- 0 files with the mode's mandatory tokens and `status: active` → already onboarded. Say so and ask whether to revisit anything (identity or axis changes belong to `refresh-context`).
+- Target missing or empty → scaffold only with the owner's explicit authorization: ask the role (`personal` or `knowledge`) and the template folder, confirm the owner may use its files and plugins, then copy only files the target lacks (`cp -R -n "$TEMPLATE/." "$VAULT"`), leaving any file already there byte-for-byte. The scaffold includes `Core Context.md` (`status: template`), `index.md` (catalog sections and Stats) and append-only `log.md`; create any of the three still missing from the template's shape. Then → Interview.
+- Freshly laid-down or cloned starting vault (placeholders present, Core Context `status: template`, no owner notes) → Interview.
+- Existing vault with owner notes → read-only diagnosis and proposal: report placeholders left, Core Context status and its §2 axes, whether `index.md` and `log.md` exist, and the settings changes you would suggest. Write nothing: no note, JSON, config or settings change, and no placeholder replacement in existing files. A missing `index.md` or `log.md` is proposed, not created; `ingest` creates `index.md` on its first run.
 
 ## Interview — 필수 5 + 옵션 2 (answer-1-of-many)
 
@@ -43,7 +48,7 @@ In voice mode one question at a time, in text a batch. After each answer, confir
 
 **Q4 — Core Context §1 identity (core).** Name, role, field, main activities, and the **continuity statement**: in one to three sentences, which earlier question today's work grew out of.
 
-**Q5 — Core Context §2 reuse axes, 5–9 (core).** Where a source might end up: research, writing, teaching, consulting, product, essays, community… Seven is a good number; too few and everything piles on one, too many and they stop discriminating. These axes are what the owner answers when `ingest` asks a source's purpose.
+**Q5 — Core Context §2 reuse axes, 5–9 (core).** Where a source might end up, in the owner's own words; offer examples only as prompts, never a fixed list. Too few and everything piles on one, too many and they stop discriminating. These registered axes are what the owner answers, or `ingest` infers from, when a source's purpose is asked.
 
 **Optional — §3 personal frameworks / §4 philosophy, 3–5.** Fill when given; otherwise skip (`refresh-context` can add them later).
 
@@ -51,17 +56,17 @@ In voice mode one question at a time, in text a batch. After each answer, confir
 
 ## Fill
 
-**F1 — Placeholder replacement.** Show the values (name, vault path, today's date in the owner's timezone, and in Mode B mothership path and name). After OK, replace only the literal tokens across `.md`, `.json`, `.yml`/`.yaml` and `.sh` files, `.git` excluded (`sed -i ''` on macOS): `{your-name}`, `{Your Name}`, `{PATH_TO_YOUR_LLM_WIKI}`, `{YYYY-MM-DD}`; in Mode B also `{PATH_TO_YOUR_MOTHERSHIP_VAULT}`, `{PATH_TO_YOUR_MOTHERSHIP}`, `{your-mothership-vault-name}`.
+**F1 — Placeholder replacement.** Fresh targets only; `index.md` and `log.md` carry `{your-name}` and `{YYYY-MM-DD}` too. Show the values (name, vault path, today's date in the owner's timezone, and in Mode B mothership path and name). After OK, in the freshly scaffolded or starting-vault files only, replace only the literal tokens across `.md`, `.json`, `.yml`/`.yaml` and `.sh` files, `.git` excluded (`sed -i ''` on macOS): `{your-name}`, `{Your Name}`, `{PATH_TO_YOUR_LLM_WIKI}`, `{YYYY-MM-DD}`; in Mode B also `{PATH_TO_YOUR_MOTHERSHIP_VAULT}`, `{PATH_TO_YOUR_MOTHERSHIP}`, `{your-mothership-vault-name}`.
 
 **F2 — Write Core Context.md.** Draft §1 identity and §2 reuse axes (plus optional §3/§4) from the interview, and §5 listing the mothership's system files in Mode B; in Mode A delete §5. Show the draft and confirm. Then set `status: template` → `active`, `snapshot_date` to today, keep `version: "1.0"`.
 
 **F3 — Verify replacement.** No replaced token is left in the approved files and nothing else in them changed; the pre-flight `rg -l` without `| wc -l` lists any file still holding one. In Mode A the unused mothership placeholders may remain harmlessly.
 
-**Settings for an existing vault.** Only `.obsidian/app.json`, `.obsidian/daily-notes.json`, and the `data.json` of the `homepage`, `templater-obsidian` and `obsidian-excalidraw-plugin` plugins are in scope. Show the exact top-level keys to change with old and new values; apply only approved keys, leave every other key and the formatting untouched, with Obsidian closed or idle.
+**Settings for an existing vault.** Proposal only: for `.obsidian/app.json`, `.obsidian/daily-notes.json`, and the `data.json` of the `homepage`, `templater-obsidian` and `obsidian-excalidraw-plugin` plugins, list the exact top-level keys you would change with old and new values. Never write them; the owner applies changes, or authorizes them as a separate task.
 
 ## Resume logic
 
-Every run starts at the pre-flight and continues at the first unfinished step: placeholders remain → F1; Core Context still `status: template` → F2; both done → already onboarded.
+Every run starts at the pre-flight and continues at the first unfinished step: the mode's mandatory placeholders remain → F1; Core Context still `status: template` → F2; both done → already onboarded. An existing vault with owner notes always stays in read-only diagnosis.
 
 ## Wrap-up
 
@@ -73,6 +78,6 @@ Read back the files written and list them. Then suggest:
 4. As it grows: recurring open questions become Research Question cards in `20. Wiki/25. Questions/`; a defended claim becomes a Synthesis card.
 5. Later: `capture` and `inbox` for collecting before ingesting, `qmd` for search (`reindex`).
 
-Do not install skills, sync, migrate notes or ingest as a side effect.
+Do not install skills, sync, migrate notes, ingest, delete files, or commit as a side effect; `log.md` and `index.md` are the vault's records and Git never replaces them. A commit happens only when the owner separately asks.
 
-Tools: `rg`, `sed`, `git`, `obsidian-cli`.
+Tools: `rg`, `sed`, `cp`, `obsidian-cli`.

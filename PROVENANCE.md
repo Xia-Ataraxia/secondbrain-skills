@@ -141,7 +141,8 @@ The eleven knowledge packages (`capture`, `inbox`, `ingest`, `query`, `verify`,
 `audit`, `lint`, `status`, `reindex`, `refresh-context`, `onboard`) follow the
 operation set and LLM-wiki workflow of Yohan Koo (구요한)'s
 [cmds-llm-wiki](https://github.com/johnfkoo951/cmds-llm-wiki), read at commit
-`863ca43778e639d96a31f71fb388ee000336d0ff` (2026-09-21). That repository ships
+`863ca43778e639d96a31f71fb388ee000336d0ff` (2026-09-21), re-read at
+`54cf2ab150f866bbfcf1aa2c7e03514d14febe20` for the restoration recorded below. That repository ships
 eleven commands of the same names (its `capture-tabs` corresponds to `capture`)
 and itself credits Andrej Karpathy's LLM Wiki pattern.
 
@@ -318,3 +319,109 @@ plugin or skill registry, listed in the README. A directory copy made by the
 script alongside a plugin install had shadowed the plugin, so plugin updates
 were not used (#25). Earlier records above that cite these files remain as
 history. No code, asset or licence changed.
+
+## Upstream semantic restoration of the knowledge packages — Unreleased, UNVERIFIED
+
+Source re-read: [cmds-llm-wiki](https://github.com/johnfkoo951/cmds-llm-wiki) at
+`54cf2ab150f866bbfcf1aa2c7e03514d14febe20` (2026-10-10). Files consulted:
+`CLAUDE.md` (Frontmatter Standards, folder and naming tables, verification
+section), `90. Settings/Templates/Template_Raw Source.md`,
+`90. Settings/Templates/Template_Wiki Page.md` and the paper templates,
+`90. Settings/Skills/paper-ingest.md`, `90. Settings/Sharing/Paper Ingest Guide.md`,
+`90. Settings/94. Agent Settings/codex/commands/*.md`, the matching
+`agents/skills/*/SKILL.md` wrappers, `claude/commands/ingest.md`,
+`claude/commands/onboard.md` and `codex/hooks/qmd-reindex.sh`. The earlier pin
+`863ca43…` above stays as history.
+
+- Baseline: each agent wrapper delegates to its Codex command, so the Codex
+  command is the port baseline; Claude-only detail fills gaps, and Claude/Codex
+  step ordering is treated as a vendor variant, not a contradiction.
+- Restored upstream semantics: Codex ingest order (0 → 0-a → 0.5 → 1 → 2 → 3/3.5
+  → 4 → 5 → 6), `index.md` catalog/Stats/Recent sections and append-only
+  `log.md` across the operations that keep them upstream, the original
+  role/`type`/`layer`/`category` schema, the claim taxonomy and verification
+  fields, Paper Mode's twelve axes and hub/atom shapes, Book Mode scaffolding
+  and promotion, capture-tabs fields, the audit phases and scores, lint checks.
+- Owner exceptions kept on top: snake_case date keys (including
+  `conversion_date`); `referenced` for originals and earlier captures; author
+  wikilinks allowed without target notes; purpose gate with explicit delegation
+  recorded with its reason; Core Context read once per session with its actually
+  registered axes; mothership links with both URI components percent-encoded and
+  `mainVaultCmds` limited to registered references; clean-context writer plus a
+  separate preservation reviewer for existing Wiki pages; no incidental metadata
+  migration; no automatic commit, push or deletion; principles and
+  `secondbrain-mode` stay optional, never a runtime gate.
+- Genuine upstream contradictions kept visible and scoped: Book Mode's Articles
+  placement versus the schema's Books folder; Paper Mode's P-4 lower bound;
+  verify's `Disputed Claim` versus ingest's `Contradiction` callout name; audit
+  saving by default versus the owner's approval rule.
+- Rights: unchanged. The upstream still publishes no licence; procedures and
+  terms were re-expressed here, and no upstream file, script or template is
+  shipped (see the P-7 verifier note below). The
+  native packages, their MIT notices and their records are unchanged.
+- `reindex` hook status parsing is grounded in the published `@tobilu/qmd`
+  2.8.3 package (`dist/cli/qmd.js`, the `status` command): it prints a
+  `QMD Status` header, `Total: N files indexed` and `Vectors: N embedded`, and a
+  `Pending: N need embedding` line only when N is above 0. That is a source
+  reading of one version, not a run against an index.
+- `skills/ingest/references/reingest.md` was rewritten to separate a source
+  update from reprocessing, with `log.md` as the record instead of a Git trailer.
+- Independent QA round on this candidate: 58 tests, 8 failed (reindex hook
+  behaviour and template serialization; recorded in
+  `docs/verification-matrix.md`). Repairs after that run: the hook's bookkeeping
+  moved to `skills/reindex/scripts/qmd_reindex.py` (structured JSON queue, `fcntl`
+  locks, qmd 2.8.3 config resolution read from `dist/collections.js` and the CLI:
+  project-local `.qmd/index.yaml|yml`, then `QMD_CONFIG_DIR`, `XDG_CONFIG_HOME/qmd`,
+  `HOME/.config/qmd`; one queue and one worker per selected config plus
+  `HOME`/`XDG_*`/`QMD_CONFIG_DIR`/`INDEX_PATH`, list and `clear` per target, no
+  age- or PID-based reclamation, `qmd` taken only from the caller's `PATH`;
+  PyYAML required, never installed); persona `source` keeps
+  several existing items; verify's confidence matrix restored from
+  `claude/commands/verify.md` with its overlaps reported as uncertainty; Paper Mode
+  step names, guiding questions, conditional Scale page and P-7 checks restored.
+- P-7 verifier: an interim unpublished candidate copied and adapted the
+  upstream `90. Settings/Scripts/p7_verify.py`; it was never released and has been
+  removed. `skills/ingest/scripts/verify_paper.py` replaces it: a separate
+  implementation written from the P-7 functional requirements in
+  `skills/ingest/references/papers.md`, by an author who did not read the upstream
+  script or the interim copy. It is this repository's own MIT-covered code. It
+  shares only public interface facts with the upstream workflow (field names, the
+  twelve-axis step names, section titles); it fails ambiguous Coverage Map rows
+  and Markdown in subfolders instead of passing them. A mechanical PASS is not a
+  semantic or qualitative PASS.
+- Paper hub `status: active` follows upstream
+  `90. Settings/Templates/Template_Paper Hub.md:27`; the first QA draft of
+  `evals/test_templates.py` wrongly expected no status, and only that expectation
+  was corrected.
+- Verify's confidence matrix: the `low` row's "created < 7 days" reads
+  `date_created`; the `high` row's "age > 30 days" names no field upstream, so it
+  is reported as unknown and never used to promote.
+- Later QA round: 166 tests, 7 failed, run against the candidate as it stood
+  then (historical; not rerun). After it the owner judged the reindex queue and
+  the test suites over-engineered, and they were removed: the
+  `skills/reindex/scripts/qmd_reindex.py` queue/lock/state helper above, the
+  `evals/test_reindex.py` suite that exercised it against a fake qmd, and the
+  `evals/test_templates.py` template renderer (templates are model instructions,
+  not a program). `skills/reindex/scripts/qmd-reindex.sh` is back to the shape it
+  had at `11fbde9`, which follows upstream `codex/hooks/qmd-reindex.sh`: a debounce
+  hook kept only because qmd 2.8.3 has no file watcher or edit trigger (its help
+  lists `update`, `embed`, `status` and no watch command). Changes from `11fbde9`:
+  no host `PATH` append; a failed or header-less `qmd status` keeps the notes
+  pending instead of reading as zero; only a line-leading `Pending:` counts. The
+  `reindex` procedure itself calls the qmd CLI directly.
+- `verify_paper.py` stays: it checks this package's paper artifacts (structure,
+  located quotes, coverage), which neither qmd nor Obsidian provides and P-7
+  requires. Fixes after the 166-test round: leaf/parent headings are judged at
+  every level H1-H6, so a parent row never covers nested leaves; a required
+  section holding only a `---` separator is empty. `evals/test_paper_verifier.py`
+  was narrowed to a few domain regressions (pass is mechanical only, stub/S12,
+  separator-only section, quote numbers/negation/minus/short lines, nested
+  coverage, identical headings, nested atom folders).
+- Review fixes after the narrowed suite: the verifier requires the Step Map S01
+  row as `CITATION | (hub) | compiled` and accepts `model` as a list when several
+  models contributed, as the frontmatter schema allows; the schema now lists the
+  owner's snake_case date keys exactly, and upstream `exploredDate`/`verifiedAt`
+  keep their upstream names.
+- Evidence for the current state is recorded in `docs/verification-matrix.md`
+  (focused verifier eval, `claude plugin validate . --strict`, one native
+  fresh-load of `ingest`). The earlier failing rounds above stay historical.

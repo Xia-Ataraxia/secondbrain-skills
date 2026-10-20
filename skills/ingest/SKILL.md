@@ -1,108 +1,175 @@
 ---
 name: ingest
-description: Turn one selected URL, file, text or Inbox candidate into a preserved Raw source plus 10–15 created or updated Wiki pages, updated Maps and a refreshed index, in a single run. Use for ingest, paper analysis (12-axis), book notes (책 노트, 독서 노트, 목차 넣어줘), chapter promotion and attributed Persona updates. Not automatic collection, personal profiles or undesignated research questions.
+description: Turn one selected URL, file, text or Inbox candidate into a preserved Raw source plus 10–15 created or updated Wiki pages, updated Maps, index.md and log.md, in a single run. Use for ingest, paper analysis (12-axis), book notes (책 노트, 독서 노트, 목차 넣어줘), chapter promotion and attributed Persona updates. Not automatic collection, personal profiles or undesignated research questions.
 metadata:
   version: "0.5.6"
 ---
 
 # Ingest
 
-One request runs to the end. The owner naming a source and asking for ingest approves every standard effect below for that source: create the Raw, create and update Wiki pages and Maps, move the Inbox original into Raw, commit, and reindex. Do not stop for a plan review or a second approval between steps. Stop only when a preservation check fails, the source cannot be obtained, or a paper falls outside the vault's scope.
+Built on 구요한's `/ingest` (cmds-llm-wiki `54cf2ab`). The baseline is the Codex flow his agent skill `agents/skills/ingest/SKILL.md` delegates to, `codex/commands/ingest.md`: its step order and names are kept. Detail the Codex command leaves to the Claude command (Step 0 wording, Step 3.5, Book Mode) comes from `claude/commands/ingest.md`; the two are vendor variants of one procedure. Owner exceptions are stated where they apply. Earlier decisions against his version are in [comparison](references/comparison.md).
 
-The destination's live policy, placement and templates, and [frontmatter](references/frontmatter.md) govern every step. Decisions against the reference workflow are recorded in [comparison](references/comparison.md). Blank or `all` input delegates selection to `inbox`; direct ingest does not require `capture`.
+Execute every step in order. Asking for ingest authorizes the writes this recipe names in the destination vault — Raw, Wiki pages, Maps, `index.md`, `log.md` — under the vault's live policy. It does not authorize deleting an Inbox original or any other file, committing, pushing, or writing into a mothership. [Frontmatter](references/frontmatter.md) governs every key; YAML uses 2 spaces, the body tabs, YAML wikilinks are quoted.
 
-## Delegation
+Read the vault's Core Context once per session before the first ingest. Use the reuse axes actually registered in its §2 (normally 5–9), never a fixed list.
 
-Run Steps 0-a–1 in one subagent and Steps 3–4 in parallel subagents of at most five pages each, Maps last, on a lighter model when you can choose. Pass paths, not content; each returns one line per item, never quoted text or page bodies. The main thread keeps everything else.
+## Input
 
-## Step 0 — Purpose (mandatory)
+- URL: fetch the content, then process.
+- File path or name: read it from the vault, checking the Inbox and its lanes first.
+- Blank or `all`: delegate selection to `inbox`.
+- Raw text: the argument is the source.
+- Academic paper (DOI, arXiv or journal URL, a document with Abstract and References, a file from the papers lane): Paper Mode.
+- Multi-page book or docs site (5+ chapters in its sidebar or TOC): Book Mode.
+- Binary or non-Markdown file: Step 0.5 after Steps 0 and 0-a.
 
-Ask one consolidated question before anything else: why was this collected and where will it be used. Save the answer verbatim as `collectionPurpose`. Record matching Core Context §2 reuse axes as strings in `reusableFor`; leave the list empty when none apply.
+Per-material acquisition detail: [articles](references/articles.md), [videos](references/videos.md), [repositories](references/repositories.md), [mail](references/mail.md), [conversations](references/conversations.md).
 
-- Skip the question only when the owner already stated the purpose in this task, or the source is a capture candidate that carries one. Record `reused`.
-- If the owner says to decide ("알아서", "자동으로"), infer the most likely use from the source and the vault's context, state the inference and its reason, and record it.
-- A batch asks once: one purpose for all, or one per source.
+## Category detection
 
-Select the per-type reference: [articles](references/articles.md), [videos](references/videos.md), [repositories](references/repositories.md), [mail](references/mail.md), [conversations](references/conversations.md), [papers](references/papers.md) or [books](references/books.md). A paper always uses Paper mode; a multi-chapter book or docs site uses Book mode. Prefer live placement over category inference; do not persist `category`.
+Pick the Raw `category` in this order: the Inbox lane the file sits in; a `category` in Web Clipper frontmatter; inference from the content; default `Articles`. Save into the destination's Raw folder for that category (upstream layout `10. Raw Sources/11. Articles` … `16. AI Research`).
+
+## Step 0 — Collection purpose (미래의 나에게 보내는 편지)
+
+Ask exactly one collection-purpose question before ingest, and nothing else:
+
+> 미래의 내가 이 자료를 다시 볼 때 — 왜 수집했고, 어디에 쓸 예정인지 한 줄 남겨주세요.
+> 재활용 축 참고: {Core Context §2 에 등록된 축}
+
+- Save the answer verbatim as `collectionPurpose`.
+- Do not ask when the task already states a valid purpose, or the capture candidate carries `collectionPurpose`; use it.
+- When the owner says "알아서 판단해줘" or "자동으로", infer the most likely axis from the source and Core Context §2, state the inference and its reason, and record that in `collectionPurpose`.
+- Batch: ask once up front — "오늘 들어온 {N}개 소스, 전체를 하나의 목적으로 묶으시겠어요, 아니면 개별로 물을까요?" — and follow the choice.
 
 ## Step 0-a — Mothership connections
 
-When a mothership is configured, search it read-only with the source's key concepts and the purpose. Keep the 2–5 most relevant notes. Verify each target exists before recording `mainVaultRelated` links, and build `obsidian://open?vault=…&file=…` with `urllib.parse.quote(value, safe='')` for both components. Record relevant mothership commands/notes as strings in `mainVaultCmds`; leave the list empty when none apply. Never invent a target or write into the mothership.
+Skip when Core Context registers no mothership. Otherwise search it read-only with the source's key concepts and the purpose (`qmd`, keyword fallback), keep the 2–5 most relevant notes (essays, MOC or hub notes, category pages, recent teaching or consulting notes when the purpose is teaching or consulting), and for each:
 
-## Step 0.5 — Acquisition and conversion
+1. use the exact path the search returned;
+2. confirm the file exists before using it, dropping any that does not;
+3. percent-encode both URI components separately: the vault name with `urllib.parse.quote(vault, safe='')` and the path with `urllib.parse.quote(path, safe='')`;
+4. write `"[<filename without .md>](obsidian://open?vault=<encoded vault>&file=<encoded path>)"`.
 
-Obtain the full selected source. Convert a document file (PDF, Office, HWP, EPUB, HTML file, image) with an available document converter and retain the original in the `_attachments` location. Transcribe audio and video; keep no media file. A fetched URL keeps only its fetched text. A failed conversion halts the run with the missing tool named. Record `source_extraction`, `source_attachment` and conversion limits in `## Ingest Notes`.
+Notes the owner names in the task or explicitly confirms go through the same four checks and join the list. Fill `mainVaultCmds` only with a category or command reference the Core Context or mothership actually registers, copied exactly in its registered form and with the cardinality the live policy defines; leave it empty when none fits. Never invent or impose a classification. Record the stat-verified list in `mainVaultRelated` on the Raw and the relevant Wiki pages, and list it in the report. Ask no further question here. Never write into the mothership.
+
+Use `obsidian://open`, the form the Codex command and its link check use, unless the live policy names another form such as `obsidian://advanced-uri`.
+
+## Step 0.5 — Format conversion
+
+Skip for `.md`, `.markdown`, `.txt`. Transcribe audio (`.mp3`, `.wav`, `.m4a`) with a transcription tool; leave the audio file where it is and report it. Convert any other document (`.pdf`, `.pptx`, `.docx`, `.hwp`, `.epub`, `.html`, images, …) with an available converter (`markitdown`, `pandoc`, `hwp5txt`, `defuddle`). Move the original binary into the vault's attachments folder under its original filename, place the converted `.md` beside where the binary was, and carry `source-attachment`, `source-format`, `conversion-tool`, `conversion_date` and `conversion-fidelity` into the Raw. `## Original Content` then holds the converted Markdown; the binary stays preserved as the attachment. When conversion fails, leave the binary where it is, name the missing tool or ask the owner to convert, and stop this input; other inputs in the run continue.
 
 ## Step 1 — Analyze
 
-Invoke `principle-respect-des-fonds`. Read the whole source and extract:
+Read the whole source. Extract:
 
-- 3–8 key concepts worth a Concept page;
-- 1–5 entities: people, organizations, products, models, tools;
-- 0–3 pieces of practical guidance worth a Guide;
-- key claims to track, with counterevidence;
-- connections to pages that already exist.
+- key concepts (3–8) worth a Concept page — candidates that may land on existing pages; an abstract or sentence-style title is a legitimate Concept;
+- entities (1–5): people, organizations, products, models;
+- practical guidance (0–3) worth a Guide;
+- key claims to track;
+- connections to existing Wiki pages.
 
-Apply external criticism per key claim. A claim produced by this source's creator is primary. A claim reporting another creator's work is secondary: when the original is already in Raw, link that Raw through `referenced`; when it is a book, write its Book Index per [books](references/books.md) and link that through `referenced`; when otherwise located, put its canonical URL in `referenced` and do not fetch it; when unlocated, record provenance unknown in `## Ingest Notes`. In every case attribute the claim to this creator, never as primary, and a Concept resting only on secondary claims stays at most `confidence: medium`.
+Read `index.md` and search the vault (`qmd`) for existing pages first; updating an existing page beats creating a new one. Match a source by `source` URL or reference before title. This lookup establishes identity and targets from titles, aliases, paths, `source` and index lines; existing page prose stays out of Step 3's writer.
 
-Search existing Raw, Entity, Concept, Guide and Map pages before creating anything. Match by stable identity or canonical locator first, then by meaning: a page about the same idea under another title is the same page.
+When a claim reports another creator's work, attribute it to this source's author as a secondary claim and put the original in the Raw's `referenced`: its Raw or Book Index wikilink when already in the vault, otherwise its canonical URL. Never fetch or ingest the original for this; record provenance unknown in `## Ingest Notes` when it cannot be located. A Concept resting only on secondary claims is at most `confidence: medium`. Each claim stays with its creator and the source it arrived through; never merge claims from different creators into one unattributed statement.
 
-## Step 2 — Preserve Raw (move, not copy)
+## Step 2 — Save Raw Source
 
-Invoke `principle-original-order`. Use [raw](templates/raw.md). Write the original verbatim under `## Original Content` — no summary, no trimming, images and media links included. Each original gets its own Raw. A Raw made from an Inbox candidate keeps the candidate's note name, so wikilinks to the candidate resolve to the Raw without a relink. An existing Raw body is never rewritten; a better extraction becomes a new Raw linking the earlier one.
+Use [raw](templates/raw.md), filename `YYYY-MM-DD-{Title}.md` (today); an Inbox candidate already named that way keeps its name so links to it resolve. The Raw keeps the source's own order and structure; nothing is reordered, regrouped or normalized.
 
-Check before moving on: `## Original Content` is present, its length matches the obtained source, and embedded media, quotations and code blocks survived.
+- Preserve the original verbatim under `## Original Content` — no summaries, no "redacted for brevity", however long. Keep image lines `![alt](url)`, video and media URLs, quote blocks, citation lists and code blocks.
+- A clipper body already wrapped in `## Original Content` is copied verbatim. A fetched URL keeps the fetched content.
+- Remove only obvious clipper artifacts (a block repeated by a clipper bug) and say so in `## Ingest Notes`.
+- From a Web Clipper or capture candidate carry over `source_url` → `source`, `author` → `author` as `"[[Name]]"`, `date_clipped`, `published` → `date_published`, `collectionPurpose` and `referenced`. A capture's Source Manifest and Agent Capture Notes go after `## Metadata`, unchanged; they guide Step 3 and never enter Original Content.
+- Never rewrite an existing Raw body. When an already-ingested source changed, ask the owner first: a minor change keeps the Raw; a major change becomes `YYYY-MM-DD-{title}-v2.md` with `supersedes`, the earlier Raw gains `superseded-by`, and both stay. See [source update and reprocessing](references/reingest.md).
 
-When the source came from the Inbox, delete the Inbox original once that check passes. This is the second half of the move; leaving it causes a duplicate ingest on the next scan. A URL, an external file or raw text leaves nothing to delete. Never delete before the check passes.
+Pre-flight before moving on:
+
+- `## Original Content` is present;
+- its body matches the obtained source: for an Inbox source at least 80% of the Inbox body's lines, a short clipping in full;
+- images, media URLs, quotes, citations and code blocks survived;
+- the 7 required properties are present.
+
+Inbox cleanup: upstream finishes this step as a move by deleting the Inbox original. Delete it only when the owner's request or the vault's live policy authorizes removing it, and only after the pre-flight passes; when several Inbox files went into one Raw, the same applies to each and `## Ingest Notes` lists them. Without that authorization leave the original in place and report it as awaiting cleanup. A URL, an external file or raw text leaves nothing to delete.
 
 ## Step 3 — Compile Wiki pages
 
-Invoke `principle-hierarchical-management`. For each concept, entity and guide from Step 1, update the existing page or create a new one. Use [concept](templates/concept.md), [entity](templates/entity.md) and [guide](templates/guide.md). **Target: 10–15 Wiki pages touched per source.** A thin source may fall short; say so in the report rather than padding with empty pages.
+For each extracted concept, entity and guide, update the existing page or create one: Concepts with [concept](templates/concept.md), Entities with [entity](templates/entity.md), Guides with [guide](templates/guide.md). Keep the levels distinct: Raw holds evidence, Wiki pages hold one concept, entity or guide each and cite their Raws, Maps group pages.
 
-Updating an existing page is the default when one matches:
+- New writing comes only from this source and is attributed to it.
+- An existing page is updated in three separate contexts, in this order:
+	1. Writer — a fresh context given only the vault's approved policy, this run's extraction and the Raw's `## Original Content`. It never sees the existing page's prose or examples; the page's path, title, aliases, `type`, `layer` and `source` list may be passed to fix identity and target. It drafts only source-grounded additions for that page.
+	2. Preservation reviewer — a separate context given the page's before-image and the writer's proposal. It first checks that every valid existing statement, link and frontmatter value survives, then reduces the proposal to the minimal patch: additions under the relevant sections, the Raw appended to `source`, `date_modified` updated. It drops anything the source does not support and never regenerates the page.
+	3. Apply the reviewed patch, read the page back and compare it with the before-image. Links to and from the page are added only after this validation (Step 4).
+- When the runtime cannot provide separate contexts, stop the update of that existing page and report it; new pages and the rest of the run continue.
+- The existing Wiki is not ground truth, and neither is one source. An existing statement changes only when the correction rests on verified evidence (a `verify` result or the owner's confirmation) and the reviewer accepted it. When this source explicitly conflicts with an existing claim, keep both, attributed, with `> [!warning] Contradiction` and the uncertainty stated. A source that is silent on a claim does not contradict it.
+- An Entity exists because the analysis found it significant, never only to resolve an author link.
+- New pages start `explored: false` and `verificationStatus: unverified`; `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body. `confidence: high` or synthesis-heavy pages carry the Bias Check callout.
+- When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
 
-- add the new information under the relevant section, merging with what is there rather than appending a duplicate block;
-- add the Raw to `source` and new cross-references to `related`;
-- when the new information contradicts the page, keep both and add a `> [!warning] Contradiction` callout only when two located claims cannot both be true; record a detail the checked material is silent about as unverified;
-- preserve human-written passages and unknown frontmatter keys.
+Target: 10–15 Wiki pages touched per ingest when the source is substantial, created or updated. It is not a creation quota; a thin source reports the shortfall instead of padding.
 
-New pages: Concepts use Overview/Details/Related/Sources/Open Questions with a `confidence` per [frontmatter](references/frontmatter.md); Entities cover both the secondary author and each original author, tagged `person` for a person; relationship notes about people stay in the mothership People collection, linked through `mainVaultRelated`, never created or edited; Guides hold step-by-step practice. Every new page starts `explored: false`. A `confidence: high` or synthesis-heavy page carries a Bias Check callout with a counter-argument and a data gap.
+## Step 3.5 — Persona accumulation
 
-## Step 3.5 — Persona
+When the source's author or primary speaker matches an existing Persona card, append with [persona](templates/persona.md): 1–3 verbatim quotes that grep-match the Raw's `## Original Content`, as `> [!quote] {topic} ({date}, [[raw source]])`; one dated Position Timeline row when a position is stated or shifts, keeping a contradicted earlier position with `> [!warning] Contradiction`; one Accumulation Log line; the Raw in `source` and a new `date_modified`. Never change `personaMaturity` and never create a Persona during ingest.
 
-When the author or main speaker matches an existing designated Persona, append to it using [persona](templates/persona.md): 1–3 quotations verified against Raw Original Content, a dated position row, and a log line. Keep contradictory positions visible and `personaMaturity` unchanged. Never create a Persona during ingest. GitHub evidence uses raw-at-commit-SHA URLs.
+For a GitHub file, `## Original Content` comes from the raw file at a pinned commit (`raw.githubusercontent.com/{owner}/{repo}/{sha}/…`), never a rendered-page scrape.
 
-## Step 4 — Connect and update Maps
+## Step 4 — Connect
 
-Invoke `principle-collective-description`. Add wikilinks between all related pages. Create or update the relevant Map/MOC so every page touched in this run is reachable from one. Leave no new orphan.
+After Step 3's readback, add `[[wikilinks]]` between all related pages, create or update the relevant Map (MOC), and leave no orphan: every new page is linked from at least one other page.
 
-## Step 5 — Commit
+## Step 5 — Update index and log
 
-Follow [git provenance](references/git-provenance.md). One ingest is one local commit containing all its Raw, Wiki and Map effects, with trailers naming the source. No `index.md` or `log.md`; history is the log. Publication needs its own request.
+Update `index.md`, completing all four:
+
+- each new Wiki page under its section (Concepts, Entities, Guides, Maps) as `- [[Page Name]] — one-line description`;
+- the Stats table recounted from the folders (Raw Sources, Wiki Pages, Concepts, Entities, Guides, MOCs, Queries), never incremented by guess;
+- one Recent Ingests row at the top: date, Raw link, pages touched;
+- the index's modification date.
+
+Re-read `index.md` and confirm every new page appears. When the vault has no `index.md`, create it with those sections and say so in the report.
+
+Append to `log.md`, never editing earlier entries:
+
+```markdown
+## [YYYY-MM-DD] ingest | {source title}
+
+- Source: [[{raw source filename}]]
+- **Purpose**: {collectionPurpose verbatim}
+- Mothership links: {mainVaultRelated count} — {top 1-2 paths}
+- Pages created: [[page1]], [[page2]], ...
+- Pages updated: [[page3]], [[page4]], ...
+```
+
+Git history does not replace `index.md` or `log.md`. Ingest never commits or pushes; when the owner separately asks for a commit, its subject is `ingest: {source title}`.
 
 ## Step 6 — Review
 
-Check every item and fix failures before reporting:
+Check every item and fix failures:
 
-- Raw has verbatim `## Original Content` of the expected length;
-- the Inbox original is gone when the source came from the Inbox;
-- every new wikilink resolves and no duplicate page was created;
-- every secondary claim's original is in `referenced` as a Raw, a Book Index or a URL, or recorded as provenance unknown;
-- every new page has `explored: false`, and high-confidence pages have a Bias Check;
-- every `mainVaultRelated` link resolves on disk;
-- every touched page is linked from a Map.
+- the Raw has `## Original Content` with a substantive verbatim body (compared against the Inbox body before any deletion);
+- the Inbox original is deleted when deletion was authorized, otherwise reported as awaiting cleanup;
+- every new `source`, `related` and body wikilink resolves, except intentional person wikilinks in `author`, which may have no note; no Entity or author note was created only to make a link resolve; no duplicate page was created;
+- every updated existing page still holds every valid statement, link and frontmatter value of its before-image, apart from reviewed corrections;
+- every new Wiki page has `explored: false`; every `confidence: high` page has a Bias Check with `Counter-argument:` and `Data gap:` lines;
+- every `mainVaultRelated` link resolves on the mothership filesystem with both `vault` and `file` percent-encoded, no literal placeholder remains, `mainVaultCmds` holds only a reference the mothership actually registers, copied exactly, and no bare `[[…]]` to a mothership note appears in a body;
+- every new page appears in `index.md` and the Stats counts match the folders;
+- the `log.md` entry is appended;
+- the qmd index status is known: when `reindex` reports pending or failed work, run it and report the result.
 
-## Step 7 — Reindex and report
+## Output
 
-Invoke `reindex` so the new pages are searchable. Report the Raw path, purpose, originals linked or unlocated, pages created, pages updated, Maps touched, the page count against the 10–15 target, coverage gaps and open questions.
+Report: the source (title, URL); where the Raw was saved; pages created, each with one line; pages updated and what changed; key connections added; the touched count against 10–15; originals in `referenced` or provenance unknown; Inbox and binary originals left in place; any branch stopped by an upstream conflict, with the exact conflict; open questions, gaps and contradictions.
 
-## Paper mode
+## Paper Mode
 
-Mandatory for every paper. Follow [papers](references/papers.md): purpose and scope gate, paper type, Raw, a hub plus knowledge atoms across all twelve analysis axes, Wiki promotion of at least 10–15 pages, and the verification gate. Use [paper hub](templates/paper-hub.md) and [paper atom](templates/paper-atom.md). The run is complete only when the gate passes.
+Follow [papers](references/papers.md) with [paper hub](templates/paper-hub.md) and [paper atom](templates/paper-atom.md): P-0 purpose and target RQ, P-1 paper type, P-2 Raw, P-3 hub and knowledge atoms across the twelve axes, P-4 Wiki promotion, P-5 RQ sync for an owner-designated RQ only, P-6 `index.md` (hub only) and `log.md` (`ingest-paper`), P-7 verification with `scripts/verify_paper.py` plus a read-back (a PASS is necessary, not proof of fidelity). The question budget is exactly two, P-0 and P-1: P-0 carries the Step 0 purpose question, a purpose the task already states is used without asking, and Step 0-a runs without a question, recording stat-verified and owner-confirmed links only. Promote only what the paper supports, updating existing pages before creating; a shortfall against P-4's target is reported, never padded. There is no blanket Scale, RQ or Persona promotion.
 
-## Book mode
+## Book Mode
 
-Follow [Book B-1–B-5 and Promotion](references/books.md): fetch the table of contents, write the Book Index and chapter stubs, compile a small set of book-level Wiki pages, and promote a chapter when the owner reads it. Never compile unread chapter content.
+Follow [books](references/books.md): Steps 0 and 0-a once for the whole book, B-1 TOC and chapter URL pattern, B-2 Book Index, B-3 chapter stubs, B-4 a small set of book-level pages, B-5 `index.md` and one `log.md` entry; on Promotion append `## [YYYY-MM-DD] promote | {book} ch{NN}`. Never compile unread chapter content.
+
+Upstream contradiction on this branch only: Book Mode saves the Index and stubs in the Articles folder with `category: Articles`, while the schema reserves the Books folder for books. When the live policy or the owner's task names the folder and `category` for books, follow it. Otherwise run Steps 0, 0-a and B-1, then stop before the B-2 and B-3 writes and report the conflict with the TOC found.
 
 ## Tools
 

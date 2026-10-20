@@ -8,42 +8,39 @@ metadata:
 
 # Capture
 
-Built on 구요한's `/capture-tabs` (AI Research Capture). His step skeleton and names are kept; the owner's rules are stacked on top. Every decision against his version is recorded in [comparison](references/comparison.md).
+Port of 구요한's `/capture-tabs` (AI Research Capture), cmds-llm-wiki commit `54cf2ab`, Codex command as baseline. His steps, names and fields are kept; owner exceptions are listed in [comparison](references/comparison.md).
 
-Capture is the pre-ingest capture layer: it preserves evidence in the Inbox and stops at the candidate note. Compiling it is `ingest`; reviewing what waits is `inbox`.
+Capture is the pre-ingest capture layer: it preserves evidence in the Inbox and stops at the candidate note unless the owner routes it on. Compiling it is `ingest`; reviewing what waits is `inbox`. Read the destination's Core Context once per session before the first capture.
 
 ## Purpose
 
-Use this skill when the owner has a tab group, open tabs, a URL, a file, an AI-chat research session (ChatGPT, Gemini, Grok, Claude, Perplexity) or a set of agent sessions and wants it kept as Markdown in `00. Inbox/` before `ingest`.
+Use this skill when the owner has a tab group, open tabs, a URL, a file, an AI-chat research session (ChatGPT, Gemini, Grok, Claude, Perplexity) or selected agent sessions and wants it kept as Markdown in `00. Inbox/` before `ingest`.
 
-The default output is one **research-bundle note** per topic, at `{topic-slug}` in the Inbox lane the destination already has for its kind (an AI-research lane for chat research, the matching `{NN Agent}` lane for agent sessions). Use the clippings lane only for short excerpts, social posts, or a manifest-only capture without substantial text. Never invent a lane. There is no `status` field: being in the Inbox is the state.
+The default output is one research-bundle note:
+
+`00. Inbox/05. AI Research/YYYY-MM-DD-ai-research-{topic-slug}.md`
+
+Use `00. Inbox/04. Clippings/` only for short excerpts, social posts, or a manifest-only capture without substantial conversation text. When the destination's live policy names different Inbox lanes, use its lane with the same dated naming; never invent a lane.
 
 ## Capture Principles
 
-Invoke `principle-original-order`: the sequence the creator gave the material is evidence.
-
-1. **Preserve evidence before synthesis.** Get the text first; read it afterwards. A note with thin original text and rich commentary has the priorities backwards.
-2. **Keep raw copied transcript under `## Original Content`** — only text you acquired, in its original order, with speakers, timestamps, headings, code and media links intact.
-3. **Put agent interpretation under `## Agent Capture Notes`, never inside `## Original Content`.** A summary, paraphrase or reconstruction is never Original Content. Existing `## Codex Capture Notes` sections are read as agent notes.
-4. **Record source URLs, platform names, visible model names, capture method, and capture limitations.** Claim the browser or runtime was queried only when a tool actually queried it; a pasted export is a pasted export. Text you could not get (collapsed answers, paywalls, truncated spans) is named as an omission, never filled from memory, a model's summary or a neighbouring source.
-5. **Do not create public share links, post messages, upload files, or change account settings.** An existing public link is provenance, not permission to create another. Expanding collapsed answers or scrolling to load history is reading; sending, regenerating or editing a message is not, and is never done.
-6. **Only the selection.** Capture the tabs, sessions or ranges the owner named; never sweep a window, an unnamed tab group or every session of the day.
+1. Preserve evidence before synthesis.
+2. Keep raw copied transcript under `## Original Content`: only text actually acquired, in its original order, with the selected range, speakers, timestamps, turn order, headings, code and media links intact. Mark every gap in place as an explicit omission (`[omitted: {what} — {why}]`); never fill it from memory, a summary or a neighbouring source.
+3. Put agent interpretation under `## Agent Capture Notes`, never inside `## Original Content`. A summary, paraphrase or reconstruction is never Original Content.
+4. Treat existing `## Codex Capture Notes` sections as legacy-compatible agent notes.
+5. Record source URLs, platform names, visible model names, capture method, and capture limitations. Name a browser or runtime as the method only when a tool actually read it; a pasted export is recorded as a paste.
+6. Do not create public share links, post messages, upload files, or change account settings unless the owner explicitly asks and confirms at action time. Expanding collapsed answers or scrolling to load history is reading; sending, regenerating or editing a message is not.
+7. Capture only the tabs, conversations, sessions or ranges the owner selected; never sweep a window, an unnamed group or every session of the day.
 
 ## Tool Choice
 
-Prefer the least lossy available path, and record which one you used as `source_extraction`.
+Prefer the least lossy available path:
 
-| Source | First choice | When it fails |
-| --- | --- | --- |
-| Existing tab group or open tabs | The aside browser: list tabs, read titles and URLs non-destructively, then read each selected tab's text | Ask the owner to paste or export the text |
-| Normal URL that opens without the owner's session | `defuddle` | The aside browser, then a paste |
-| Account-bound or script-rendered page, AI chat | The aside browser reading the page; a built-in copy/export control when it yields local text without a share link | The owner's export or paste |
-| Video or podcast | `defuddle` for YouTube; otherwise `yt-dlp` | Manifest-only with the locator; say no transcript was available |
-| Local file | Read it directly | Name the converter that is missing |
-| Chat conversation | [conversations](references/conversations.md) | — |
-| Agent sessions | [sessions](references/sessions.md) | — |
+1. Existing tab group or open tabs: the aside browser — list tabs and read titles/URLs non-destructively first, then read each selected tab's text.
+2. Normal web page or URL that opens without the owner's session: `defuddle`, then the aside browser. YouTube via `defuddle`; other video or podcast via `yt-dlp`, else manifest-only.
+3. Fallback: ask the owner to copy the conversation text or export/download it, then capture the pasted or local file content into the template.
 
-Vault reads and writes use `obsidian-cli` or plain files; `rg` finds earlier candidates.
+Chat conversations follow [conversations](references/conversations.md); agent sessions follow [sessions](references/sessions.md). Vault reads and writes use `obsidian-cli` or plain files.
 
 ## Process
 
@@ -52,68 +49,104 @@ Vault reads and writes use `obsidian-cli` or plain files; `rg` finds earlier can
 Resolve from the request or the visible browser session:
 
 - `topic` — the research topic or tab-group name;
-- `platforms` — chat platforms, runtimes and source sites;
-- `captureMode` — per member `fidelity`: `transcript`, `excerpt` (his `curated-excerpts`), `manifest-only`, or `mixed` on the bundle when members differ;
-- `nextStep` — `inbox-only`, `run-inbox` or `ingest-now`;
-- **collectionPurpose** — why this is kept and where it will be used (미래의 나에게 보내는 편지). Ask it **once for the whole bundle** unless the owner already said it. Save the answer verbatim as `collectionPurpose` with `purpose_origin: stated`; reuse a purpose given earlier in the task as `reused`; record `unknown` only if the owner declines. `ingest` reads this field and does not ask again. A purpose never triggers compilation.
+- `platforms` — ChatGPT, Gemini, Grok, Claude, Perplexity, and any source sites or runtimes;
+- `captureMode` — `transcript`, `manifest-only`, `curated-excerpts`, or `mixed`;
+- `nextStep` — `inbox-only`, `run-inbox`, or `ingest-now`;
+- `collectionPurpose` — why this is kept and where it will be reused.
 
-If the topic or target tab group / session set is ambiguous, ask one concise question before touching the browser. Read the destination's capture template and property conventions now; field names follow `ingest`'s frontmatter (`source_locator`, `source_extraction`, `fidelity`, `collectionPurpose`, `purpose_origin`, `referenced`).
+Purpose gate: ask one question for the whole bundle only when neither the task nor an earlier candidate states the purpose. Save the answer verbatim. When the owner delegates ("알아서", "자동으로"), infer it from the source and the reuse axes actually registered in Core Context §2, and record both the inference and its reason in `collectionPurpose`. A purpose never triggers compilation.
+
+If the topic or target tab group is ambiguous, ask one concise question before operating the browser.
 
 ### Step 1: Read Tab Metadata
 
-The capture unit is the **topic**, not the tab or session: several members that worked on one subject become one candidate. Build a manifest table, per member:
+Build the manifest, per selected member:
 
-- platform or runtime;
+- platform;
 - title;
-- URL or `source_locator` (session id and range for agent sessions);
-- visible model / account / workspace where it matters;
-- role in research — "question answering", "counterpoint", "source evidence", "follow-up", or for an agent session the task it was given.
-
-A single short excerpt or social post is a candidate on its own.
+- URL (session id and range for agent sessions);
+- visible model / account / workspace if relevant;
+- role in research — "question answering", "counterpoint", "source evidence", or "follow-up".
 
 ### Step 2: Extract Conversation Or Page Text
 
-For each selected member, with the route from Tool Choice:
+For each selected tab:
 
 1. Prefer built-in copy/export controls when they produce local text without creating a public link.
 2. Otherwise read the page text through the aside browser or `defuddle`.
-3. If UI reading is the only path, read the visible conversation without sending new messages.
-4. Record gaps, truncation, hidden collapsed answers, failed extraction, and paywalled or auth-only content as omissions, and set the member's `fidelity`.
+3. If UI reading is the only path, read the visible conversation without sending anything.
+4. Record gaps, truncation, hidden collapsed answers, failed extraction, and paywalled or auth-only content as omissions and as the member's capture status.
 
 Keep chronology within a conversation and the owner's order across members.
 
 ### Step 3: Create Inbox Note
 
-Use the destination's capture template as the shape. Write a **new note**; never overwrite or reorder an existing candidate. A later capture on the same topic is a new note that links the earlier one in `referenced`.
+Use the destination's AI Research Capture template as the shape; without one, use the frontmatter and body below. Write a new note; never overwrite or reorder an existing candidate. A later capture on the same topic is a new note that lists the earlier one in `referenced`.
 
-Frontmatter carries `type: inbox`, `source_url` / `source_locator` per member, `platforms`, `source_extraction`, `fidelity`, `description` (one English sentence), `author`, dates, `collectionPurpose`, `purpose_origin`, and the vault's tags. Agent session notes use the agent lane's conventions instead: `type: idea`, `created_by: agent`, `authorship: agent`, `tags: [agent-session]` and the runtime's `session_id`. No `capture_status`: location is the state.
+Frontmatter:
+
+```yaml
+type: "inbox"
+aliases: []
+category:
+  - "AI Research"
+clip_type: "ai-research-tab-group"
+source_url:
+  - "{primary-url-or-conversation-url}"
+platforms:
+  - "ChatGPT"
+capture_method: "{tool actually used}"
+capture_status: "captured"
+captureMode: "mixed"
+collectionPurpose: "{verbatim answer, or inference + reason}"
+referenced: []
+description: "English one-sentence description of the captured research bundle."
+author:
+  - "[[{owner-name}]]"
+  - "{Agent}"
+model: "{runtime-reported model id}"
+effort: "{runtime-reported effort, or default}"
+date_created: YYYY-MM-DD
+date_modified: YYYY-MM-DD
+date_clipped: YYYY-MM-DD
+tags:
+  - inbox
+  - agent-capture
+  - ai-research
+```
+
+`referenced` lists originals and earlier captures the material cites: a wikilink when already a Raw or Book Index in the vault, else the canonical URL. It never claims the original was read and never authorizes fetching it. `capture_status` is `captured`, `partial` or `manifest-only` truthfully. Body: `## Capture Summary`, `## Source Manifest` (# | Platform | Title | URL | Role | Capture status), `## Original Content` (one `### Source N` block per member with platform, URL, visible model/workspace and capture limitation), `## Agent Capture Notes`, `## Ingest Notes`.
 
 ### Step 4: Add Capture Notes
 
-Under `## Agent Capture Notes`, each item grounded in the members and marked as your reading:
+Under `## Agent Capture Notes`, add:
 
 - one-paragraph topic summary;
-- key claims by platform or member;
-- source URLs, papers and people the material itself cites;
-- disagreements between platforms — or, for a session bundle, where members differ in task or result;
-- missing evidence, omissions and follow-up questions;
-- suggested Wiki pages to create or update during `ingest` — its analysis starts from this list.
+- key claims by platform;
+- source URLs mentioned by the models;
+- disagreements between platforms;
+- missing evidence or follow-up questions;
+- suggested Wiki pages to create/update during `ingest`.
+
+`ingest` carries `source_url` → `source`, `date_clipped`, `collectionPurpose` and `referenced` into the Raw and places the Source Manifest and Agent Capture Notes after `## Metadata`, unchanged.
 
 ### Step 5: Route
 
-- `inbox-only` (the default): stop after writing the note and report its path.
-- `run-inbox`: compose `inbox` on the new note.
-- `ingest-now`: compose `ingest` on the new note; the purpose is already recorded, so `ingest` reuses it.
+- `inbox-only` (default): stop after writing the Inbox note and report the file path.
+- `run-inbox`: run `inbox` on the new file.
+- `ingest-now`: run `ingest` on the new file; its purpose gate reuses `collectionPurpose`, and its mothership link search (Step 0-a) runs there.
+
+Route beyond `inbox-only` only when the owner chose it. Never delete or move the Inbox note, and never commit, as part of capture.
 
 ## Verification
 
 Read the written note back before reporting:
 
-1. It exists in the intended Inbox lane, at a new path.
-2. `## Original Content` is non-empty and matches what was obtained, or the note is explicitly `manifest-only`.
-3. Every member has a locator and a fidelity, and every omission is named.
-4. Agent synthesis is separated from raw content; nothing in Original Content came from your own summary.
-5. `collectionPurpose` and `purpose_origin` are set.
-6. If the next step was ingest, `ingest` preserved the Raw before the Inbox original left (its own review checks this).
+1. The `.md` file exists at the new dated path in the AI Research or Clippings lane (or the live policy's equivalent).
+2. `## Original Content` is non-empty and holds only acquired text, or the note is explicitly `captureMode: manifest-only`.
+3. Source URLs are present for every member.
+4. Agent synthesis is separated from raw content; omissions are marked where they occur.
+5. `collectionPurpose` is set.
+6. If the next step was ingest, `ingest` preserved the Raw Source; the Inbox original stays unless the owner separately authorizes its deletion.
 
-Report the path, the members with their fidelity, the omissions, and the purpose.
+Report the path, members with capture status, omissions, the purpose, and the route taken.

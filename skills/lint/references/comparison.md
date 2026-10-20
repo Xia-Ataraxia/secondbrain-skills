@@ -1,33 +1,27 @@
 # Three-column comparison
 
-Upstream: 구요한 `/lint`, commit `863ca43`. The row labels identify every upstream Step and section; this is the decision record, not a second runtime procedure. The procedure is written in this package's own words; no upstream file is copied.
+Upstream: 구요한 (Yohan Koo) `cmds-llm-wiki` `/lint`, commit `54cf2ab` (Codex command is the baseline; the agent skill is its companion spec). The row labels identify every upstream check and section; this is the decision record, not a second runtime procedure. The procedure is written in this package's own words; no upstream file is copied.
 
-| 구요한 (863ca43) | secondbrain lint before this revision | Decision + reason |
+| 구요한 (54cf2ab) | secondbrain lint | Decision + reason |
 | --- | --- | --- |
-| Prerequisite: read Core Context once per session | live policy read | Adapt: read live policy and, for Step 9 only, the context snapshot `refresh-context` keeps. |
-| Step 1: Inventory — read index.md, glob Wiki and Raw, compare | Inventory | Adopt the counts; reject index.md — files are the catalog, the Inbox location is the queue state. |
-| Step 2: Orphan Check | Orphans | Adopt; owner additions: whole vault as link source, uncompiled Raw reported apart. |
-| Step 3: Broken Link Check — create or remove | Broken links | Adopt; add the rename option and the Inbox-candidate exception from `ingest`. |
-| Step 4: Contradiction Check | Contradictions | Adopt; never remove a callout, possible resolution routed to `verify`. |
-| Step 5: Staleness Check — 30+ days, confidence low, by date modified | Staleness | Adapt: age from git log; `explored: false` also counts. |
-| Step 6: Index Sync — add/remove index entries, update stats | Map coverage sync gaps | Adapt to Map Sync: no index.md (git history); the same sync question asked of Maps, reported not auto-fixed. |
-| Step 7: MOC Coverage | Map coverage | Adopt his name; invoke principle-hierarchical-management and principle-collective-description. |
-| Step 8: v2/v4/v5 Frontmatter Coverage — 미래의 나에게 보내는 편지 | Frontmatter and section coverage | Adopt (upstream name used): `collectionPurpose`, `mainVaultRelated`, `mainVaultCmds`; keep the heading and his terms. Add `purpose_origin` inferred/unknown, `source_locator`, `## Original Content`, partial-fidelity note, `referenced` (principle-respect-des-fonds). |
-| Step 8 Attachment location | embeds outside attachments | Adopt. |
-| Step 8 Exploration Gate (v4): explored; exploredBy/exploredDate completeness | explored coverage | Adopt explored presence and backlog; reject exploredBy/exploredDate — git history records who and when. |
-| Step 8 Bias check (v4): Counter-argument and Data gap | Bias Check | Adopt. |
-| Step 8 v5 verification fields: claimType, evidenceScope, verificationStatus, disputed queue | absent | Adapt: counted only when the vault uses them; gaps and disputes route to `verify`. |
-| Step 8 Persona health (v6.3): personaOf, personaMaturity, Simulation Boundary, Accumulation Log, stale persona, Quote Bank spot check | Persona health | Adopt personaOf, boundary, accumulation backlog and the Quote Bank spot check; maturity values left to live policy; owner addition: no Persona leak into shared pages. |
-| Step 9: Core Context Freshness — snapshot_date vs mothership, 30 days | Context freshness | Adopt; snapshot owned by `refresh-context`. |
-| Step 10: Cross-Vault Link Check (mothership only) | Mothership links | Adopt, mothership only. |
-| Step 10.1: Broken mainVaultRelated URLs — inline python, decode, stat with/without .md, strip code | deeplink stat | Adopt (upstream name used): the method on the `mainVaultRelated` field; reject the inline script — `rg` plus decode, named in checks. |
-| Step 10.2: Broken mainVaultCmds categories, pipe-alias strip | relevant mothership commands/notes as strings | Adopt (upstream name used): `mainVaultCmds`; strings are not necessarily category links, so category-link resolution applies only when live policy defines that format. |
-| Step 10.3: Auto-fix suggestion, READ-ONLY by default, qmd 1–3 candidates, do NOT auto-patch | candidates, no writes | Adopt. |
-| Step 10.3 `--fix-crossvault` auto-apply | absent | Reject: lint never writes into the mothership. |
-| Output 1–5: Stats, Orphans, Broken Links, Contradictions, Stale Pages | report items | Adopt names and order. |
-| Output 6: Index Issues — found and fixed | absent | Adapt to Map Sync, reported not fixed. |
-| Output 7–9: v2 / v4 / v5 coverage % | one coverage section | Adapt: one Frontmatter Coverage section as n/total, plus MOC Coverage listed separately. |
-| Output 10: Core Context | Context freshness | Adopt. |
-| Output 11: Cross-Vault Integrity | Mothership links | Adopt without mainVaultCmds. |
-| Output 12: Recommendations (top 10) | at most ten | Adopt; add Not checked before it (owner rule: a skipped step is a limit). |
-| (implicit) Index Sync edits pages during lint | report-first, fixes on request | Keep owner rule: never auto-patch; counts not a score; owner-picked fixes with read-back and a ten-diff preview. |
+| Prerequisite: read Core Context once per session | read once, plus live policy | Adopt; live policy wins where it defines a field, value or placement. |
+| 1: Inventory Raw, Wiki, Queries, index.md, log.md | Step 1 | Adopt. |
+| 2: Compare actual counts with index.md | Step 1 + Step 6 | Adopt; Stats recounted from folders. |
+| 3: Orphan Wiki pages | Step 2 | Adopt; owner additions: whole vault as link source, uncompiled Raw reported apart. |
+| 4: Broken wikilinks — create or remove | Step 3 | Adopt; add rename option and Inbox-candidate exception. Owner exception: quoted `author` wikilinks may stay unresolved and are not reported; no author note is created. |
+| 5: Contradiction callouts, resolved by newer sources | Step 4 | Adopt; lint never removes a callout, possible resolution routed to `verify`. |
+| 6: Low-confidence pages not updated 30+ days (date modified) | Step 5 | Adopt on `date_modified` (owner snake_case key); git age only as a marked fallback; `explored: false` shown as backlog. |
+| Skill Step 6: Index Sync — missing/deleted entries, Stats | Step 6 Index Sync | Adopt the checks, plus Recent sections and `log.md` presence/recency. Adapt: reported, applied only as an owner-picked fix; git history does not replace index or log. |
+| 7: MOC coverage | Step 7 | Adopt; hierarchy and collection-description judgments kept inline. |
+| 8: Raw `collectionPurpose`, `mainVaultRelated`, `mainVaultCmds` | Step 8 | Adopt, with the "pre-v2 — consider backfill" label; add `referenced` on secondary Raw (owner exception: never proof the original was read). |
+| 9: Wiki `mainVaultRelated`, `mainVaultCmds` | Step 8 | Adopt where live policy expects them. |
+| 10: `explored` coverage; `exploredBy`/`exploredDate` completeness | Step 8 Exploration Gate | Adopt all three. |
+| 11: v5 `claimType`, `evidenceScope`, `verificationStatus`, `verifiedAt`, `verifiedBy`, `disputed` | Step 8 verification fields | Adopt; value set checked; disputed → high-priority `verify` queue. |
+| 12: Bias coverage — high confidence and synthesis guides, Counter-argument + Data gap | Step 8 Bias Check | Adopt. |
+| 13: Cross-vault `mainVaultRelated` URLs and `mainVaultCmds` format | Step 10 | Adopt; owner rule: both URI components encoded with `quote(value, safe='')`, stat on mothership; `mainVaultCmds` must match a registered reference exactly. |
+| Skill 10.3: candidates, read-only by default; `--fix-crossvault` | Step 10 + cross-vault fix mode | Adapt: fix mode only with explicit opt-in, patches only this vault's Raw/Wiki references, diff and OK per batch of at most ten; never writes the mothership. |
+| 14: Attachment paths | Step 8 | Adopt; location from live policy. |
+| 15: Core Context `snapshot_date` vs mothership system files | Step 9 | Adopt; the file set is the one Core Context was built from, not a fixed list. |
+| 16: Persona health (v6.3) | Step 8 Persona health | Adopt all items; owner addition: no Persona leak into shared pages. |
+| Output: Stats … Recommended fixes by impact and effort | Output 1–12 | Adopt; add Not checked (a skipped step is a limit). Owner rule: full report preserved; display truncation states the count and where the full list is. |
+| (implicit) Index Sync edits during lint | report-first | Keep owner rule: a lint run writes nothing (no log entry); owner-picked fixes with diff per ten, read-back, one `log.md` entry after applied fixes; no automatic commit. |

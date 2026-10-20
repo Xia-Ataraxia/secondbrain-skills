@@ -1,51 +1,65 @@
 # Books
 
-Resolve the actual bibliography and TOC source, then separate the book index from selected chapter evidence and analysis.
-Record read/obtained/compiled states independently.
-The CLI records no compiled field: chapter `status` reflects only acquisition coverage, and a selected analysis does not establish complete chapter compilation.
-Unread or unobtained chapters remain not-obtained/not-compiled and get no fabricated Raw body. Book stubs explicitly label their non-empty placeholder as not obtained.
+Book Mode of 구요한's `/ingest` (cmds-llm-wiki `54cf2ab`, Claude command `## Book Ingest Mode`): one Book Index plus N chapter stubs, filled progressively as chapters are actually read. Knowledge is compiled when read, not when scraped; a stub is a navigable future-compile target, never evidence that the chapter was read.
 
-## Book Ingest Mode — B-1–B-5 and Promotion
+## Steps 0 and 0-a
 
-Adopted from 구요한 `/ingest` at `863ca43`: preserve the progressive procedure below. Only adaptations are Apatheia paths, the compact frontmatter/status override and git history replacing index/log.
+Run SKILL Steps 0 and 0-a once for the whole book: one purpose covers every chapter and is inherited by each stub's `collectionPurpose`.
 
-### B-1 — Fetch TOC and URL pattern
+## Folder and category conflict
 
-Detect a multi-page book/docs site with at least five chapters. Fetch the complete TOC and preface. Preserve every chapter title, Part and one-line description in the original language. Test the URL pattern by directly fetching two chapter URLs before naming/scaffolding. If either fails, stop for another source rather than invent URLs.
+Upstream Book Mode writes the Index and stubs to the Articles folder with `category: Articles`, while the schema reserves the Books folder (`category: Books`). When the live policy or the owner's task names the folder and `category` for books, follow it. Otherwise run Steps 0, 0-a and B-1, then stop before the B-2 and B-3 writes and report the conflict with the TOC found. The templates leave `category` and placement to that decision.
 
-This URL acquisition remains the contract for web books. A commercial or offline book has no chapter URLs to test: scaffolding it needs lawfully obtained text and an explicitly approved file/page locator adaptation recorded per chapter. Until both exist, its chapters stay unlocated and unpromotable; nothing here substitutes a guessed URL or page.
+## B-1 — Fetch TOC and chapter URL pattern
 
-### Book cited by a source
+- Detect a multi-page book or docs site (mdBook, VitePress, GitBook, Docusaurus, ReadTheDocs, Nextra) with 5+ chapters in its sidebar or TOC.
+- Fetch the preface/readme/index page and extract the full TOC in original order: part, chapter number, title, slug hint and the TOC one-liner when given, all in the original language.
+- Test the URL pattern by fetching two chapter URLs directly (for example mdBook `/ch01-00-foo.html`, VitePress/Docusaurus `/ch01-foo/`, GitBook `/book/chapter-1/section-1`). Confirm the pattern matches reality before naming anything; if it fails, stop and report rather than invent URLs.
+- A commercial or offline book has no chapter URL to test; its stubs need an obtained locator (file or page range) or stay unpromotable.
 
-Write one Book Index and link it from the citing Raw through `referenced`. Create no chapter stubs: leave the TOC lines unlinked and omit Progress Tracking. When the owner starts reading, run B-2 and B-3.
+## B-2 — Book Index (one Raw)
 
-### B-2 — Create Book Index (one Raw)
+- Name `YYYY-MM-DD-{authorSlug}-{bookSlug}-book-index.md` with [book index](../templates/book-index.md); `type: raw-source`, `status: ingested`, no chapter keys.
+- `## Original Content` holds the preface verbatim.
+- `## TOC` lists every chapter as `- [ ] [[stub filename]] — {TOC one-liner}`, grouped under `### {Part}` headings when the source has parts.
+- `## Reading Paths` keeps the author's reading paths verbatim when provided; omit the section otherwise, never infer paths.
+- `## Progress Tracking` is a table `| Ch | Title | Status | Read on |`, one row per chapter, starting `stub`.
 
-Use `templates/book-index.md` under `10. Raw Sources/03 Books`, named `YYYY-MM-DD-{authorSlug}-{bookSlug}-book-index.md`. The Index `# ` heading is the exact obtained one-line title, never derived from the path. The preface is preserved verbatim in Original Content. TOC has every chapter as `- [ ] [[stub]] — {obtained title}`, followed by ` — {toc_description}` only when the TOC source supplied that one-liner, grouped under `### {Part}` headings when parts are given (unparted chapters may only precede the first Part). Reading Paths holds the source's reading paths verbatim; an absent value and an explicit `null` (reported unavailable) each render a distinct `Not recorded:` line, never inferred paths. Progress Tracking is `| Ch | Title | Status | Read on |` with one `| N | [[stub]] | stub | — |` row per chapter. Ingest Notes record how many chapter locators and TOC descriptions were supplied and the Reading Paths state; these counts state what was obtained, not that it was checked. The Index has no chapterNumber and no status.
+## B-3 — Chapter stubs (N Raws)
 
-### B-3 — Create N chapter stubs
+- Name `YYYY-MM-DD-{authorSlug}-{bookSlug}-ch{NN}-{slug}.md` with [book chapter](../templates/book-chapter.md), one per TOC chapter.
+- Frontmatter: `status: stub`, `source` = the direct chapter URL (verified pattern), `bookIndex`, integer `chapterNumber`, original-language `chapterPart`, `chapterPrev`/`chapterNext` as quoted wikilinks to the adjacent stubs (`null` at the first and last chapter), `collectionPurpose` inherited from the book, `date_ingested` = scaffold date.
+- Body: Reading Status stub callout, Source, TOC Preview (the TOC one-liner verbatim), `## Original Content` holding the non-empty pending-fill placeholder by design (it satisfies the Raw pre-flight; substantiveness checks exempt `status: stub`), Reading Notes.
+- Pre-flight per stub: Original Content present, `status: stub`, resolvable chapter URL, `chapterNumber`/`chapterPart`/`bookIndex` set, prev/next resolve to existing stubs or are `null`, no chapter Wiki page compiled.
 
-Use `templates/book-chapter.md` in the same Books location, named `YYYY-MM-DD-{authorSlug}-{bookSlug}-ch{NN}-{slug}.md`. Record a chapter `source_locator` only as obtained evidence (a direct chapter URL also fills `source_url`); never invent one. A stub without a recorded locator cannot be promoted later. Supply `toc_description` only when the source gives a one-liner: it becomes `description` and TOC Preview; otherwise `description` is `""` and TOC Preview states that none was supplied, and the title is never relabelled as a one-liner. The stub keeps inherited book `collectionPurpose`, `status: stub`, integer chapterNumber, original-language chapterPart, bookIndex and chapterPrev/chapterNext links (null at endpoints) to its adjacent TOC chapters. Its body renders the title, the Source section (direct URL or an explicit `Not recorded:` line, Book link, previous/next), TOC Preview, Original Content's explicit non-empty pending-fill placeholder, an empty human Reading Notes section and Ingest Notes. Acquisition time means scaffold time, not chapter-read time. No chapter-specific Wiki pages yet. Validation allows explicitly marked stubs without treating placeholders as source evidence.
+## B-4 — Book-level Wiki only (small set)
 
-### B-4 — Book-level Wiki only
+Compile only what the TOC and preface support, through SKILL Step 3:
 
-Compile only what TOC/preface supports: book Entity, author Entity, optional companion-site Entity, 1–3 anchor Concepts named in the preface, and optional 0–1 Guide if the preface provides reusable methodology. Link the Book Index from the relevant Map, creating the Map when none exists (Step 4). Do not precompile unread chapter concepts.
+- Entity for the book itself (native title);
+- Entity for the author only when the analysis finds the author significant, never just to resolve the `author` link;
+- optional Entity for a companion site;
+- 1–3 Concepts the preface names as anchors of the whole book;
+- optional 0–1 Guide when the preface itself gives a reusable methodology (for example reading paths);
+- the Book Index linked from the relevant Map, created when none exists (Step 4).
 
-### B-5 — Record scaffold
+Never precompile chapter-specific pages.
 
-One git commit records the whole scaffold and its actually compiled book-level knowledge. No index.md/log.md effects; follow git-provenance.md.
+## B-5 — Index and log
 
-### Promotion — when a chapter is selected for reading
+- `index.md`: new book-level pages under their sections, Stats recounted, one Recent Ingests row noting `{N} chapters scaffolded, {M} wiki pages`.
+- `log.md`: one appended entry for the whole scaffold, noting the progressive compile plan.
 
-Promotion fills one chapter stub the owner has read. It reuses the book's `collectionPurpose`.
+## Promotion — a chapter the owner has read
 
-1. Acquire the chapter verbatim from the stub's recorded locator (`source_locator`, else `source_url`). The stub's Original Content must still be exactly the template's pending-fill placeholder.
-2. Replace only that placeholder with the acquired text, and rewrite `status` and `date_modified`. All other bytes stay, including Source, TOC Preview, human Reading Notes, Ingest Notes and the five navigation fields.
-3. Coverage decides status: `full` → `completed`; `partial` or `excerpt` → `reading`. Only `status: stub` is promotable. A later `reading`→`completed` change needs the missing text as a new full Raw; an existing Original Content is never rewritten.
-4. Before writing, `bookIndex` must resolve to the promotion Index and `chapterPrev`/`chapterNext` to the adjacent TOC chapters (null at the endpoints).
-5. In the Index change only this chapter's TOC checkbox `[ ]`→`[x]` (ticked for both `reading` and `completed`, because the chapter was actually read) and its Progress row to `| N | [[chapter]] | reading-or-completed | date |`. The row keeps partial coverage explicit. Nothing else in the Index changes.
-6. Compile the chapter's Wiki pages by Step 3, quoting the acquired text: update existing Concepts and Entities first.
-7. The chapter, Index and Wiki pages are one `ingest:` commit. Read back every result, then reindex.
+Trigger: the owner runs ingest on a chapter stub or describes reading that chapter with intent to compile. Never promote an unread or unobtained chapter.
+
+1. Fetch the chapter from the stub's `source`. Only `status: stub` whose Original Content is still exactly the placeholder is promotable.
+2. Replace only the placeholder with the verbatim chapter text; set `status: completed` for the full chapter or `reading` when only part was obtained; update `date_modified`. Every other byte stays, including Source, TOC Preview, human Reading Notes and the navigation keys. A later `reading` → `completed` needs the missing text actually obtained.
+3. Compile the chapter's Wiki pages by SKILL Step 3, updating existing pages first under its clean-context rule; Steps 3.5 and 4 apply.
+4. In the Book Index change only this chapter: its TOC checkbox `- [ ]` → `- [x]` and its Progress Tracking row to `| N | [[chapter]] | reading-or-completed | YYYY-MM-DD |`. All other Index bytes, human notes included, stay.
+5. Update `index.md` per Step 5 and append to `log.md`: `## [YYYY-MM-DD] promote | {book} ch{NN}`.
+6. Read back the chapter, the Index and every touched page, then report qmd reindex status (Step 6).
 
 ## Bibliographic acquisition
 
@@ -79,4 +93,4 @@ The personal book/review template remains owned by the destination vault.
 Preserve the destination's human reading sections: thinking, reactions, dated personal bullets, anecdotes and next steps.
 Quotes stay quotes and first-person notes stay first-person.
 When updating, map existing highlights onto the TOC chapters instead of appending them as a dump, and keep the richer copy of a duplicated highlight.
-When the exact review append is authorized, put agent suggestions and useful verified links only in its actual permitted Suggested/Linking sections through the destination's adapter; the CLI does not rewrite review sections.
+When the exact review append is authorized, put agent suggestions and useful verified links only in its actual permitted Suggested/Linking sections; never rewrite the owner's review sections.
