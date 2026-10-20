@@ -46,7 +46,7 @@ Before writing, search the sibling packages for the same trigger, step or rule.
 
 - History is the Git log. A package carries no `CHANGELOG.md`. Do not edit `metadata.version` per change; the release sets it.
 - Checks enforce package format: valid frontmatter, a name that matches the directory, links that resolve; routing evals for a description are format checks and stay. Do not write tests for a package's wording. Test our skill's composition, output or permission contract, or a script's own domain responsibility, only when the owner approved that verification; never test a packaged CLI's behavior or a template as if it were a program.
-- Call a packaged CLI directly. Wrap it only for a named responsibility the CLI lacks, write that reason next to the wrapper, and do nothing else in it; never reimplement the CLI or its regression suite.
+- Call a packaged CLI directly: the package names the commands and the agent runs them. Attaching a wrapper script to a CLI (hook, launcher, queue, debounce, alias) is an anti-pattern; do not write one, and never reimplement the CLI or its regression suite. A script that checks the package's own artifacts without calling a CLI is not a wrapper.
 - Delete before adding. No speculative helper, compatibility alias, fallback path or retired stub; a retired thing is removed and stays in history. Build the missing piece when it is actually needed.
 - When a task can only proceed through a script's pipeline, the script is a gate. Delete it and state the steps in the body.
 - State the outcome a step must reach, not the command that reaches it; the agent picks the invocation from the tool's current help.

@@ -409,6 +409,13 @@ section), `90. Settings/Templates/Template_Raw Source.md`,
   no host `PATH` append; a failed or header-less `qmd status` keeps the notes
   pending instead of reading as zero; only a line-leading `Pending:` counts. The
   `reindex` procedure itself calls the qmd CLI directly.
+- After 0.6.0 the owner directed that wrapper scripts are not attached to
+  packaged CLIs at all. `skills/reindex/scripts/qmd-reindex.sh` and its only
+  registration, `hooks/hooks.json` (a `PostToolUse` Write/Edit hook), were
+  removed, so automatic edit-hook indexing is retired; nothing replaces it.
+  Explicit reindex stays the direct `qmd update`, `qmd embed`, `qmd status`
+  sequence at the end of a workflow. `AGENTS.md` and `principle-skill-creating`
+  now state the anti-pattern. The hook entries above are history.
 - `verify_paper.py` stays: it checks this package's paper artifacts (structure,
   located quotes, coverage), which neither qmd nor Obsidian provides and P-7
   requires. Fixes after the 166-test round: leaf/parent headings are judged at

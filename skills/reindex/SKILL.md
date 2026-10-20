@@ -36,19 +36,6 @@ that status (qmd 2.8.3 prints the line only when N is above 0; vectors count
 embedded chunks, not files). A failed command or an empty or unrecognized status
 is unfinished.
 
-`scripts/qmd-reindex.sh` is an optional edit hook, not this procedure. It exists
-only because qmd has no file watcher or edit trigger: after each edit it remembers
-the note if its path lies under a `path:` in the qmd config
-(`$QMD_CONFIG`, default `~/.config/qmd/index.yml`) and, once edits settle for 8
-seconds, runs the same three commands in the background. It never blocks the
-caller and adds no other job semantics. A failed `qmd update`, `qmd embed` or
-`qmd status`, a status without its `QMD Status` header, or embeddings stuck
-pending keeps the notes in the list and writes a `FAILED` line to
-`$TMPDIR/secondbrain-qmd-reindex.log`; a missing `qmd` on `PATH` is logged the
-same way. Its limits are those of a debounce script: config paths are read
-line by line (no project-local `.qmd/` config), the settle check uses
-one-second file times, and a run marker older than 60 minutes is treated as dead.
-Before reporting, run the script without arguments to list notes not yet
-confirmed in the index and check that log; include both in the report. Run it
-with `clear` once your own refresh is done. The Claude Code plugin wires the
-hook in `hooks/hooks.json`.
+There is no edit hook or background reindex: qmd has no file watcher, and this
+package does not wrap qmd to add one. Run the three commands above at the end of
+the workflow that changed notes, or when the owner asks.
