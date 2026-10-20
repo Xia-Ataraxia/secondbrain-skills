@@ -3,7 +3,7 @@ name: status
 description: Reports read-only vault counts, index drift, recent log.md history, property coverage, verificationStatus and confidence breakdowns, Inbox backlog, and Core Context age. Use for a management snapshot or backlog check. Not for judging purpose fulfillment, knowledge quality, search freshness, process health, or making any vault change.
 license: MIT
 metadata:
-  version: "0.5.6"
+  version: "0.6.0"
 ---
 
 # Status

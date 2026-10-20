@@ -3,7 +3,7 @@ name: inbox
 description: Scans, previews and counts recursive Inbox candidates, routes an explicitly selected scope and purpose mode through ingest, and deletes processed originals only on an explicit yes after verbatim preservation passed. Use for review my Inbox, preview these candidates, process this selection, or inspect duplicate sources. Not for capture, automatic RSS compilation, knowledge synthesis, or deleting unprocessed files.
 license: MIT
 metadata:
-  version: "0.5.6"
+  version: "0.6.0"
 ---
 
 # Inbox
