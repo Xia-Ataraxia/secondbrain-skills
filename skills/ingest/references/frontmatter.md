@@ -1,69 +1,96 @@
 # Frontmatter — single source
 
-Based on Properties and 구요한 `/ingest` at commit `863ca43`. One meaning has one field. Read live policy before applying: its field set and `type` values win over the templates; the satellite Common Rules override must be approved; never modify the mothership Properties document.
+Schema of 구요한's cmds-llm-wiki at commit `54cf2ab150f866bbfcf1aa2c7e03514d14febe20`: `CLAUDE.md` Frontmatter Standards, `90. Settings/Templates/Template_Raw Source.md`, `90. Settings/Templates/Template_Wiki Page.md` and the Claude/Codex `ingest.md` Step 2–3 blocks. Two owner exceptions only: date keys are snake_case, and `referenced` lists originals and earlier captures. The destination's live policy wins wherever it defines a field, value or placement; this schema fills the rest. One meaning has one field.
 
-## Type → role → template
+## Writing rules
 
-| Role | Template | type (template default) | tags | status |
+- YAML frontmatter is indented with 2 spaces; the Markdown body with tabs.
+- Wikilinks inside YAML are double-quoted: `"[[Name]]"`. Body wikilinks are bare.
+- `description` is English, one or two sentences, always double-quoted (`description: ""` when empty).
+- Dates are ISO 8601 (`YYYY-MM-DD`, time optional). An existing value keeps its form.
+- New keys are camelCase, except the snake_case date keys below and the upstream kebab-case keys kept as named (`source-vault`, `source-attachment`, `source-format`, `conversion-tool`, `conversion-fidelity`, `superseded-by`). The owner's snake_case date keys are exactly `date_created`, `date_modified`, `date_ingested`, `date_published`, `date_clipped` and `conversion_date`; upstream's verification-field timestamps `exploredDate` and `verifiedAt` keep their upstream names.
+- Unknown applicable metadata stays unknown, never invented. An inapplicable optional key is omitted.
+- Fill every slot as a value serialized by YAML's own rules, never by pasting raw text. A person name containing `"` or `\` inside a double-quoted `"[[Name]]"` follows YAML double-quoted escaping (`\"`, `\\`). Emit lists as YAML lists, one item per existing value; never collapse several existing items into one string.
+- A Persona's `source` keeps every existing item as a separate list item and appends this Raw.
+
+## Required on every note (7) plus provenance
+
+| Key | Value |
+| --- | --- |
+| `type` | role value from the table below |
+| `aliases` | list of alternative names |
+| `description` | English, double-quoted |
+| `author` | list. People are quoted wikilinks `"[[Name]]"` whether or not that note exists; a missing target is not a reason to create an Entity. Raw: the original author(s). Wiki and other agent-written pages: the author the live policy names, otherwise the writing agent's role name (`Claude`, `Codex`, …) as upstream. |
+| `date_created` | creation date of this note |
+| `date_modified` | last modification date of this note |
+| `tags` | list |
+| `model`, `effort` | directly after `author` on every agent-written content page: the runtime-reported model id (a list when several contributed) and reasoning effort, `default` when unreported. Never fabricate a model. |
+
+No `created_by` or `authorship` default. A vault whose live policy defines its own provenance keys (for example `created_by`) gets exactly those values from that policy; never infer them.
+
+## Roles
+
+| Role | type | layer | status | Template |
 | --- | --- | --- | --- | --- |
-| Raw | raw.md | article/video/paper/book/repo/mail/chat, matching material and live Type Map | reference/{type} | absent |
-| Book Index Raw | book-index.md | book | reference/book | absent |
-| Book chapter Raw | book-chapter.md | book | reference/book | stub → reading → completed |
-| Entity | entity.md | entity | knowledge/entity, plus `person` for a person | absent |
-| Concept | concept.md | concept | knowledge/concept | absent |
-| Persona | persona.md | note | knowledge/persona | absent |
-| Guide | guide.md | guide | knowledge/guide | required: todo/inprogress/done/reviewed/stop |
-| Paper hub (non-Raw) | paper-hub.md | paper | reference/paper | required: todo/inprogress/done/reviewed/stop |
-| Paper atom | paper-atom.md | note | reference/paper-atom | absent |
+| Raw Source | `raw-source` | — | `ingested` | raw.md |
+| Book Index (Raw) | `raw-source` | — | `ingested` | book-index.md |
+| Book chapter (Raw) | `raw-source` | — | `stub` → `reading` → `completed` | book-chapter.md |
+| Concept | `wiki-page` | `concepts`; Paper promotions `theory`, `method` or `scale` | `active` | concept.md |
+| Entity | `wiki-page` | `entities` | `active` | entity.md |
+| Guide | `wiki-page` | `guides` | `active` | guide.md |
+| Map | `moc` | — | `active` | live Map template |
+| Persona | `persona` | — | — | persona.md |
+| Paper hub | `paper-hub` | — | `active` | paper-hub.md |
+| Paper atom | `paper-analysis` | — | `completed` or `stub` | paper-atom.md |
 
-Common Rules status override: ordinary Raw, including Book Index, has no status; only Book chapter Raw has progressive status (initial `status: stub`). Guide and non-Raw Paper hub retain Properties-required status. No processing queue field.
+`category` names the Raw kind: `Articles`, `Papers`, `Books`, `Transcripts`, `Clippings` or `AI Research`. It selects the Raw folder of the same kind in the destination.
 
-This table defines schema, not placement. Paper hubs follow live Apatheia Role Placement with per-paper analyses in `40. Paper Analyses`, atoms beside their hub; do not invent Wiki folders, move existing analyses or duplicate hubs.
+## Raw Source keys
 
-## Meaning → field
+| Meaning | Key | Notes |
+| --- | --- | --- |
+| Original address or reference | `source` | Canonical URL or reference. A capture bundle with several member URLs keeps them as a list. |
+| Kind | `category` | One of the six values above. |
+| Processing state | `status` | `ingested`; chapter stubs per the Roles table. |
+| Acquisition date | `date_ingested` | When the source was taken into the vault; for a chapter stub, the scaffold date. |
+| Publication date | `date_published` | The original's own date when known (Web Clipper `published`). |
+| Capture date | `date_clipped` | Carried over from the Web Clipper or capture candidate when present. |
+| Collection purpose | `collectionPurpose` | The owner's answer verbatim, or the stated inference and its reason when the owner delegated it. |
+| Mothership vault | `source-vault` | Only when a mothership is configured. |
+| Mothership notes | `mainVaultRelated` | Stat-verified `"[label](obsidian://open?vault=<encoded vault>&file=<encoded path>)"` list, both components encoded with `urllib.parse.quote(value, safe='')`; `[]` when none. |
+| Mothership category | `mainVaultCmds` | A category or command reference the Core Context or mothership actually registers, copied exactly in its registered form and with the cardinality the live policy defines; empty when none fits. Never invented. |
+| Originals and earlier captures | `referenced` | List. A wikilink when the original or earlier capture is already a Raw or Book Index in the vault, otherwise its canonical URL. It records where a claim came from; it never proves the original was read and never authorizes fetching it. |
+| Retained document | `source-attachment` | `"[[original-filename]]"` of the binary moved into the attachments folder. |
+| Converted format | `source-format` | `pdf`, `pptx`, `docx`, `hwp`, `hwpx`, … |
+| Converter | `conversion-tool` | `markitdown`, `pandoc`, `hwp5txt`, `defuddle`, `hwpx-xml`, … |
+| Conversion date | `conversion_date` | Date of the conversion. |
+| Conversion fidelity | `conversion-fidelity` | `high`, `medium` or `low`. |
+| Newer version | `supersedes` / `superseded-by` | Source Update, major change: new `-v2` Raw points back with `supersedes`; the earlier Raw gains `superseded-by`. |
+| Paper | `citekey`, `doi`, `targetManuscript` | Paper Mode Raw; same values as the hub. |
+| Book chapter | `bookIndex`, `chapterNumber`, `chapterPart`, `chapterPrev`, `chapterNext` | Chapter stubs only: quoted wikilink, integer, original-language part name, quoted wikilinks or `null` at the ends. |
 
-Common fields: `tags`, `type`, `date_created`, `date_modified`, `created_by`, `authorship` (template default), `model`, `effort`, `aliases`, `description`. Dates are ISO plain dates. Agent-created notes require the runtime-reported model and effort (default when unreported); do not fabricate a model. Quoted YAML wikilinks are lists unless explicitly scalar below.
+## Wiki page keys
 
-| Meaning | Field | Applies to | Absorbed/rejected synonyms |
-| --- | --- | --- | --- |
-| Original author | author (wikilink list) | Raw, hub, books | author string |
-| Canonical address | source_url | Raw, hub, books | source as URL |
-| Location/range | source_locator | Raw when applicable | selected_range |
-| Stable original identity | source_identity | Raw, hub, books | internal matching key |
-| Input designation | source_input | Raw, books | — |
-| Material kind | source_kind | Raw, books | source-format, category |
-| Extraction method | source_extraction | Raw, books | conversion-tool, extraction |
-| Acquisition time | source_obtained_at | Raw, books | date ingested, conversion-date |
-| Publication date | date_published | Raw, hub, books | date created |
-| In-vault evidence notes | source (wikilink list) | Entity, Concept, Persona, Guide, hub | source URL |
-| Originals/earlier captures | referenced (list; a wikilink when the original is a Raw or Book Index in the vault, otherwise its canonical URL; never fetched) | secondary Raw, new full capture | traced_from |
-| Related knowledge | related (wikilink list) | Entity, Concept, Persona, Guide | — |
-| Collection purpose | collectionPurpose | Raw, books (inherited) | user_intent_interview |
-| Purpose basis | purpose_origin (stated/reused/inferred/unknown) | Raw, books | — |
-| Retained document | source_attachment | Raw converted from a document file, PDF hub; never a fetched page or media | source-attachment |
-| Read-only mothership connection | mainVaultRelated (verified deeplink list) | Raw, Entity, Concept | source-vault |
-| Relevant mothership commands/notes | mainVaultCmds (list of strings) | Raw, books | — |
-| Reuse axes from Core Context §2 | reusableFor (list of strings) | Raw, books | — |
-| Knowledge confidence | confidence: `high`, `medium` or `low` only; the reason is the last item under `## Sources` | Concept | not fidelity |
-| Exploration flag | explored | Entity, Concept, Guide | — |
-| Persona target | personaOf (scalar Entity link) | Persona | — |
-| Persona maturity | personaMaturity (preserve existing) | Persona | — |
-| Book identifier | isbn | book Raw/index/chapter | — |
-| Paper identifier | doi | paper Raw/hub | — |
-| Citation key | citekey (provisional: prefix if unregistered) | paper Raw/hub/atom | separate provisional boolean |
-| Publication venue | venue | paper Raw/hub | — |
-| Paper type | paperType | atom | — |
-| Analysis axis | analysisStep (integer 2–12, exactly one) | atom | analysisStepName |
-| Parent hub | paperHub (scalar wikilink) | atom | — |
-| Parent book | bookIndex (scalar wikilink) | chapter only | — |
-| Chapter number | chapterNumber (integer) | chapter only | — |
-| Part in original language | chapterPart | chapter only | — |
-| Previous chapter | chapterPrev (scalar wikilink or null) | chapter only | — |
-| Next chapter | chapterNext (scalar wikilink or null) | chapter only | — |
-| Chapter progress | status | chapter only | ingested |
-| Non-Raw processing stage | status | Guide, hub | — |
-| Queue | no field; location | Raw | status |
-| Fidelity/conversion limitations | body: Ingest Notes | Raw, hub, books | fidelity*, conversion-fidelity |
-| Capture roles | body: Captures | hub | full/current, excerpt/earlier |
+| Meaning | Key | Notes |
+| --- | --- | --- |
+| Evidence | `source` | Quoted wikilink list of Raw Sources. Add the new Raw on every update; keep earlier entries. |
+| Related knowledge | `related` | Quoted wikilink list. |
+| Confidence | `confidence` | `high` (well-sourced), `medium` (partial), `low` (speculative). A page resting only on secondary claims is not well-sourced. |
+| Reuse unit | `layer` | Per the Roles table. |
+| Exploration gate | `explored` | `false` on every new page; `true` only after a human read it or a source-backed review loop verified it, with optional `exploredBy`, `exploredDate`. |
+| Verification state | `verificationStatus` | `unverified` on every new page; `verify` sets `verified`, `partial`, `unverified` or `disputed` with `verifiedAt`, `verifiedBy`. |
+| Claim classification | `claimType`, `evidenceScope` | Optional at ingest; record only when the classification is clear. `claimType`: `definition`, `empirical`, `theoretical`, `historical`, `prescriptive`, `interpretive` or `mixed`. `evidenceScope`: `single-source`, `multi-source-primary`, `multi-source-mixed`, `synthesis-only` or `user-original`. |
+| Conflict | `disputed` | Set only by `verify`; `audit` only queues it, ingest never sets it. |
+| Page state | `status` | `active`. |
+| Mothership links | `mainVaultRelated`, `mainVaultCmds` | Optional, same form as on the Raw. |
+| Persona | `personaOf`, `personaMaturity`, `personaDomains` | Persona only; ingest never changes `personaMaturity`. |
+| Paper | `paperType`, `citekey`, `doi`, `targetManuscript`; atoms add `analysisStep` (integer 2–12), `analysisStepName`, `paperHub` | Paper Mode only. |
+| Map | `topic`, `related` | Map only. |
 
-Identity matching: `source_identity`, then canonical `source_url`/`source_locator`; titles never prove sameness. New evidence gets a new Raw if it is a better extraction; retain earlier captures in `referenced`. The hub `source` list includes current full and earlier excerpt Raw, with roles explained in Captures. Unknown applicable metadata stays unknown, never invented. Optional fields are omitted when inapplicable.
+## Existing notes and migration
+
+New notes use the schema above. A run that touches an existing note preserves what it already holds.
+
+- Keep every existing key and value, including unknown keys and earlier identity, location and history values. Ordinary ingest changes only the keys its update names (`source`, `related`, `date_modified` and additions the preservation review accepted); it renames, re-forms, copies or removes nothing else, date keys and `author` values included.
+- Identity matching reads `source` first, and any other source address or locator the existing note already records; titles never prove sameness. Ingest requires no identity key beyond this schema.
+- Key migration runs only when the owner explicitly authorizes it for named notes. Record each note's before-image first; map a value only when its meaning is verified equivalent to the target key (`source_obtained_at` is not `date_ingested` without proof that both record the same acquisition); stop on any conflict, such as a target key already holding a different value or an ambiguous meaning, and report it. A completed migration leaves one key per meaning, with no permanent dual keys. A value still needed for identity, location or history is never dropped merely as legacy.

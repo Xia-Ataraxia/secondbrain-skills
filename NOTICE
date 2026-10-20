@@ -154,6 +154,16 @@ that predates it, also without a licence notice. Since no expression from it is
 reproduced here, no rights over that third-party material are claimed, granted,
 or implied by this repository.
 
+The knowledge packages follow the workflow of cmds-llm-wiki by Yohan Koo
+(https://github.com/johnfkoo951/cmds-llm-wiki) at revision
+54cf2ab150f866bbfcf1aa2c7e03514d14febe20, which publishes no licence. The same
+terms apply: its procedures, field names and step names are re-expressed, and
+no file, script, template or prose from it is copied into or redistributed by
+this repository. `skills/ingest/scripts/verify_paper.py`, the Paper Mode P-7
+verifier, is this repository's own implementation written without reading the
+upstream verifier script; it is covered by this repository's licence and
+claims no rights over the upstream.
+
 
 4. Assets
 ---------

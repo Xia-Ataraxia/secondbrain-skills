@@ -1,20 +1,17 @@
 # Videos
 
-Identify the original video by its canonical public URL or supplied stable identity.
-Retain speaker, timestamp, transcript language and each obtained segment when those were actually available.
-A metadata lookup or a video link is not a transcript.
-Missing subtitles, inaccessible audio and absent segments remain explicit omissions.
+Put the canonical public video URL or supplied stable identity in `source`; the channel or speaker goes in `author` as `"[[Name]]"` and the upload date in `date_published` only when stated; `date_ingested` is today.
+A metadata lookup, a video link or a generated summary is not a transcript; never reconstruct words from one.
 
-Use an actually obtained transcript/export; do not reconstruct words from a generated summary.
-For YouTube, get the transcript in the spoken language with whichever tool can, choosing its options from its current help; `defuddle` and `yt-dlp` both can.
-Keep no caption file as an attachment.
-Transcribe a local audio or video file; keep no media file in the vault, and record its location, duration and transcription tool in Ingest Notes.
-Record the tool and the caption track (manual or auto-generated) in Ingest Notes.
-Preserve chapter headings and timestamps as obtained.
-Name a highlight reel or another programme's trailer in Ingest Notes; do not treat it as separate evidence.
-A supplied transcript can be ingested directly without capture.
-The vault owner determines whether its actual destination is a video or YouTube leaf.
+For YouTube, get the transcript in the spoken language with `defuddle` or `yt-dlp`, choosing options from the tool's current help. Keep no caption file as an attachment.
+Transcribe a local audio or video file with a transcription tool; leave the media where it is, keep no copy in the vault, and record its location, duration and tool in `## Ingest Notes`.
+A supplied transcript is ingested directly without capture.
+`## Original Content` holds the obtained transcript verbatim with speakers, chapter headings and timestamps as obtained.
+Record in `## Ingest Notes` the tool, the caption track (manual or auto-generated) and its language, and any translation as a separate step.
 
-Keep transcript evidence separate from analysis.
-Cite timestamp spans, preserve conflicting statements and record conversion/translation separately.
-No word count, transcript size or successful network response proves completeness.
+Name the outcome honestly: not found (removed or wrong video), inaccessible (private, region, login, network), partial (missing subtitles, absent segments, truncated or selected range with its timestamps). No transcript means no Raw claiming one.
+Name a highlight reel or another programme's trailer in `## Ingest Notes`; it is not separate evidence.
+No word count, transcript size or successful response proves completeness.
+The vault's live policy decides whether the destination is a video or YouTube leaf.
+
+Analysis cites timestamp spans and keeps conflicting statements visible.

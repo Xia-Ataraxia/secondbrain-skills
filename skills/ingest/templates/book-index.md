@@ -1,36 +1,43 @@
 ---
-type: book
-tags: [reference/book]
-date_created: {{date}}
-date_modified: {{date}}
-created_by: agent
-authorship: agent
+type: raw-source
+aliases:
+  - "{{book_title_short}}"
+description: "{{english_one_or_two_sentences_about_the_book}}"
+author:
+  - "[[{{book_author}}]]"
 model: {{runtime_model}}
-effort: default
-aliases: []
-description: {{description}}
-author: []
-source_url: {{book_url}}
-source_identity: {{edition_identity}}
-source_locator: {{preface_locator}}
-source_input: url
-source_kind: book
-source_extraction: reader
-source_obtained_at: {{obtained_at}}
-date_published: {{publication_date}}
-isbn: {{isbn}}
-collectionPurpose: {{book_purpose}}
-purpose_origin: stated
+effort: {{runtime_effort_or_default}}
+date_created: {{today}}
+date_modified: {{today}}
+date_ingested: {{scaffold_date}}
+date_published: {{publication_date_when_known}}
+tags:
+  - raw-source
+  - {{book_slug}}
+source: "{{preface_or_index_url}}"
+category: {{category_per_live_policy_or_owner_task}}
+collectionPurpose: "{{owner_answer_verbatim_or_stated_inference_with_reason}}"
+source-vault: "{{mothership_vault_name}}"
 mainVaultRelated: []
-mainVaultCmds: []
-reusableFor: []
+mainVaultCmds: {{registered_mothership_category_or_command_reference_in_live_policy_form_or_empty}}
+referenced: []
+status: ingested
+# No chapter keys on the Index. Omit date_published and source-vault when inapplicable.
+# category and folder: Books vs upstream Articles is decided by live policy or the owner's task (references/books.md).
 ---
 
 # {{book_title}}
 
+> [!info] Source
+> 원본 출처: {{preface_or_index_url}}
+
+---
+
 ## Original Content
 
 {{verbatim_preface}}
+
+---
 
 ## TOC
 
@@ -38,16 +45,23 @@ reusableFor: []
 
 - [ ] [[{{chapter_stub}}]] — {{verbatim_toc_one_liner}}
 
+---
+
 ## Reading Paths
 
-{{author_provided_reading_paths_verbatim_if_present}}
+<!-- Only when the author provides reading paths; verbatim. Omit the section otherwise. -->
+{{author_reading_paths_verbatim}}
+
+---
 
 ## Progress Tracking
 
 | Ch | Title | Status | Read on |
 | --- | --- | --- | --- |
-| {{number}} | [[{{chapter_stub}}]] | stub | — |
+| {{chapter_number}} | [[{{chapter_stub}}]] | stub | — |
+
+---
 
 ## Ingest Notes
 
-{{verified_url_pattern_and_coverage_limits}}
+{{verified_chapter_url_pattern_and_coverage_limits}}

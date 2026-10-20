@@ -1,15 +1,12 @@
 # Git provenance
 
-One ingest, including every Raw, Wiki, Map and atom it touched and the removed Inbox original, is exactly one local commit. No `index.md` or `log.md`: sync carries content, git carries history. Track attachments without LFS; ignore only workspace, cache, trash and sync-lock artifacts according to live policy.
+Ingest never commits or pushes. `index.md` and the append-only `log.md` record every ingest; Git history does not replace them.
 
-The commit is done when:
+When the owner separately asks for a commit of an ingest:
 
-- it holds exactly the paths this ingest touched, matched as exact filenames, never a glob - nothing extra, nothing missing;
-- its subject is `ingest: {title}` and it carries the trailers `Ingest-Source: <source identity or canonical locator>` and `Ingest-Purpose: <purpose>`;
-- nothing that was staged or dirty before the ingest is in it. Check the index before writing; entries already staged belong to someone else, so stop.
+- stage exactly the paths that ingest touched (Raw, Wiki pages, Maps, hub and atoms, `index.md`, `log.md`, any retained attachment), by exact filename, never a glob;
+- use the subject `ingest: {source title}`;
+- check the Git index first: entries already staged before the ingest belong to someone else, so stop and report;
+- leave unrelated dirty files unstaged and byte-unchanged.
 
-Unrelated dirty files stay unstaged and byte-unchanged. A page a human changed during the run is re-read and merged, never overwritten. Never hard reset, check out to settle content, amend an earlier ingest, or force push.
-
-Publication is not part of ingest unless live vault policy says ingest pushes. When it does and the remote has moved on, do not rewrite history to land it: stop and report the local SHA and how the remote differs. Never create or delete a remote. A vault that is not a git repository skips this step and says so in the report.
-
-Undoing an ingest is reverting its commit, which also restores the Inbox original.
+Never hard reset, check out to settle content, amend an earlier commit, or force push. Push only on a separate owner request; when the remote has moved on, stop and report instead of rewriting history. A vault that is not a Git repository has nothing to commit; say so.

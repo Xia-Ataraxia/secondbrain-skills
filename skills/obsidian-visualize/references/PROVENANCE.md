@@ -16,7 +16,7 @@ with the collection, while its implementation revision stays 0.2.0.
   files, original SHA-256/byte counts, adopted targets and exclusions. The three
   adopted capabilities belong solely to F05, not a new package or router.
 
-[`scripts/inspect.mjs`](scripts/inspect.mjs) retains upstream inspect/lint
+[`scripts/inspect.mjs`](../scripts/inspect.mjs) retains upstream inspect/lint
 algorithms but removes every write, standalone lifecycle, app/browser launch and
 build dependency. It reads plain plugin Markdown fences, fails closed on
 compressed data/malformed structures and adds finite-geometry/mirrored-reference
@@ -28,16 +28,16 @@ random identity replacement and live whole-scene merge are not adopted.
 
 ## Original adaptations
 
-- [scripts/import_scene.py](scripts/import_scene.py): stdlib-only full-scene
+- [scripts/import_scene.py](../scripts/import_scene.py): stdlib-only full-scene
   adapter, mandatory source SHA-256, exclusive new target, preserved envelope,
   unknown/custom fields, ids and inline image data; native raw/original text
   index and readback. No overwrite or skeleton/codec support.
-- [scripts/plugin-workbench.js](scripts/plugin-workbench.js): original
+- [scripts/plugin-workbench.js](../scripts/plugin-workbench.js): original
   dependency-free native EA operations; exact target, disk/live/asset preimages,
   selected copy/edit/save, additive native Mermaid conversion, independent
   reload and native-template PNG export. Optimistic concurrency, not an editor
   lock. Post-commit drift is a partial effect and never auto-rolled back.
-- [scripts/excalidraw_scene.py](scripts/excalidraw_scene.py): original generator
+- [scripts/excalidraw_scene.py](../scripts/excalidraw_scene.py): original generator
   remains deterministic/stdlib-only. Replacement preimages are rechecked after
   temporary payload flush and before atomic replacement; deleted text tombstones
   no longer require live text-index entries.

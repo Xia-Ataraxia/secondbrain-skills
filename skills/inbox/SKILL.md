@@ -1,6 +1,6 @@
 ---
 name: inbox
-description: Lists, previews, counts and reports recursive Inbox candidates, then hands an explicitly selected scope and one common purpose to ingest. Use for review my Inbox, preview these candidates, process this selection, or inspect duplicate sources. Not for capture, automatic RSS compilation, knowledge synthesis, or candidate deletion.
+description: Scans, previews and counts recursive Inbox candidates, routes an explicitly selected scope and purpose mode through ingest, and deletes processed originals only on an explicit yes after verbatim preservation passed. Use for review my Inbox, preview these candidates, process this selection, or inspect duplicate sources. Not for capture, automatic RSS compilation, knowledge synthesis, or deleting unprocessed files.
 license: MIT
 metadata:
   version: "0.5.6"
@@ -8,9 +8,9 @@ metadata:
 
 # Inbox
 
-Built on 구요한's `/inbox` (LLM Wiki Inbox Scanner). His step skeleton and names are kept; the owner's rules are stacked on top. Every decision against his version is recorded in [comparison](references/comparison.md).
+Built on 구요한's `/inbox` (LLM Wiki Inbox Scanner, commit `54cf2ab`). His step skeleton and names are kept; the owner's rules are stacked on top. Every decision against his version is recorded in [comparison](references/comparison.md).
 
-Scan `00. Inbox/` for unprocessed candidates and offer to ingest them, delegating per-file work to `ingest`. This skill reads and reports only: it never edits, moves or deletes a candidate. Removing an ingested candidate is the second half of `ingest`'s move into Raw.
+Scan `00. Inbox/` for pending candidates, preview them, and route the selected ones through `ingest`. Read Core Context once per session; its §2 reuse axes are the ones offered for purpose. Scanning, previewing and counting write nothing. Ingest owns Raw, Wiki, Maps, `index.md` and `log.md`. The only file action this skill performs itself is the Step 6 cleanup, and only after an explicit yes.
 
 Tools: `obsidian-cli` or plain file reads over the vault; `rg` over frontmatter for counts and locators; `qmd` when a locator is missing and you need a likely existing Raw.
 
@@ -23,9 +23,9 @@ Tools: `obsidian-cli` or plain file reads over the vault; `rg` over frontmatter 
 
 ## Inbox Structure
 
-Read the destination's actual `00. Inbox/` and the lanes it has; never assume a layout. A typical vault has lanes such as Articles, Papers, Transcripts, Clippings, AI Research and `{NN Agent}` session lanes (e.g. `01 Chat`, `04 GJC`), plus the root.
+Read the destination's actual `00. Inbox/` and the lanes it has; never assume a layout. Upstream lanes are Articles, Papers, Transcripts, Clippings and AI Research plus the root; a vault may add `{NN Agent}` session lanes (e.g. `01 Chat`, `04 GJC`) or dated subfolders, which are scanned like any lane.
 
-A note in a lane already has its kind assigned by where it sits. A note at the Inbox root is uncategorized: say so rather than guessing a lane; `ingest` settles its placement. Location is the state: a note in the Inbox is unprocessed, and there is no `status` field to read or set.
+A note in a lane has its kind assigned by where it sits. A note at the Inbox root is uncategorized: say so rather than guessing a lane; `ingest` settles its placement. A note still in the Inbox is pending. A `capture` note (`type: inbox`, `capture_status`, `captureMode`, dated filename) is a normal candidate; read those keys, never rewrite them.
 
 ## Process
 
@@ -37,14 +37,14 @@ Walk the Inbox recursively; skip non-notes such as `.gitkeep`. If empty everywhe
 
 For each candidate, read the frontmatter and the start of the body (about the first 100 lines of a long note) and settle:
 
-- **source** — `source_url` or `source_locator`, platform or runtime, author when stated, date clipped;
-- **kind** — from the lane; for a root note, suggest one and mark it as a suggestion;
-- **fidelity** — `transcript`, `excerpt`, `manifest-only` or `mixed`, plus the omissions the note names. A manifest-only note is a list, not text; never present it as full content;
-- **collectionPurpose** — the recorded `collectionPurpose` and `purpose_origin`, or that none is recorded;
+- **source** — title, `source_url`/`source` or `source_locator`, platform, author when stated, `date_clipped`;
+- **kind** — from the lane or the Web Clipper `category`; for a root note, suggest one and mark it as a suggestion;
+- **fidelity** — `captureMode` and `capture_status` when present (`transcript`, `curated-excerpts`, `manifest-only`, `mixed`; `captured`, `partial`), plus the omissions the note names. A manifest-only note is a list, not text; never present it as full content;
+- **collectionPurpose** — the recorded value, or that none is recorded;
 - **size** — rough length of Original Content, language, and for a bundle the number of members;
 - **topics** — two or three, read from Original Content, not the capture notes alone. A claim found only in Agent Capture Notes is the capturer's reading.
 
-**Duplicates.** Match by stable identity: `source_identity`, then canonical `source_url` or `source_locator`, or a session id; titles and authors never prove sameness. Check within the Inbox (candidates sharing a locator form one group; keep every distinct excerpt, since two clips of one page may hold different passages) and against existing Raw (flag the candidate with the Raw's path so `ingest` reuses or extends it; a fuller extraction becomes a new Raw linking the earlier one, and that call belongs to `ingest`).
+**Duplicates.** Match by source first: canonical `source`/`source_url` or `source_locator`, or a session id; then compare content. Titles and authors never prove sameness. Check within the Inbox (candidates sharing a source form one group; keep every distinct excerpt, since two clips of one page may hold different passages) and against existing Raw (flag the candidate with the Raw's path so `ingest` reuses or extends it). Entries in `referenced` are earlier captures or originals the note cites; they never prove the original was read.
 
 ### Step 3: Present
 
@@ -57,33 +57,32 @@ List problems (unreadable notes, missing locators, root-level notes) below it. F
 
 ### Step 4: Ask
 
-Ask two questions in one turn:
+Ask scope and purpose mode in one turn:
 
-1. **Scope** — 전부 / 카테고리만 / 선택만: all, one lane, or named notes. No answer means nothing is selected; the whole Inbox is never assumed.
-2. **Purpose mode** — 미래의 나에게 보내는 편지: why were these kept, and where will they be used?
-   - **Single-axis bulk** (the default) — one purpose for the whole selection, asked once and applied to every note;
-   - **Reuse** — keep the `collectionPurpose` a candidate already carries, where it does;
-   - **Per-file** — the owner says the reasons differ; `ingest` asks per note;
-   - **Auto-infer** — "알아서 판단": `ingest` infers from the source and the vault, states its reason, and records `purpose_origin: inferred`.
+1. **Scope** — 전부 / 카테고리만 / 선택만: all, one lane, or named notes. No answer selects nothing; the whole Inbox is never assumed.
+2. **Purpose mode** — 미래의 나에게 보내는 편지:
+   - **Shared** — one `collectionPurpose` for the whole selection, applied to every note;
+   - **Per-file** — `ingest` asks its Step 0 question per note;
+   - **Auto-infer** — "알아서/자동으로": `ingest` infers from the source and Core Context §2, recording the inference and its reason in `collectionPurpose`.
 
-Never attach a purpose the owner did not give or approve, and never invent one for RSS or other automatic arrivals.
+A candidate that already carries `collectionPurpose`, or a purpose the task already states, is reused and not asked again; when every selected note has one, ask scope only. Never attach a purpose the owner did not give, approve or delegate.
 
 ### Step 5: Ingest
 
-Compose `ingest` with the selected note paths, the purpose per note, and the duplicate flags from Step 2. `ingest` owns everything after: placement in Raw by kind, preserving the candidate's source metadata, the 10–15 Wiki pages, Maps, the move out of the Inbox, and the commit. For a batch, notes run sequentially with progress per note: `[3/7] Ingesting: {note}`. A prepared selection is not an executed ingest.
+Compose `ingest` once per selected note with its path, its purpose, and the duplicate flags from Step 2. `ingest` owns Raw placement, preserving the candidate's metadata, the 10–15 Wiki pages, Maps, the `index.md` update and the `log.md` entry, and its Step 6 review including qmd reindex status. Run notes sequentially with progress per note: `[3/7] Ingesting: {note}`; never parallelize writes to the same Raw or Map. A prepared selection is not an executed ingest. Nothing is committed or pushed; a commit happens only when the owner separately asks.
 
 ### Step 6: Cleanup
 
-Do not delete anything: `ingest` removes each candidate itself once its Raw passes the preservation check. Here, check what it reported against disk:
+After the batch, check each ingest's report against disk: a Raw exists for each selected candidate, its `## Original Content` passed ingest's verbatim check against the Inbox body, and `index.md` and `log.md` were updated. Then ask "Inbox에서 처리된 파일 삭제할까요?", listing the candidates that passed.
 
-- each selected candidate has a Raw under the candidate's note name;
-- each ingested candidate has left the Inbox; one still present is reported as a failed or partial ingest, not cleaned up here;
-- unselected candidates are untouched.
+- Delete only on an explicit yes, and only candidates whose verbatim check passed; a failed or partial ingest stays in place and is reported.
+- Before deleting a candidate, read it back once more as its before-image and confirm its Raw carries the full body verbatim and every source, history and metadata value the candidate held (`source`/`source_url`, `date_clipped`, `collectionPurpose`, `referenced`, Source Manifest, Agent Capture Notes, unknown keys); anything missing keeps that candidate in place and is reported.
+- No answer, or anything but yes, leaves every original in place, reported as awaiting cleanup. Declining cleanup is not an ingest failure.
+- Never delete unselected candidates, binary originals, or anything outside the listed set.
 
-Report what was ingested, what remains, and anything that failed.
+Report pending counts, the selected scope, completed Raw sources, Wiki pages created or updated, files deleted, and files left in the Inbox.
 
 ## Notes
 
-- Lane and frontmatter are both category signals; when they disagree, report the disagreement and let `ingest` decide placement from the destination's live policy. No `category` field is written.
+- Lane and frontmatter are both category signals; when they disagree, report it and let `ingest` decide placement from the destination's live policy.
 - Web Clipper and RSS arrivals carry source metadata but no owner purpose; Step 4 is where one is given.
-- For batches of five or more, keep the progress lines; never parallelize writes to the same Raw or Map.

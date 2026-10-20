@@ -1,44 +1,169 @@
 # Lint one-liners
 
-Starting points, not a pipeline. Replace `<scope>`, `<vault>` and `<mothership>` with live paths. Prefer `obsidian-cli` for link questions when Obsidian is running; it resolves aliases and headings that `rg` cannot.
+Starting points, not a pipeline. Replace `<scope>`, `<vault>` and `<mothership>` with live paths, always quoted. Prefer `obsidian-cli` for link questions when Obsidian is running; it resolves aliases and headings that `rg` cannot.
+
+Filenames may contain spaces, emoji and newlines: pass paths NUL-separated (`rg --null`/`-0`, `find -print0`, `xargs -0`, `while IFS= read -r -d ''`). In ripgrep `-L` means `--follow`, not "files without match" — use `--files-without-match`.
 
 ```bash
-# Inventory
-rg --files -g '*.md' <scope> | wc -l
+# Inventory (count, NUL-safe)
+rg --files -0 -g '*.md' "<scope>" | tr -cd '\0' | wc -c
 
 # Link targets used in scope (strip alias and heading)
-rg -o --no-filename '\[\[[^]|#]+' <scope> | sort -u
+rg -o --no-filename '\[\[[^]|#]+' "<scope>" | sort -u
 
 # Does a target exist anywhere in the vault
-rg --files -g '<name>.md' <vault>
+rg --files -g '<name>.md' "<vault>"
 
 # Inbound links to one page from the whole vault
-rg -l "\[\[<basename>(\||#|\]\])" <vault>
+rg -l "\[\[<basename>(\||#|\]\])" "<vault>"
+
+# Link targets per frontmatter key and body: use the PyYAML recipe below
+# (author exemption is by key, never by quoting shape)
 
 # Contradiction callouts
-rg -n '> \[!warning\] Contradiction' <scope>
+rg -n '> \[!warning\] Contradiction' "<scope>"
 
-# Field presence: lists notes lacking the field
-rg -L '^collectionPurpose:' <raw-scope>
-rg -l '^purpose_origin: (inferred|unknown)' <raw-scope>
-rg -L '^explored:' <wiki-scope>
-rg -L '^## Sources' <wiki-scope>
-# Raw-only keys on a Wiki page
-rg -l '^(source_identity|source_locator|source_extraction|collectionPurpose|purpose_origin|fidelity\w*|user_intent_interview):' <wiki-scope>
+# Field presence: notes lacking the field
+rg --files-without-match '^collectionPurpose:' "<raw-scope>"
+rg --files-without-match '^mainVaultRelated:' "<raw-scope>"
+rg --files-without-match '^mainVaultCmds:' "<raw-scope>"
+rg --files-without-match '^explored:' "<wiki-scope>"
+rg --files-without-match '^verificationStatus:' "<wiki-scope>"
+rg --files-without-match '^claimType:' "<wiki-scope>"
+rg --files-without-match '^evidenceScope:' "<wiki-scope>"
 
-# High confidence without a Bias Check
-rg -l '^confidence: "?high"?$' <wiki-scope> | xargs rg -L 'Bias Check'
+# Values outside the allowed set
+rg -n '^confidence:' "<wiki-scope>" | rg -v 'confidence: "?(high|medium|low)"?$'
+rg -n '^verificationStatus:' "<wiki-scope>" | rg -v 'verificationStatus: "?(verified|partial|unverified|disputed)"?$'
 
-# Confidence outside high, medium, low
-rg -n '^confidence:' <wiki-scope> | rg -v 'confidence: "?(high|medium|low)"?$'
+# Disputed queue
+rg -l '^(verificationStatus: "?disputed"?|disputed: true)$' "<wiki-scope>"
 
-# Age of a page
-git log -1 --format=%cs -- <page>
+# High confidence without a Bias Check (NUL-safe pipe)
+rg -l0 '^confidence: "?high"?$' "<wiki-scope>" \
+  | xargs -0 -r rg --files-without-match 'Bias Check'
+
+# explored: true missing exploredBy or exploredDate
+rg -l0 '^explored: true$' "<wiki-scope>" \
+  | xargs -0 -r rg --files-without-match '^exploredDate:'
+rg -l0 '^explored: true$' "<wiki-scope>" \
+  | xargs -0 -r rg --files-without-match '^exploredBy:'
+
+# Stale: confidence low with date_modified (compare dates against today - 30)
+rg -l0 '^confidence: "?low"?$' "<wiki-scope>" \
+  | xargs -0 -r rg -H '^date_modified:'
+
+# Fallback age when date_modified is absent
+git log -1 --format=%cs -- "<page>"
+
+# Index catalog vs files: use the index recipe below (all sections, all roles)
+
+# log.md latest entry
+rg -n '^## \[[0-9]{4}-[0-9]{2}-[0-9]{2}\]' "<vault>/log.md" | tail -n 1
 
 # Mothership deeplinks to decode and stat
-rg -o --no-filename 'obsidian://open\?vault=[^&]+&file=[^)"\s]+' <scope>
+rg -o --no-filename 'obsidian://open\?vault=[^&]+&file=[^)"\s]+' "<scope>"
 ```
 
-Decode the `file` component (percent-decoding) before checking it exists under `<mothership>`, with and without `.md`. Drop matches that sit inside code spans or fenced blocks.
+Link targets by key (read-only, needs PyYAML). Feed NUL-delimited paths: `rg --files -0 -g '*.md' "<scope>" | python3 links.py "<vault>"` (run the snippet from stdin or a temp file outside the vault). If `import yaml` fails, do not run the check and do not substitute a regex: report Broken Links as **Not checked — PyYAML unavailable**.
 
-`rg -L` lists files with no match; a field in the body rather than frontmatter will hide a gap, so spot-read a few results.
+```python
+import sys, os, re
+import yaml
+vault = sys.argv[1]
+LINK = re.compile(r'\[\[([^\]|#]+)')
+names, paths = set(), set()
+for d, ds, fs in os.walk(vault):
+    ds[:] = [x for x in ds if not x.startswith('.')]
+    for f in fs:
+        rel = os.path.relpath(os.path.join(d, f), vault)
+        stem = rel[:-3] if rel.endswith('.md') else rel
+        paths.add(stem); paths.add(rel)
+        names.add(os.path.basename(stem)); names.add(f)
+def resolves(t):
+    t = t.strip()
+    return t in names or t.lstrip('/') in paths
+def walk(v):
+    if isinstance(v, str):
+        yield from LINK.findall(v)
+    elif isinstance(v, list):
+        for x in v: yield from walk(x)
+    elif isinstance(v, dict):
+        for x in v.values(): yield from walk(x)
+for p in sys.stdin.buffer.read().split(b'\0'):
+    if not p: continue
+    p = p.decode()
+    text = open(p, encoding='utf-8').read()
+    fm, body = {}, text
+    m = re.match(r'---\n(.*?)\n---\n?', text, re.S)
+    if m:
+        try:
+            fm = yaml.safe_load(m.group(1)) or {}
+        except yaml.YAMLError as e:
+            print(p, 'frontmatter', 'yaml-error', e, sep='\t'); fm = {}
+        body = text[m.end():]
+    body = re.sub(r'```.*?```', '', body, flags=re.S)
+    body = re.sub(r'`[^`\n]*`', '', body)
+    for key, val in (fm.items() if isinstance(fm, dict) else []):
+        if key == 'author':      # only exemption: author scalar or list
+            continue
+        for t in walk(val):
+            if not resolves(t): print(p, key, t, sep='\t')
+    for t in LINK.findall(body):
+        if not resolves(t): print(p, 'body', t, sep='\t')
+```
+
+Every other key is checked — `source`, `related`, `bookIndex`, `chapterPrev`, `chapterNext`, `paperHub`, `personaOf`, and any key the live schema adds — plus every body link. Output is `path<TAB>key<TAB>missing target`.
+
+Index catalog check (read-only): resolves every `[[...]]` in `index.md` against the vault's actual files — Raw, Wiki, Queries, Maps, Personas, Paper hubs and whatever sections the live index has — and recounts files per catalogued section. `python3 index_check.py "<vault>"`:
+
+```python
+import sys, os, re
+vault = sys.argv[1]
+LINK = re.compile(r'\[\[([^\]|#]+)')
+names, paths = {}, set()
+for d, ds, fs in os.walk(vault):
+    ds[:] = [x for x in ds if not x.startswith('.')]
+    for f in fs:
+        rel = os.path.relpath(os.path.join(d, f), vault)
+        stem = rel[:-3] if rel.endswith('.md') else rel
+        paths.update((stem, rel))
+        names.setdefault(os.path.basename(stem), []).append(rel); names.setdefault(f, []).append(rel)
+section, seen = '(top)', {}
+for line in open(os.path.join(vault, 'index.md'), encoding='utf-8'):
+    h = re.match(r'#{1,6}\s+(.*)', line)
+    if h: section = h.group(1).strip(); continue
+    for t in LINK.findall(line):
+        t = t.strip()
+        hit = names.get(t) or ([t] if t.lstrip('/') in paths else [])
+        seen.setdefault(section, set()).update(hit)
+        if not hit: print('missing', section, t, sep='\t')
+        elif len(hit) > 1: print('ambiguous', section, t, *hit, sep='\t')
+for s, hits in seen.items():
+    print('catalogued', s, len(hits), sep='\t')
+```
+
+Then compare each section with its folder on disk (from the live index and vault layout, not assumed names): files present in the folder but in no section are uncatalogued. Recount Stats from these folder counts, never from the old table. A link that resolves to two files with the same basename is ambiguous — report it rather than picking one.
+
+Cross-vault decode and stat (read-only), one URI per line on stdin:
+
+```python
+import sys, os
+from urllib.parse import urlsplit, parse_qs, quote
+root = sys.argv[1]           # mothership root
+vault = sys.argv[2]          # expected mothership vault name
+for line in sys.stdin:
+    uri = line.strip()
+    q = parse_qs(urlsplit(uri).query, keep_blank_values=True)
+    v, f = q.get('vault', [''])[0], q.get('file', [''])[0]
+    raw = uri.split('?', 1)[1]
+    enc_ok = f"vault={quote(v, safe='')}&file={quote(f, safe='')}" == raw
+    exists = any(os.path.isfile(os.path.join(root, f + s)) for s in ('', '.md'))
+    print(uri, 'vault-ok' if v == vault else 'vault-mismatch',
+          'encoding-ok' if enc_ok else 'encoding-bad',
+          'exists' if exists else 'missing', sep='\t')
+```
+
+Drop matches that sit inside code spans or fenced blocks. Compare each `mainVaultCmds` value (pipe alias stripped) exactly against the references the Core Context or mothership registers; never pattern-guess.
+
+`--files-without-match` cannot tell frontmatter from body: a field written in the body hides a gap, so spot-read a few results.

@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # Edit hook: remember the edited note and refresh the qmd index in the
-# background. Bursts of calls collapse into one run. Never blocks or fails the
-# caller. A failed run, or embeddings still pending, leaves the notes in the
-# pending list and a FAILED line in the log, so the next reindex report sees them.
+# background. qmd itself has no file watcher or edit trigger, so this hook only
+# adds what qmd lacks: a debounce (bursts of edits collapse into one
+# `qmd update` + `qmd embed` run) and a list of notes not yet confirmed in the
+# index. Never blocks or fails the caller. A failed run, an unreadable status,
+# or embeddings still pending leave the notes in the list and a FAILED line in
+# the log, so the next reindex report sees them.
 #
 #   qmd-reindex.sh                 print the notes not yet confirmed in the index
 #   qmd-reindex.sh FILE            remember FILE if it is a note in a qmd collection, then refresh
 #   <hook JSON> | qmd-reindex.sh   same, FILE read from tool_input.file_path
 #   qmd-reindex.sh clear           forget them once the index is refreshed
 
-PATH="$PATH:/opt/homebrew/bin:$HOME/.bun/bin"
 CONFIG="${QMD_CONFIG:-$HOME/.config/qmd/index.yml}"
 STATE="${TMPDIR:-/tmp}/secondbrain-qmd-reindex"
 PENDING="$STATE.pending"
@@ -37,7 +39,7 @@ done < <(sed -n 's/^[[:space:]]*path:[[:space:]]*//p' "$CONFIG" | sed 's/^"\(.*\
 printf '%s\n' "$file" >>"$PENDING"
 
 if ! command -v qmd >/dev/null 2>&1; then
-  echo "=== $(date -u +%FT%TZ) FAILED qmd not installed; notes kept in $PENDING ===" >>"$STATE.log"
+  echo "=== $(date -u +%FT%TZ) FAILED qmd not found on PATH; notes kept in $PENDING ===" >>"$STATE.log"
   exit 0
 fi
 
@@ -69,12 +71,20 @@ fi
           touch "$STATE.running"
           qmd embed; rc=$?
           [ "$rc" = 0 ] || break
-          left=$(qmd status | sed -n 's/^ *Pending: *\([0-9]*\) need embedding.*/\1/p')
-          [ -n "$left" ] && [ "$left" != 0 ] && [ "$left" != "$prev" ] || break
+          # qmd prints "Pending: N need embedding" only when N > 0, so an absent line
+          # is 0 only when the status command succeeded and printed its header.
+          out=$(qmd status); rc=$?
+          printf '%s\n' "$out"
+          if [ "$rc" != 0 ] || ! printf '%s\n' "$out" | grep -q 'QMD Status'; then
+            rc=1; left="?"; break
+          fi
+          left=$(printf '%s\n' "$out" | sed -n 's/^[^[:alpha:]]*Pending: *\([0-9][0-9]*\) need embedding.*/\1/p' | sed -n 1p)
+          left=${left:-0}
+          [ "$left" != 0 ] && [ "$left" != "$prev" ] || break
           prev=$left
         done
       fi
-      if [ "$rc" = 0 ] && [ "${left:-0}" = 0 ]; then
+      if [ "$rc" = 0 ] && [ "$left" = 0 ]; then
         rm -f "$PENDING.run"
         echo "=== exit 0 pending 0 ==="
       else

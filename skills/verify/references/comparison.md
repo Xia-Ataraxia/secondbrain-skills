@@ -1,37 +1,28 @@
 # Three-column comparison
 
-Upstream: 구요한 `/verify`, commit `863ca43`. One row per upstream section or step; this is the decision record, not a second runtime procedure.
+Upstream: 구요한 cmds-llm-wiki `/verify` (Codex command, commit `54cf2ab`), with the schema's Verification Properties (v5). One row per upstream item; this is the decision record, not a second runtime procedure.
 
-| 구요한 (863ca43) | secondbrain verify before this revision | Decision + reason |
+| 구요한 (54cf2ab) | secondbrain verify | Decision + reason |
 | --- | --- | --- |
-| Description: verify one page against 3 criteria, write `verificationStatus` back, flag conflicts as disputed | one page, three gates, report then approved write-back | Adopt the single-page scope and the three criteria; adapt write-back to an approved `## Verification` entry instead of status keys. |
-| allowed-tools incl. `mcp__qmd__query` | tools named in one line | Adapt: name `qmd`, `rg`, `obsidian-cli`, `defuddle`, `yt-dlp`, the aside browser, `git`; no scripts. |
-| Prerequisite: read Core Context (7 reuse axes) | absent | Adopt (upstream name used): `collectionPurpose` on Raw and `mainVaultRelated` links; they stand in for the 7 axes (see 2.4) rather than adding a Core Context prerequisite. |
-| Input: page name via Glob, path, `--latest`, `--no-write-back`, `--resolve` | name/path, claims, report only, resolve | Adopt all, plus owner-named claims; `latest` via git or mtime. |
-| Conceptual Framework — 3 Quality Gates: 지식요건해당성 / 정합성 / 확증가능성 | gates renamed in plain English questions | Adopt his Korean and English names verbatim; the earlier paraphrase hid the source. |
-| Gate 1 SPO: Subject · Predicates · Objects · Source · Evidence Scope · Claim Type | subject/structure/frontmatter/claims | Adopt (upstream name used): `mainVaultRelated` links to the owner's mothership notes; keep the SPO vocabulary and Raw as Source. |
-| Gate 2 four frames: vs source, vs other Wiki, vs CLAUDE.md, vs Core Context | source, original, other pages, vault rules | Adopt the four frames; add "the original behind it" via `referenced` (owner, principle-respect-des-fonds); Core Context → purpose alignment. |
-| "Conflicts are flagged `disputed`, not deleted"; deletion last resort | shown not deleted | Adopt; the mark is the `> [!warning] Contradiction` callout shared with `ingest`, not a `disputed` key. |
-| Gate 3: independent confidence, overclaim/underclaim, Bias Check; output steers /query | same, with evidence reach | Adopt verbatim incl. "how strongly /query may speak". |
-| Claim Type Taxonomy (6) + `mixed` | renamed kinds (Definition, Measurement, Event, Model, Advice, Reading) | Adopt his six names (`definition`, `empirical`, `theoretical`, `historical`, `prescriptive`, `interpretive`) and `mixed`; keep the owner's "what settles it" column. |
-| Evidence Scope Levels (5) | renamed reach levels incl. "retellings only" | Adopt his five names; adapt by adding `secondary-only` (owner's retellings-only level, needed by the `referenced` rule). |
-| Phase 1.1 frontmatter: required 7, layer keys, v5 `claimType`/`evidenceScope` | ingest frontmatter fields | Adopt (upstream name used): `mainVaultCmds` is defined by `ingest`, not a verification report label. Adapt to `ingest`'s other names (`source`, `related`, `explored`, `confidence`, `referenced`); reject writing `claimType`/`evidenceScope`/`layer` — they are report labels, recorded in the `## Verification` entry. |
-| Phase 1.2 SPO structure: H1, ≥2 H2, Sources, Related | structure per ingest template | Adopt, against `ingest`'s Concept/Entity/Guide templates; two-subject drift is a split recommendation. |
-| Phase 1.3 per-claim metadata, up to 10 claims | at most ten, priority order | Adopt; keep owner's selection priority and left-out reporting. |
-| Phase 1 verdict eligible / partial / ineligible | pass / partial / fail | Adopt his labels; ineligible pages still continue (owner). |
-| Phase 2.1 source fidelity, top 5, HALLUCINATION SUSPECTED, actions a/b/c | unsupported at source | Adopt his label and actions; search the Raw's `## Original Content`. |
-| (none) | secondary claims checked against `referenced` original | Owner addition (2.1b): primary/secondary via `referenced`; candidate-only original = unconfirmed; none = provenance unknown. |
-| Phase 2.2 cross-page: related, qmd, Grep; four conflict shapes; Disputed Claim callout + `disputed: true` on both | same search and shapes; Contradiction callout | Adopt search order and four shapes; adapt callout name to `Contradiction`; reject `disputed` key; counterpart callout needs approval. |
-| Phase 2.3 policy consistency (CLAUDE.md rules list) | report deviations, lint fixes | Adapt to the destination's live policy; fixing stays with `lint`. |
-| Phase 2.4 Core Context alignment, soft flag "orphaned from user purpose" | absent | Adopt (upstream name used): check against `collectionPurpose` / `mainVaultRelated` links; keep his soft-flag label. |
-| Phase 3.1 source count and type (primary/secondary/user-original) | lines of evidence | Adopt, plus owner's collapse of same-creator and retelling sources. |
-| Phase 3.2 counter-evidence search | same | Adopt. |
-| Phase 3.3 calibration table high/medium/low/disputed; OVERCLAIM/UNDERCLAIM | table without `disputed` value | Adopt table and labels; adapt `disputed` to "low + reported disputed" since `confidence` stays high/medium/low per `ingest`. |
-| Phase 3.4 Bias Check generation | same | Adopt; no generic stubs. |
-| Phase 3.5 `explored` gate, `exploredBy`, `exploredDate` | ask owner | Adopt the never-auto-flip rule; reject `exploredBy`/`exploredDate` — the `## Verification` entry and git record who and when. |
-| Phase 4 write-back of v5 keys (`verificationStatus`, `verifiedAt`, `verifiedBy`, `disputed`) | `## Verification` entry on approval | Reject status keys and schema envelope; adapt to a dated `## Verification` entry, owner approval first, unverified default for unchecked claims. |
-| Phase 4 append `log.md` | git history | Reject; history is git. |
-| Output: Verification Report block | report sections | Adopt his report shape and labels, adding originals, left-out claims and proposed write-back. |
-| Failure Modes 1–6 | same six in prose plus two | Adopt all six under his names; add Secondary as primary and Note text as instruction (owner). |
-| Resolution mode: new evidence; keep both / remove one / downgrade | same, with what counts as new evidence | Adopt; owner rule defines new evidence and excludes preference or prior summaries. |
-| Integration: v5 keys in CLAUDE.md; /audit, /query, /lint consume keys | absent | Adapt: `query` reads the `## Verification` entry and `confidence`; `audit` reuses the gates; `lint` coverage of v5 keys rejected with the keys. |
+| Verify one page against eligibility, consistency, confirmability; write `verificationStatus`; queue disputed claims without deleting evidence | same single-page scope and three criteria | Adopt. |
+| Read AGENTS.md and Core Context once per session | Core Context once per session; reuse axes = those registered in its §2 | Adopt; owner rule: no fixed axis list. |
+| Input: page name, path, `--latest`, `--no-write-back`, `--resolve` | same, plus owner-named claims | Adopt. |
+| Quality gates 지식요건해당성 / 정합성 / 확증가능성 | same names | Adopt. |
+| Gate 2 frames: vs Raw, vs related Wiki, vs policy, vs Core Context | same, plus the original behind it via `referenced` | Adopt; policy = destination's live policy; `referenced` never proves reading or authorizes fetching (owner). |
+| Step 1–2: resolve page; read page, `index.md`, Core Context, cited Raw | same | Adopt. |
+| Step 3: classify `claimType`, `evidenceScope` (Codex: value list; Claude `verify.md`: scope table, `multi-source-mixed` = primary + secondary) | same values as frozen frontmatter | Adopt the six types + `mixed` and the five scopes verbatim; no extra scope value. Secondary-only support is not `multi-source-mixed`; one secondary Raw is `single-source`; several secondary-only Raw fit no upstream value, so `evidenceScope` is left unwritten and the limitation reported. |
+| Eligibility checks (Codex: six elements identifiable; Claude `verify.md` Phase 1: 1.1 frontmatter completeness, 1.2 SPO structure, 1.3 per-claim metadata for up to 10 claims) | Step 4 lists the Claude checks | Adopt the Claude check list and verdict verbatim: `eligible` all pass / `partial` 1-2 gaps / `ineligible` 3+ gaps or missing Subject. Date keys in snake_case (owner); `verificationStatus` and `referenced` added as owner checks. |
+| Step 4: check concrete claims against Raw text with `rg` | against `## Original Content`, located evidence only | Adopt; owner: the Wiki itself is never evidence. |
+| Step 5: search related pages with `rg`, `qmd query`, `qmd vsearch` | same, four conflict shapes, searches reported | Adopt. |
+| Step 6: `disputed: true` + `> [!warning] Disputed Claim`; delete neither side | same; `ingest`'s `Contradiction` callout counted as the same mark | Adopt. Kept visible: upstream verify names `Disputed Claim` while `ingest` (owner rule) writes `Contradiction`; both are accepted, neither renamed. |
+| Step 7: calibrate `confidence` independently (Codex `verify.md` gives no matrix). Claude `verify.md` Phase 3.3 matrix: high = 3+ primary sources, no counter-evidence, age > 30 days, no unresolved Phase 2 conflicts; medium = 1-2 primary sources, no counter-evidence; low = single source OR `synthesis-only` OR created < 7 days ago; counter-evidence unresolved = `disputed`; OVERCLAIM = declared > recommended, UNDERCLAIM = declared < recommended. CLAUDE.md: overclaim (high-conf + single source) / underclaim (low-conf + multi-source); `confidence` high/medium/low | claims.md carries the Claude matrix verbatim; UNDERCLAIM needs multiple primary sources | Adopt the Claude matrix. Shared meaning: all three files calibrate independently from source count, source type and counter-evidence; CLAUDE.md's shorthands are the extreme cases of the Claude matrix, and "multi-source" there reads as multi-primary because only primary sources lift the matrix above `low`. The matrix's `disputed` row is reported as state, since CLAUDE.md limits `confidence` to high/medium/low. Overlaps (1 primary = medium vs single source = low; < 7 days with 1-2 primary) and gaps (3+ primary aged 7–30 days; several secondary-only Raw) are kept and reported to the owner as uncertainty; no resolving threshold is added. |
+| Step 8: Bias Check when needed | same, required for high or synthesis-heavy | Adopt. |
+| Step 9: write `verificationStatus`, `verifiedAt`, `verifiedBy`, `claimType`, `evidenceScope`, `disputed` unless `--no-write-back` | same keys on owner approval | Adopt; approval gate kept. Status meanings beyond "verified after 3 criteria pass" are not defined upstream; `partial`/`unverified` are described by their plain reading. |
+| Step 10: `explored: true` only on explicit user confirmation | same, with `exploredBy`, `exploredDate` | Adopt. |
+| Step 11: append `log.md` | append `## [YYYY-MM-DD] verify \| {Page}` after readback, write-back runs only | Adopt; Git never replaces the log; a report-only run writes nothing, not even a log entry; no automatic commit. |
+| (none) | corrections via clean-context writer + preservation reviewer, minimal patch | Owner addition: no blanket regeneration; attribution and uncertainty kept. |
+| `--resolve`: only route from disputed to verified or confidence downgrade | same, new evidence defined | Adopt; owner rule defines new evidence. |
+| Output: concise report incl. recommended confidence, write-back actions, follow-up `/verify` targets | report block with those sections | Adopt. |
+| Schema: `/query` asserts on verified + high, hedges on partial or medium-or-lower, shows both on disputed | Integration describes the same; verify owns values | Adopt. |
+| Schema: `/audit` builds Top-10 `/verify` queue | named in Integration | Adopt. |
+| (none) | Failure modes incl. secondary-as-primary, note text as instruction | Owner addition. |
