@@ -9,12 +9,12 @@ This repository owns twenty-six independent Agent Skills, the `secondbrain-skill
 
 There is no callable root skill, mandatory shared runtime, compatibility alias, or hidden dispatcher. `docs/naming.md` fixes package and file names. Each capability has exactly one owning package; checks stay at package format (`claude plugin validate . --strict`), plus behavior tests in `evals/` where the owner approved verification of our own skill's composition, output or permission contract, or of a script that owns a domain responsibility no packaged tool provides (for example `evals/test_paper_verifier.py`). Never assert prose wording, and never test a packaged CLI's own behavior.
 
-Use packaged CLIs (`qmd`, `obsidian-cli`, `defuddle`, `yt-dlp`, `git`) directly. Write a wrapper only for an identified responsibility the CLI lacks, state that reason in the owning package, and keep it to that responsibility; never reimplement a CLI or its regression suite.
+Use packaged CLIs (`qmd`, `obsidian-cli`, `defuddle`, `yt-dlp`, `git`) directly; the skill names the commands and the agent runs them. Attaching a wrapper script to a packaged CLI — a hook, launcher, queue, debounce or alias around its commands — is an anti-pattern: do not write one, and never reimplement a CLI or its regression suite. A script that checks this repository's own artifacts without calling a packaged CLI (for example `skills/ingest/scripts/verify_paper.py`) is not a wrapper.
 
 ## Authoring
 
 - Keep required references, assets, and scripts inside the owning package. Compose neighboring packages by explicit identity only when the task needs them.
-- Prefer naming an existing tool (`defuddle`, `yt-dlp`, the aside browser, `qmd`, `obsidian-cli`, `git`) over shipping a script that wraps or polices it. A script stays only for exact bookkeeping a model cannot hold.
+- Prefer naming an existing tool (`defuddle`, `yt-dlp`, the aside browser, `qmd`, `obsidian-cli`, `git`) over shipping a script that wraps or polices it. A script stays only for exact bookkeeping of our own artifacts that a model cannot hold, never around a CLI.
 - Preserve MIT notices for upstream-derived files. Record exact source revision, modifications, and asset rights in `PROVENANCE.md`.
 - Credit every person or project a package draws on, copied or only consulted, in the README Acknowledgements section (both languages) in the same change. Do not add a per-package `LICENSE`.
 - Use only synthetic public examples. Never include credentials, private account identifiers, workstation paths, personal notes, internal plans, or raw private logs.
