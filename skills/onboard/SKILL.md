@@ -2,7 +2,7 @@
 name: onboard
 description: Initializes a fresh personal or knowledge vault through a short owner interview that fills template placeholders and writes Core Context, index.md and log.md, gives an existing vault a read-only diagnosis and proposal, and resumes an interrupted setup by detecting what is already done. Use for fresh vault setup, existing-vault onboarding diagnosis, or a zero-diff rerun. Not for moving existing notes, installing skills, Sync pairing, source ingestion, or editing vault policy.
 metadata:
-  version: "0.6.0"
+  version: "0.6.1"
 ---
 
 # Onboard
