@@ -166,4 +166,41 @@ for line in sys.stdin:
 
 Drop matches that sit inside code spans or fenced blocks. Compare each `mainVaultCmds` value (pipe alias stripped) exactly against the references the Core Context or mothership registers; never pattern-guess.
 
+Policy conformance (read-only). Build `policy.json` from the live policy by hand — never guess values: `{"lanes": {"<raw folder>": {"type": "raw-source", "category": "<value>"}}, "retired": ["<key>"], "pairs": [["date modified", "date_modified"]]}`. Then `python3 conform.py "<vault>/10. Raw Sources" policy.json`:
+
+```python
+import sys, os, re, json, collections
+root, pol = sys.argv[1], json.load(open(sys.argv[2]))
+KEY = re.compile(r'^([^\s:#-][^:\n]*):[ \t]*(.*)$', re.M)
+groups = collections.defaultdict(list)
+for lane in sorted(os.listdir(root)):
+    p = os.path.join(root, lane)
+    if not os.path.isdir(p) or lane.startswith(('.', '_')): continue
+    want = pol['lanes'].get(lane)
+    for d, ds, fs in os.walk(p):
+        for f in fs:
+            if not f.endswith('.md'): continue
+            path = os.path.join(d, f)
+            m = re.match(r'---\n(.*?)\n---', open(path, encoding='utf-8', errors='replace').read(), re.S)
+            fm = {}
+            for k, v in KEY.findall(m.group(1) if m else ''):
+                fm.setdefault(k.strip().strip('"\''), []).append(v.strip().strip('"\''))
+            out = []
+            if want is None: out.append('unregistered-folder')
+            else:
+                for k, v in want.items():
+                    if fm.get(k, [None])[0] != v: out.append(f'{k}={fm.get(k, [None])[0]} want {v}')
+            out += [f'retired:{k}' for k in pol.get('retired', []) if k in fm]
+            out += [f'duplicate:{a}|{b}' for a, b in pol.get('pairs', []) if a in fm and b in fm]
+            out += [f'repeated:{k}' for k, v in fm.items() if len(v) > 1]
+            if out:
+                print(os.path.relpath(path, root), *out, sep='\t')
+                prov = tuple(fm.get(k, [''])[0] for k in ('source_extraction', 'ingest_kind', 'store', 'source_kind'))
+                groups[prov].append(fm.get('date_created', [''])[0])
+for prov, dates in sorted(groups.items(), key=lambda x: -len(x[1])):
+    print('group', *prov, len(dates), 'newest', max(dates), sep='\t')
+```
+
+The line parser reads only top-level keys; use the PyYAML recipe above when nested values matter.
+
 `--files-without-match` cannot tell frontmatter from body: a field written in the body hides a gap, so spot-read a few results.
