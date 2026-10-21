@@ -435,28 +435,5 @@ section), `90. Settings/Templates/Template_Raw Source.md`,
 
 ## Raw note shape — 0.6.4
 
-An owner exception to 구요한's `90. Settings/Templates/Template_Raw Source.md`
-and the `ingest.md` Step 2 blocks at `54cf2ab`. The upstream Raw carries a
-`> [!info] Source` callout, a `## Metadata` section and a date-prefixed filename;
-this repository no longer does.
-
-- Body: `# {Title}`, `## Original Content` (verbatim), and `## Ingest Notes` only
-  when a reference, a capture or a cleanup requires a record. The source callout
-  repeated frontmatter `source`, and `## Metadata` (ingest time, original form,
-  language, length) had no consumer that frontmatter and Ingest Notes do not cover.
-- Filename: `{Title}.md` for every Raw made from `templates/raw.md`;
-  `{Title} (YYYY-MM-DD).md` when the name belongs to a different source;
-  `{Title}-v2.md` for a major source update. Book Index, Book chapter and Query
-  filenames keep their dated upstream patterns.
-- `date_clipped` is no longer a Raw key and is not carried from a Web Clipper or
-  capture candidate; `date_ingested` records acquisition. `date_created` stays.
-  The capture candidate itself keeps `date_clipped`.
-- A capture's Source Manifest and Agent Capture Notes move from after
-  `## Metadata` to `### Source Manifest` / `### Agent Capture Notes` under the
-  Raw's `## Ingest Notes`.
-- URL-source images stay as their original `![alt](url)` addresses; nothing is
-  downloaded unless the owner asks. Step 0.5 attachments cover binary inputs only.
-- `verify_paper.py` is unchanged: Original Content still ends at `## Ingest Notes`
-  or, for Raws written before this change, `## Metadata`. Existing Raws are not
-  migrated. `evals/test_paper_verifier.py` now uses a Raw without `## Metadata`
-  and checks that neither trailing section counts as evidence.
+- Owner exception to 구요한's `Template_Raw Source.md` at `54cf2ab`: no `[!info] Source` callout, no `## Metadata` (language and length move to frontmatter), filename `{Title}.md` without a date prefix, no `date_clipped` in the Raw; URL images stay as links and text-bearing images get an OCR blockquote.
+- `evals/` was removed at the owner's direction; the repository keeps no tests and `verify_paper.py` stays as ingest's runtime check.

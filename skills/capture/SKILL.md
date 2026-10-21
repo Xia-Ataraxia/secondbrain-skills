@@ -128,7 +128,7 @@ Under `## Agent Capture Notes`, add:
 - missing evidence or follow-up questions;
 - suggested Wiki pages to create/update during `ingest`.
 
-`ingest` carries `source_url` → `source`, `collectionPurpose` and `referenced` into the Raw and places the Source Manifest and Agent Capture Notes under its `## Ingest Notes`, unchanged; `date_clipped` stays on this candidate.
+`ingest` carries `source_url` → `source`, `collectionPurpose` and `referenced` into the Raw and places the Source Manifest and Agent Capture Notes under `## Ingest Notes`, unchanged.
 
 ### Step 5: Route
 

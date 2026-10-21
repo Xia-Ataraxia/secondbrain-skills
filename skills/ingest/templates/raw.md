@@ -11,6 +11,8 @@ date_created: {{today}}
 date_modified: {{today}}
 date_ingested: {{acquisition_date}}
 date_published: {{publication_date_when_known}}
+language: {{source_language}}
+length: "{{source_length}}"
 tags:
   - raw-source
   - {{topic_tag}}
@@ -36,4 +38,4 @@ status: ingested
 
 ## Ingest Notes
 
-{{only_a_record_a_reference_or_image_ocr_requires_or_capture_notes_otherwise_delete_this_section}}
+{{deduplicated_clipper_artifacts_conversion_limits_batched_inbox_files_or_delete_this_section}}

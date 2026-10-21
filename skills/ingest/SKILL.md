@@ -74,24 +74,23 @@ When a claim reports another creator's work, attribute it to this source's autho
 
 ## Step 2 — Save Raw Source
 
-Use [raw](templates/raw.md), filename `{Title}.md` with no date prefix; when that name already belongs to a different source, `{Title} (YYYY-MM-DD).md` with today's date. An Inbox candidate keeps its existing name so links to it resolve. The Raw keeps the source's own order and structure; nothing is reordered, regrouped or normalized.
+Use [raw](templates/raw.md), filename `{Title}.md` (`{Title} (YYYY-MM-DD).md` when that name is taken); an Inbox candidate keeps its existing name so links to it resolve. The Raw keeps the source's own order and structure; nothing is reordered, regrouped or normalized.
 
-The Raw body is `# {Title}`, `## Original Content` and nothing else, except `## Ingest Notes` when a reference, a capture, a cleanup or an image transcription requires a record. No source callout and no metadata section; `source`, `date_ingested` and the other keys live in frontmatter.
+The Raw body is `# {Title}`, `## Original Content`, and `## Ingest Notes` only when there is something to record.
 
 - Preserve the original verbatim under `## Original Content` — no summaries, no "redacted for brevity", however long. Keep image lines `![alt](url)`, video and media URLs, quote blocks, citation lists and code blocks.
-- A URL source keeps each image as its original `![alt](url)` address; nothing is downloaded into the vault unless the owner asks. Step 0.5's attachment rule covers binary inputs only.
-- An image holding meaningful text (a screenshot of a post, mail or slide; not a logo or decorative caption) is OCR'd. Rebuild the result as Markdown: join line breaks caused only by the image width, keep paragraphs, headings, lists and the original spelling, errors included. Put it directly below that image line as a `>` blockquote, one blank `>` line between paragraphs, with no callout header such as `[!note]`. This blockquote is the only addition allowed inside `## Original Content`; the image line itself stays.
-- The transcription is the agent's, not the source's. `## Ingest Notes` says so, names the OCR method (tool or model) and lists each uncertain reading with its image; an unreadable passage is marked there, never guessed.
+- Keep each image as its original `![alt](url)`; do not download it.
+- OCR every image that contains text and put the text, as Markdown with spelling unchanged, in a `>` blockquote directly below the image. Record the OCR method and any uncertain reading in `## Ingest Notes`.
 - A clipper body already wrapped in `## Original Content` is copied verbatim. A fetched URL keeps the fetched content.
 - Remove only obvious clipper artifacts (a block repeated by a clipper bug) and say so in `## Ingest Notes`.
-- From a Web Clipper or capture candidate carry over `source_url` → `source`, `author` → `author` as `"[[Name]]"`, `published` → `date_published`, `collectionPurpose` and `referenced`; `date_clipped` stays on the candidate and `date_ingested` is today. A capture's Source Manifest and Agent Capture Notes go under `## Ingest Notes` as `### Source Manifest` and `### Agent Capture Notes`, unchanged; they guide Step 3 and never enter Original Content.
+- From a Web Clipper or capture candidate carry over `source_url` → `source`, `author` → `author` as `"[[Name]]"`, `published` → `date_published`, `collectionPurpose` and `referenced`. A capture's Source Manifest and Agent Capture Notes go under `## Ingest Notes`, unchanged; they guide Step 3 and never enter Original Content.
 - Never rewrite an existing Raw body. When an already-ingested source changed, ask the owner first: a minor change keeps the Raw; a major change becomes `{Title}-v2.md` with `supersedes`, the earlier Raw gains `superseded-by`, and both stay. See [source update and reprocessing](references/reingest.md).
 
 Pre-flight before moving on:
 
 - `## Original Content` is present;
 - its body matches the obtained source: for an Inbox source at least 80% of the Inbox body's lines, a short clipping in full;
-- images, media URLs, quotes, citations and code blocks survived, and each OCR'd image has its `>` transcription directly below it;
+- images, media URLs, quotes, citations and code blocks survived;
 - the 7 required properties are present.
 
 Inbox cleanup: upstream finishes this step as a move by deleting the Inbox original. Delete it only when the owner's request or the vault's live policy authorizes removing it, and only after the pre-flight passes; when several Inbox files went into one Raw, the same applies to each and `## Ingest Notes` lists them. Without that authorization leave the original in place and report it as awaiting cleanup. A URL, an external file or raw text leaves nothing to delete.

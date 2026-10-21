@@ -76,7 +76,7 @@ Compose `ingest` once per selected note with its path, its purpose, and the dupl
 After the batch, check each ingest's report against disk: a Raw exists for each selected candidate, its `## Original Content` passed ingest's verbatim check against the Inbox body, and `index.md` and `log.md` were updated. Then ask "Inbox에서 처리된 파일 삭제할까요?", listing the candidates that passed.
 
 - Delete only on an explicit yes, and only candidates whose verbatim check passed; a failed or partial ingest stays in place and is reported.
-- Before deleting a candidate, read it back once more as its before-image and confirm its Raw carries the full body verbatim and every source, history and metadata value the candidate held except `date_clipped`, which a Raw does not carry (`source`/`source_url`, `collectionPurpose`, `referenced`, Source Manifest, Agent Capture Notes, unknown keys); anything missing keeps that candidate in place and is reported.
+- Before deleting a candidate, read it back once more as its before-image and confirm its Raw carries the full body verbatim and every source, history and metadata value the candidate held except `date_clipped` (`source`/`source_url`, `collectionPurpose`, `referenced`, Source Manifest, Agent Capture Notes, unknown keys); anything missing keeps that candidate in place and is reported.
 - No answer, or anything but yes, leaves every original in place, reported as awaiting cleanup. Declining cleanup is not an ingest failure.
 - Never delete unselected candidates, binary originals, or anything outside the listed set.
 

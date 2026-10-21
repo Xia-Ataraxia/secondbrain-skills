@@ -54,6 +54,8 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Processing state | `status` | `ingested`; chapter stubs per the Roles table. |
 | Acquisition date | `date_ingested` | When the source was taken into the vault; for a chapter stub, the scaffold date. |
 | Publication date | `date_published` | The original's own date when known (Web Clipper `published`). |
+| Language | `language` | The source's language code, such as `en` or `ko`. |
+| Length | `length` | The source's size as stated or counted, such as `12 pages` or `3,400 words`. |
 | Collection purpose | `collectionPurpose` | The owner's answer verbatim, or the stated inference and its reason when the owner delegated it. |
 | Mothership vault | `source-vault` | Only when a mothership is configured. |
 | Mothership notes | `mainVaultRelated` | Stat-verified `"[label](obsidian://open?vault=<encoded vault>&file=<encoded path>)"` list, both components encoded with `urllib.parse.quote(value, safe='')`; `[]` when none. |
