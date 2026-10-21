@@ -12,8 +12,9 @@ Open with the scope and the link source used (which notes counted as inbound lin
 8. **Frontmatter Coverage** — one row per field or section as n/total with failing paths: v2 fields, Exploration Gate, verification fields and the disputed queue, Bias Check, Persona health.
 9. **Core Context** — `snapshot_date`, age, mothership drift.
 10. **Cross-Vault Integrity** — `mainVaultRelated` vault mismatch, encoding errors and missing targets with up to three candidates each; `mainVaultCmds` values not registered. Omitted when no mothership is configured.
-11. **Not checked** — steps skipped or tools unavailable, with the reason.
-12. **Recommendations** — top ten by impact and effort, each naming the fix or the skill to route to.
+11. **Policy Conformance** — notes in unregistered folders with the registered folder for their kind; `type`/`category`/layer/role values that differ from live policy; retired keys and duplicate property spellings with both values; replaced values not kept where live policy keeps them; drifted notes grouped by recorded provenance with each group's newest `date_created`.
+12. **Not checked** — steps skipped or tools unavailable, with the reason.
+13. **Recommendations** — top ten by impact and effort, each naming the fix or the skill to route to.
 
 Preserve every finding. If a list is shortened for display, write `showing n of N` and say where the full list is (an appendix at the end of the same report, or a file the owner approved); never drop the remainder silently.
 

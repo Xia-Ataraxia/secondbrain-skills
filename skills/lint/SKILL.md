@@ -86,6 +86,17 @@ Skipped when no mothership is configured. Ignore links inside code spans and fen
 
 For each broken one, `qmd query` the mothership read-only for a renamed equivalent and offer one to three candidates. The mothership is never written.
 
+### Step 11: Live Policy Conformance
+
+Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and report every gap with its path:
+
+- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane). Name the registered folder for the same kind.
+- **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
+- **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
+- **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.
+
+Then group the drifted notes by the provenance fields they record (`source_extraction`, `ingest_kind`, `store`, `source_kind`, `source_locator` host or session) and report each group with its newest `date_created`. A group still gaining notes means a writer is still producing the old shape. Name it as the recorded provenance only: never infer a producer from mtime, counts or file names. Report where that writer's instructions live when a recorded field points to them, as a finding for the owner. Lint does not edit another tool's configuration.
+
 ## Output
 
 Report in the conversation using [report](references/report.md):
@@ -100,15 +111,25 @@ Report in the conversation using [report](references/report.md):
 8. **Frontmatter Coverage** — v2 fields, Exploration Gate, verification fields, Bias Check, Persona health
 9. **Core Context**
 10. **Cross-Vault Integrity** (mothership only)
-11. **Not checked**
-12. **Recommendations** — top ten by impact and effort, routed to `audit`, `verify` or `refresh-context` by name where larger
+11. **Policy Conformance** — placement, kind values, retired keys and duplicates, old values kept as tags, and writer groups still producing the old shape
+12. **Not checked**
+13. **Recommendations** — top ten by impact and effort, routed to `audit`, `verify` or `refresh-context` by name where larger
 
 Keep the full finding list. When a section is shortened for display, state the total count, how many are shown, and where the complete list is (later in the report or an owner-approved file); never silently drop the remainder. Counts are observations; do not combine them into a score.
 
 ## Fixes, on request only
 
-Apply only the fixes the owner picks — add a page to a MOC, add an `index.md` catalog entry or recount Stats from folders, add a missing property whose value is known, repair a link to a confirmed renamed target. Show the diff and get OK per batch of at most ten changes; read each changed note back. Existing notes keep all unrelated keys, values and formatting. After applied fixes, append one `log.md` entry (`## [YYYY-MM-DD] lint | <summary>`). Do not commit unless the owner separately asks.
+Apply only the fixes the owner picks — add a page to a MOC, add an `index.md` catalog entry or recount Stats from folders, add a missing property whose value is known, repair a link to a confirmed renamed target, or a policy conformance fix from Step 11. Show the diff and get OK per batch of at most ten changes; read each changed note back. Existing notes keep all unrelated keys, values and formatting. After applied fixes, append one `log.md` entry (`## [YYYY-MM-DD] lint | <summary>`). Do not commit unless the owner separately asks.
+
+**Policy conformance fixes** change only what the live policy states, with the owner's pick per group:
+
+- set `type`, `category`, layer or role to the live-policy value, keeping the replaced value where live policy says it is kept (for example the `reference/<old type>` tag, added only when absent and in the note's existing list style);
+- move a note from an unregistered folder to the registered folder for its kind without overwriting: stop on a name collision or an existing note for the same source, never merge, then update every link to the old path, as in a confirmed rename;
+- drop a duplicate spelling of a property only when both copies are in the note and live policy names the spelling that stays; record the dropped value in the fix report;
+- drop a retired key only when live policy says to remove it from existing notes, not only from new ones.
+
+Before each batch, keep a copy of every note it changes outside the vault and check that the note still matches what the report read; if it changed, re-read it and re-show the diff. Bodies stay byte-for-byte unchanged, including Raw `## Original Content`. A writer still producing the old shape keeps producing it until its owner changes its instructions, so report it again rather than re-running the fix in a loop.
 
 **Cross-vault fix mode** requires explicit opt-in for that run. It patches only `mainVaultRelated` / `mainVaultCmds` in this vault's Raw and Wiki notes, using a stat-verified target or an exactly registered reference; it never writes mothership originals. Show the diff and ask OK per batch of at most ten.
 
-Never as a lint fix: delete or rename a note, remove a Contradiction callout, set `explored: true`, change `confidence` or `verificationStatus` (those belong to `verify`), invent a `collectionPurpose`, `mainVaultCmds` or other unknown value, create an author note, or migrate metadata not explicitly authorized.
+Never as a lint fix: delete a note, rename a note's file name, move a note other than a policy conformance fix, remove a Contradiction callout, set `explored: true`, change `confidence` or `verificationStatus` (those belong to `verify`), invent a `collectionPurpose`, `mainVaultCmds` or other unknown value, create an author note, or migrate metadata not explicitly authorized.
