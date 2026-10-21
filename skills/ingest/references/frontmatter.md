@@ -43,14 +43,14 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Paper hub | `paper-hub` | — | `active` | paper-hub.md |
 | Paper atom | `paper-analysis` | — | `completed` or `stub` | paper-atom.md |
 
-`category` names the Raw kind: `Articles`, `Papers`, `Books`, `Transcripts`, `Clippings` or `AI Research`. It selects the Raw folder of the same kind in the destination.
+`category` names the Raw kind: `Articles`, `Papers`, `Books`, `Transcripts`, `Clippings` or `AI Research`, plus any value the destination's live policy registers for its own Raw lanes (for example a personal `Mail` lane). It selects the Raw folder of the same kind in the destination. Never invent a value the live policy does not list.
 
 ## Raw Source keys
 
 | Meaning | Key | Notes |
 | --- | --- | --- |
 | Original address or reference | `source` | Canonical URL or reference. A capture bundle with several member URLs keeps them as a list. |
-| Kind | `category` | One of the six values above. |
+| Kind | `category` | One of the six values above or a value the live policy registers. |
 | Processing state | `status` | `ingested`; chapter stubs per the Roles table. |
 | Acquisition date | `date_ingested` | When the source was taken into the vault; for a chapter stub, the scaffold date. |
 | Publication date | `date_published` | The original's own date when known (Web Clipper `published`). |

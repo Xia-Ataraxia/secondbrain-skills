@@ -16,7 +16,7 @@ tags:
   - raw-source
   - {{topic_tag}}
 source: "{{canonical_url_or_reference}}"
-category: {{Articles|Papers|Books|Transcripts|Clippings|AI Research}}
+category: {{Articles|Papers|Books|Transcripts|Clippings|AI Research|live_policy_registered_category}}
 collectionPurpose: "{{owner_answer_verbatim_or_stated_inference_with_reason}}"
 source-vault: "{{mothership_vault_name}}"
 mainVaultRelated: []
