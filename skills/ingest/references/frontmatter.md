@@ -8,7 +8,7 @@ Schema of 구요한's cmds-llm-wiki at commit `54cf2ab150f866bbfcf1aa2c7e03514d1
 - Wikilinks inside YAML are double-quoted: `"[[Name]]"`. Body wikilinks are bare.
 - `description` is English, one or two sentences, always double-quoted (`description: ""` when empty).
 - Dates are ISO 8601 (`YYYY-MM-DD`, time optional). An existing value keeps its form.
-- New keys are camelCase, except the snake_case date keys below and the upstream kebab-case keys kept as named (`source-vault`, `source-attachment`, `source-format`, `conversion-tool`, `conversion-fidelity`, `superseded-by`). The owner's snake_case date keys are exactly `date_created`, `date_modified`, `date_ingested`, `date_published`, `date_clipped` and `conversion_date`; upstream's verification-field timestamps `exploredDate` and `verifiedAt` keep their upstream names.
+- New keys are camelCase, except the snake_case date keys below and the upstream kebab-case keys kept as named (`source-vault`, `source-attachment`, `source-format`, `conversion-tool`, `conversion-fidelity`, `superseded-by`). The owner's snake_case date keys are exactly `date_created`, `date_modified`, `date_ingested`, `date_published` and `conversion_date`; upstream's verification-field timestamps `exploredDate` and `verifiedAt` keep their upstream names.
 - Unknown applicable metadata stays unknown, never invented. An inapplicable optional key is omitted.
 - Fill every slot as a value serialized by YAML's own rules, never by pasting raw text. A person name containing `"` or `\` inside a double-quoted `"[[Name]]"` follows YAML double-quoted escaping (`\"`, `\\`). Emit lists as YAML lists, one item per existing value; never collapse several existing items into one string.
 - A Persona's `source` keeps every existing item as a separate list item and appends this Raw.
@@ -54,7 +54,6 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Processing state | `status` | `ingested`; chapter stubs per the Roles table. |
 | Acquisition date | `date_ingested` | When the source was taken into the vault; for a chapter stub, the scaffold date. |
 | Publication date | `date_published` | The original's own date when known (Web Clipper `published`). |
-| Capture date | `date_clipped` | Carried over from the Web Clipper or capture candidate when present. |
 | Collection purpose | `collectionPurpose` | The owner's answer verbatim, or the stated inference and its reason when the owner delegated it. |
 | Mothership vault | `source-vault` | Only when a mothership is configured. |
 | Mothership notes | `mainVaultRelated` | Stat-verified `"[label](obsidian://open?vault=<encoded vault>&file=<encoded path>)"` list, both components encoded with `urllib.parse.quote(value, safe='')`; `[]` when none. |

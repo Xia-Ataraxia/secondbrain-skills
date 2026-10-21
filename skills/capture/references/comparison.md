@@ -12,7 +12,7 @@ Upstream: 구요한 cmds-llm-wiki `/capture-tabs`, commit `54cf2ab150f866bbfcf1a
 | Step 1 Read Tab Metadata | same manifest | Adopt. |
 | Step 2 Extract Conversation Or Page Text | same four sub-steps | Adopt; owner order across members kept. |
 | Step 3 Create Inbox Note: template frontmatter (type inbox, category, clip_type, source_url, platforms, capture_method, capture_status, captureMode, collectionPurpose, author, model, effort, dates, tags) | same fields | Adopt all fields and body sections (Capture Summary, Source Manifest, Original Content, Agent Capture Notes, Ingest Notes). Owner exceptions: snake_case `date_created`/`date_modified`/`date_clipped`; `referenced` added; never overwrite an existing candidate. |
-| Step 4 Add Capture Notes | same list | Adopt; ingest places Source Manifest and Agent Capture Notes after `## Metadata`. |
+| Step 4 Add Capture Notes | same list | Adopt; ingest places Source Manifest and Agent Capture Notes under the Raw's `## Ingest Notes` (the Raw has no `## Metadata`) and does not carry `date_clipped`. |
 | Step 5 Route: inbox-only / run-inbox / ingest-now after purpose gate and mothership search | same | Adopt; inbox-only default; routing only when the owner chose it; no commit. |
 | Verification 1–5, incl. "ingest preserved raw before deleting any Inbox original"; template "Delete Inbox original only after Raw Source preservation passes" | 1–6 | Adopt checks 1–5 plus purpose set. Deletion branch kept but unsettled: the Inbox original stays unless the owner separately authorizes deletion; no automatic cleanup. |
 | — (no agent-session capture) | `sessions.md` | Owner extension: same shape and routes; never claims a session or whole source was read when it was not; partial/unsupported reported. |

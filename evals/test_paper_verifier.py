@@ -88,11 +88,6 @@ status: ingested
 
 # {RAW}
 
-> [!info] Source
-> 원본 출처: https://example.org/synthetic-paper
-
----
-
 ## Original Content
 
 ### Abstract
@@ -124,7 +119,10 @@ Annotated programs may help novices, but replication is needed.
 ### References
 
 Babbage, C. (1864). Passages from the life of a philosopher.
+"""
 
+# Raws written before 0.6.4 still carry a source callout and a ## Metadata section.
+LEGACY_METADATA = f"""
 ---
 
 ## Metadata
@@ -132,6 +130,11 @@ Babbage, C. (1864). Passages from the life of a philosopher.
 - **인제스트 일시**: 2026-01-15
 - **원본 형태**: {META_ONLY}
 - **언어**: en
+"""
+INGEST_NOTES = f"""
+## Ingest Notes
+
+{META_ONLY}
 """
 
 # step, title, status, quote, locator, section, sibling step
@@ -473,6 +476,23 @@ class Hub(VerifierCase):
     def test_wrong_s01_row_fails(self):
         self.fx.edit(self.fx.hub, "| 1 | CITATION | (hub) | compiled |", "| 1 | CITATION | (hub) | planned |")
         self.assert_fails("S01")
+
+    def test_raw_without_metadata_passes(self):
+        self.assertNotIn("## Metadata", self.fx.raw.read_text(encoding="utf-8"))
+        self.assert_pass()
+
+    def test_legacy_raw_with_metadata_passes(self):
+        self.fx.raw.write_text(RAW_TEXT + LEGACY_METADATA, encoding="utf-8")
+        self.assert_pass()
+
+    def test_trailing_sections_are_not_evidence(self):
+        for tail in (INGEST_NOTES, LEGACY_METADATA):
+            with self.subTest(tail=tail.split()[1]):
+                self.fx.raw.write_text(RAW_TEXT + tail, encoding="utf-8")
+                self.assert_pass()
+                self.fx.edit(self.fx.atom(9), f'> "{Q_RESULT}"', f'> "{META_ONLY}"')
+                self.assert_fails(atom_name(9))
+                self.fx.edit(self.fx.atom(9), f'> "{META_ONLY}"', f'> "{Q_RESULT}"')
 
     def test_model_list_is_accepted(self):
         self.fx.edit(self.fx.hub, "model: synthetic-model-1\n",

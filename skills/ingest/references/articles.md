@@ -5,7 +5,7 @@ Read the selected body, not search results, navigation, metadata or a paywall ch
 Keep designation (URL/file/text) distinct from material kind and the actual extraction method.
 
 `## Original Content` holds the obtained body verbatim, including claims, code, quotations and image lines `![alt](url)`; a fetched page keeps only its fetched text, with no HTML or page copy attached.
-From a Web Clipper carry over `source_url` → `source`, `author` → `"[[Name]]"` list, `published` → `date_published`, `date_clipped`; `date_ingested` is today. Leave a date or author out when the clip and page do not state it.
+From a Web Clipper carry over `source_url` → `source`, `author` → `"[[Name]]"` list, `published` → `date_published`; `date_ingested` is today and `date_clipped` stays on the clip. Leave a date or author out when the clip and page do not state it.
 Put cited originals and earlier captures in `referenced` (vault wikilink, else canonical URL); never fetch them for this.
 
 Pages: `defuddle "$URL"`; behind login or JavaScript: an actually available authorized surface such as the aside browser. A missing tool is unavailable, not a success.
