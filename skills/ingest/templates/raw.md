@@ -36,4 +36,4 @@ status: ingested
 
 ## Ingest Notes
 
-{{only_a_record_a_reference_requires_or_capture_notes_otherwise_delete_this_section}}
+{{only_a_record_a_reference_or_image_ocr_requires_or_capture_notes_otherwise_delete_this_section}}

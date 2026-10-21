@@ -4,7 +4,7 @@ Resolve the canonical public URL into `source`; titles are not source identity.
 Read the selected body, not search results, navigation, metadata or a paywall challenge.
 Keep designation (URL/file/text) distinct from material kind and the actual extraction method.
 
-`## Original Content` holds the obtained body verbatim, including claims, code, quotations and image lines `![alt](url)`; a fetched page keeps only its fetched text, with no HTML or page copy attached.
+`## Original Content` holds the obtained body verbatim, including claims, code, quotations and image lines `![alt](url)`, each text-bearing image followed by its `>` OCR transcription (SKILL.md Step 2); a fetched page keeps only its fetched text, with no HTML or page copy attached.
 From a Web Clipper carry over `source_url` → `source`, `author` → `"[[Name]]"` list, `published` → `date_published`; `date_ingested` is today and `date_clipped` stays on the clip. Leave a date or author out when the clip and page do not state it.
 Put cited originals and earlier captures in `referenced` (vault wikilink, else canonical URL); never fetch them for this.
 
