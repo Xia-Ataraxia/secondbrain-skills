@@ -38,4 +38,4 @@ status: ingested
 
 ## Ingest Notes
 
-{{deduplicated_clipper_artifacts_conversion_limits_batched_inbox_files_or_delete_this_section}}
+{{only_when_there_is_something_to_record_otherwise_delete_this_section}}
