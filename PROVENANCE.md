@@ -432,3 +432,8 @@ section), `90. Settings/Templates/Template_Raw Source.md`,
 - Evidence for the current state is recorded in `docs/verification-matrix.md`
   (focused verifier eval, `claude plugin validate . --strict`, one native
   fresh-load of `ingest`). The earlier failing rounds above stay historical.
+
+## Raw note shape — 0.6.4
+
+- Owner exception to 구요한's `Template_Raw Source.md` at `54cf2ab`: no `[!info] Source` callout, no `## Metadata` (language and length move to frontmatter), filename `{Title}.md` without a date prefix, no `date_clipped` in the Raw; URL images stay as links and text-bearing images get an OCR blockquote.
+- `evals/` was removed at the owner's direction; the repository keeps no tests and `verify_paper.py` stays as ingest's runtime check.

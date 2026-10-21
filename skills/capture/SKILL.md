@@ -3,7 +3,7 @@ name: capture
 description: Captures explicitly selected tabs, URLs, files, conversations or agent sessions as Inbox candidates, bundling several sessions that worked on one topic into a single note. Use for save this conversation, capture these tabs, keep this excerpt, harvest these sessions, or bundle today's sessions on a topic. Not for automatic session backup, compiling knowledge, Inbox management, or Web Clipper template authoring.
 license: MIT
 metadata:
-  version: "0.6.3"
+  version: "0.6.4"
 ---
 
 # Capture
@@ -128,7 +128,7 @@ Under `## Agent Capture Notes`, add:
 - missing evidence or follow-up questions;
 - suggested Wiki pages to create/update during `ingest`.
 
-`ingest` carries `source_url` → `source`, `date_clipped`, `collectionPurpose` and `referenced` into the Raw and places the Source Manifest and Agent Capture Notes after `## Metadata`, unchanged.
+`ingest` carries `source_url` → `source`, `collectionPurpose` and `referenced` into the Raw and places the Source Manifest and Agent Capture Notes under `## Ingest Notes`, unchanged.
 
 ### Step 5: Route
 

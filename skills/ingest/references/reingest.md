@@ -16,7 +16,7 @@ Two different cases. Decide which one applies before writing anything, and say w
 1. Obtain the new version through the per-material reference and compare it with the existing Raw's `## Original Content`.
 2. Ask the owner before writing: minor or major change. Without an answer, write nothing for this item.
 3. Minor: keep the existing Raw byte-for-byte. Record the difference in the report; update Wiki pages only through Step 3.
-4. Major: save a new Raw `YYYY-MM-DD-{title}-v2.md` (next free suffix) through Step 2 with the new verbatim content and `supersedes: "[[earlier raw]]"`. In the earlier Raw change only `superseded-by: "[[new raw]]"` and `date_modified`; its body, human notes and every other key stay. Both Raws stay.
+4. Major: save a new Raw `{Title}-v2.md` (next free suffix) through Step 2 with the new verbatim content and `supersedes: "[[earlier raw]]"`. In the earlier Raw change only `superseded-by: "[[new raw]]"` and `date_modified`; its body, human notes and every other key stay. Both Raws stay.
 5. Compile through Steps 3–4. Pages keep the earlier Raw in `source` and add the new one. A claim the new version changes follows Step 3: keep both, attributed, with `> [!warning] Contradiction` unless the correction is verified; a claim the new version drops is not thereby disproved.
 
 ## Reprocessing
