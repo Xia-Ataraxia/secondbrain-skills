@@ -89,7 +89,7 @@ Install through each runtime's own plugin or skill registry, and update the same
 
 Runtimes without a plugin registry (Cursor, generic Agent Skills) read `skills/<name>/` folders from their skill directory; use their own documented import.
 
-Release: `scripts/release.sh <version>` on `main` sets that version everywhere, tags, pushes and publishes the prerelease.
+Release: `scripts/release.sh <version>` on `main` sets that version in the four plugin manifests (skills carry none), tags, pushes and publishes the prerelease.
 
 ## What is verified
 

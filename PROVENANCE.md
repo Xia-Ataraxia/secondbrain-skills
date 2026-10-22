@@ -87,7 +87,7 @@ addition is an additive owner-local source map in
 `skills/obsidian-visualize/references/source-map.json`, with exact revision, complete package
 tree/digests, retained MIT notice, exclusions and verification paths. It is not
 represented as newly authenticated native rows or as part of an earlier release
-seal. Package `PROVENANCE.md` and Git history record the source-only
+seal. Git history records the source-only
 implementation revision 0.2.0; collection metadata became 0.2.0 on 2026-10-07.
 
 Complete, digest-pinned, and audited:
