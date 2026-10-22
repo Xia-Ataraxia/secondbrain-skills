@@ -2,8 +2,6 @@
 name: principle-collective-description
 description: Apply when describing a collection, creating a Book Index or Paper hub, or explaining the coverage of multiple Raw captures. Describe aggregate context and gaps without implying complete evidence or duplicating original text.
 license: MIT
-metadata:
-  version: "0.6.5"
 ---
 
 # Collective description

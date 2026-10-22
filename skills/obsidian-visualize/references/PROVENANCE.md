@@ -1,8 +1,8 @@
 # Plugin-first source integration
 
 Implementation revision: **0.2.0**. The collection's release identity became
-0.2.0 on 2026-10-07; `scripts/release.sh` sets this package's metadata.version
-with the collection, while its implementation revision stays 0.2.0.
+0.2.0 on 2026-10-07; `scripts/release.sh` versions only the plugin manifests,
+while this package's implementation revision stays 0.2.0.
 
 ## Imported source and rights
 

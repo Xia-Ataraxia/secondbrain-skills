@@ -2,8 +2,6 @@
 name: principle-skill-creating
 description: Apply when creating, editing, reviewing or trimming an Agent Skill package - deciding what belongs in SKILL.md versus templates, scripts, agents or references, whether a helper script or test should exist, and what to delete. Use for 스킬 만들기, 스킬 고쳐줘, 스크립트로 강제하지 마, 템플릿으로 빼자, skill authoring and skill review.
 license: MIT
-metadata:
-  version: "0.6.5"
 ---
 
 # Skill creating
@@ -44,7 +42,7 @@ Before writing, search the sibling packages for the same trigger, step or rule.
 
 ## Keep it light
 
-- History is the Git log. A package carries no `CHANGELOG.md`. Do not edit `metadata.version` per change; the release sets it.
+- History is the Git log. A package carries no `CHANGELOG.md` and no version; the release bumps only the plugin manifest version.
 - Checks enforce package format: valid frontmatter, a name that matches the directory, links that resolve; routing evals for a description are format checks and stay. Do not write tests for a package's wording. Test our skill's composition, output or permission contract, or a script's own domain responsibility, only when the owner approved that verification; never test a packaged CLI's behavior or a template as if it were a program.
 - Call a packaged CLI directly: the package names the commands and the agent runs them. Attaching a wrapper script to a CLI (hook, launcher, queue, debounce, alias) is an anti-pattern; do not write one, and never reimplement the CLI or its regression suite. A script that checks the package's own artifacts without calling a CLI is not a wrapper.
 - Delete before adding. No speculative helper, compatibility alias, fallback path or retired stub; a retired thing is removed and stays in history. Build the missing piece when it is actually needed.
