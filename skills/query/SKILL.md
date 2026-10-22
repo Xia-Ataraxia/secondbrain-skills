@@ -3,7 +3,7 @@ name: query
 description: Search Wiki pages, synthesize a cited answer, optionally save to 30. Queries/, and feed gaps/contradictions back into the Wiki.
 license: MIT
 metadata:
-  version: "0.6.4"
+  version: "0.6.5"
 ---
 
 # /query — LLM Wiki Query

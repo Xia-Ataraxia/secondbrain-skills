@@ -3,7 +3,7 @@ name: principle-hierarchical-management
 description: Apply when placing ingest outputs, arranging collections and parts, or explaining a record’s broader context in a knowledge vault. Use explicit hierarchy without inventing historical order or overriding destination policy.
 license: MIT
 metadata:
-  version: "0.6.4"
+  version: "0.6.5"
 ---
 
 # Hierarchical management
