@@ -1,7 +1,7 @@
 ---
 type: wiki-page
 aliases:
-  - "{{alternative_name_or_romanization}}"
+  - "{{localized_or_alternative_name}}"
 description: "{{english_one_or_two_sentences}}"
 author:
   - "{{live_policy_author_or_agent_role}}"
