@@ -351,6 +351,7 @@ section), `90. Settings/Templates/Template_Raw Source.md`,
   separate preservation reviewer for existing Wiki pages; no incidental metadata
   migration; no automatic commit, push or deletion; principles and
   `secondbrain-mode` stay optional, never a runtime gate.
+- Owner naming clarification: person Entities use source-confirmed real names; handles and channel names belong in aliases. No external code or assets added.
 - Genuine upstream contradictions kept visible and scoped: Book Mode's Articles
   placement versus the schema's Books folder; Paper Mode's P-4 lower bound;
   verify's `Disputed Claim` versus ingest's `Contradiction` callout name; audit
