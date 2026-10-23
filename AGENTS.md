@@ -13,13 +13,14 @@ Use packaged CLIs (`qmd`, `obsidian-cli`, `defuddle`, `yt-dlp`, `git`) directly;
 
 ## Authoring
 
-- Keep required references, assets, and scripts inside the owning package. Compose neighboring packages by explicit identity only when the task needs them.
+- Keep required references, assets, and scripts inside the owning package. Compose neighboring packages by explicit identity only when the task needs them. Define each rule once at its owner and name or invoke that skill instead of copying its procedure.
 - Prefer naming an existing tool (`defuddle`, `yt-dlp`, the aside browser, `qmd`, `obsidian-cli`, `git`) over shipping a script that wraps or polices it. A script stays only for exact bookkeeping of our own artifacts that a model cannot hold, never around a CLI.
 - Never write comments.
-- Preserve MIT notices for upstream-derived files. Record exact source revision, modifications, and asset rights in `PROVENANCE.md`.
+- Make the smallest behavioral diff the task needs. Add no speculative abstraction, unused eval or scaffolding, or example, commentary or report decoration that only repeats a rule.
+- Preserve MIT notices for upstream-derived files. Record exact source revision, modifications, and asset rights in `PROVENANCE.md`. An upstream comparison states only the actual deviation, briefly.
 - Credit every person or project a package draws on, copied or only consulted, in the README Acknowledgements section (both languages) in the same change. Do not add a per-package `LICENSE`.
 - Use only synthetic public examples. Never include credentials, private account identifiers, workstation paths, personal notes, internal plans, or raw private logs.
-- Respect the destination vault's live policy and exact task authorization. A format skill never grants write permission. Optional policy tools are unused unless explicitly selected; their absence is normal.
+- Respect the destination vault's live policy and exact task authorization. A format skill never grants write permission. Optional policy tools are unused unless explicitly selected; their absence is normal. Vault-specific placement stays in that vault's policy, never in a package.
 - Never turn missing app/plugin/network evidence into success. Separate static validation, runtime discovery, materialized readback, and rendered verification.
 - For native packages, ground mutable app, CLI, plugin API, and sync facts in official documentation first, then check them against evidence from the installed version. Disclose any conflict and what it affects. A fact that neither settles stays unknown; don't infer compatibility.
 - For native package changes, record the official sources and safely observed versions a change relied on, with that change, in `PROVENANCE.md`. When a source or version moves, re-check the affected claims and run them again before a package repeats them.
