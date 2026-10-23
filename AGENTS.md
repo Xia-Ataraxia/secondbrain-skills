@@ -16,7 +16,7 @@ Use packaged CLIs (`qmd`, `obsidian-cli`, `defuddle`, `yt-dlp`, `git`) directly;
 - Keep required references, assets, and scripts inside the owning package. Compose neighboring packages by explicit identity only when the task needs them. Define each rule once at its owner and name or invoke that skill instead of copying its procedure.
 - Prefer naming an existing tool (`defuddle`, `yt-dlp`, the aside browser, `qmd`, `obsidian-cli`, `git`) over shipping a script that wraps or polices it. A script stays only for exact bookkeeping of our own artifacts that a model cannot hold, never around a CLI.
 - Never write comments.
-- Make the smallest behavioral diff the task needs. Add no speculative abstraction, unused eval or scaffolding, or example, commentary or report decoration that only repeats a rule.
+- Make the smallest behavioral diff the task needs. Before editing and before submitting, keep a file change only if leaving it unchanged would break the requested behavior; never change a file just for wording consistency. Add no speculative abstraction, unused eval or scaffolding, or example, commentary or report decoration that only repeats a rule.
 - Preserve MIT notices for upstream-derived files. Record exact source revision, modifications, and asset rights in `PROVENANCE.md`. An upstream comparison states only the actual deviation, briefly.
 - Credit every person or project a package draws on, copied or only consulted, in the README Acknowledgements section (both languages) in the same change. Do not add a per-package `LICENSE`.
 - Use only synthetic public examples. Never include credentials, private account identifiers, workstation paths, personal notes, internal plans, or raw private logs.

@@ -88,7 +88,7 @@ For each broken one, `qmd query` the mothership read-only for a renamed equivale
 
 ### Step 11: Live Policy Conformance
 
-Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and report every gap with its path:
+Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and with the saved-note format and structure `ingest` requires for its kind, live policy winning where they differ; whether its content is true belongs to `verify`. Report every gap with its path:
 
 - **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or an Entity outside the folder the live policy registers for its recorded subtype, never inferred from the name alone. Name the registered folder for the same kind.
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
