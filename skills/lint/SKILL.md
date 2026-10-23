@@ -32,7 +32,7 @@ Read `index.md` for the current catalog, then count actual files: Raw notes, Wik
 
 A Wiki page with no inbound wikilink from any other note. Suggest the MOC or related page that should hold it. A Raw note linked only from its own Wiki pages is fine; a Raw no Wiki page cites is reported separately as uncompiled evidence.
 
-For each person Entity in scope, report plain-text occurrences of its title or aliases in Wiki pages in scope as unlinked mention candidates, with page, line and text. Skip Raw notes, quotes and quote callouts, code, URLs, frontmatter, existing links, the Entity's own page, and any page that already holds a resolving link to that Entity: one link per page is the policy, so repeated mentions there are not candidates. Mark a candidate ambiguous when the name is shared by another Entity or alias, partial, or not settled by context. A text match is a candidate, never proof of the same person or a missing-link error.
+Report plain-text mentions of a person Entity's title or aliases in Wiki pages in scope as unlinked mention candidates (page, line, text). Skip Raw, quotes, code, URLs, frontmatter, existing links, the Entity's own page, and any page already linking that Entity. Mark shared or partial names ambiguous; a match is a candidate, never proof of the same person.
 
 ### Step 3: Broken Link Check
 
@@ -92,7 +92,7 @@ For each broken one, `qmd query` the mothership read-only for a renamed equivale
 
 Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and report every gap with its path:
 
-- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or an Entity outside the subtype folder the policy registers for its recorded kind (a person Entity outside the People folder under Entities, or in a personal or mothership People folder). Name the registered folder for the same kind. Decide the kind from what the note records — a `person` tag, an explicit recorded description, or an identity statement in its body ("X is a researcher") — without requiring a new person field. Never infer it from the name alone; when the record does not settle the kind, report the note as a placement candidate only, never a finding or a move. With no registered subtype folder there is no subtype finding.
+- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or a person Entity outside the People folder the policy registers under Entities. Name the registered folder for the same kind. Take the kind from what the note records (a `person` tag, description or identity statement), never from the name alone; an unsettled kind is a candidate only.
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
 - **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
 - **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.
@@ -104,7 +104,7 @@ Then group the drifted notes by the provenance fields they record (`source_extra
 Report in the conversation using [report](references/report.md):
 
 1. **Stats**
-2. **Orphans** — and unlinked person-mention candidates
+2. **Orphans**
 3. **Broken Links**
 4. **Contradictions**
 5. **Stale Pages**
@@ -121,7 +121,7 @@ Keep the full finding list. When a section is shortened for display, state the t
 
 ## Fixes, on request only
 
-Apply only the fixes the owner picks — add a page to a MOC, add an `index.md` catalog entry or recount Stats from folders, add a missing property whose value is known, repair a link to a confirmed renamed target, link a person mention the owner confirmed as the same person keeping its text, or a policy conformance fix from Step 11. Show the diff and get OK per batch of at most ten changes; read each changed note back. Existing notes keep all unrelated keys, values and formatting. After applied fixes, append one `log.md` entry (`## [YYYY-MM-DD] lint | <summary>`). Do not commit unless the owner separately asks.
+Apply only the fixes the owner picks — add a page to a MOC, add an `index.md` catalog entry or recount Stats from folders, add a missing property whose value is known, repair a link to a confirmed renamed target, or a policy conformance fix from Step 11. Show the diff and get OK per batch of at most ten changes; read each changed note back. Existing notes keep all unrelated keys, values and formatting. After applied fixes, append one `log.md` entry (`## [YYYY-MM-DD] lint | <summary>`). Do not commit unless the owner separately asks.
 
 **Policy conformance fixes** change only what the live policy states, with the owner's pick per group:
 

@@ -103,7 +103,7 @@ For each extracted concept, entity and guide, update the existing page or create
 - When the runtime cannot provide separate contexts, stop the update of that existing page and report it; new pages and the rest of the run continue.
 - The existing Wiki is not ground truth, and neither is one source. An existing statement changes only when the correction rests on verified evidence (a `verify` result or the owner's confirmation) and the reviewer accepted it. When this source explicitly conflicts with an existing claim, keep both, attributed, with `> [!warning] Contradiction` and the uncertainty stated. A source that is silent on a claim does not contradict it.
 - An Entity exists because the analysis found it significant, never only to resolve an author link.
-- A new Entity goes into the Entity folder the live policy registers for its subtype — a person into the People folder the policy registers under Entities, when it registers one; otherwise its Entity folder. Never invent a subtype folder, use a path copied from another vault, or write into a personal or mothership People folder. An existing Entity is updated where it is; a misplaced one is a `lint` Step 11 finding, not a move.
+- A new Entity goes into the folder the live policy registers for its subtype (a person into the People folder under Entities, when registered), otherwise the Entity folder. Never invent a folder, copy a path from another vault, or write into a personal or mothership People folder. An existing Entity is updated where it is, never moved.
 - New pages start `explored: false` and `verificationStatus: unverified`; `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body. `confidence: high` or synthesis-heavy pages carry the Bias Check callout.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
 
@@ -119,7 +119,7 @@ For a GitHub file, `## Original Content` comes from the raw file at a pinned com
 
 After Step 3's readback, add `[[wikilinks]]` between all related pages, create or update the relevant Map (MOC), and leave no orphan: every new page is linked from at least one other page.
 
-For each new person Entity, search this vault's existing Wiki pages for its title and each alias (`qmd`, then a fixed-string `rg -F` match read hit by hit). Link a mention only when the page's context shows it is the same person and no other Entity or alias shares the name: wrap the first such mention on each page as `[[Entity|original text]]` (or `[[Entity]]` when the text is the title), changing nothing but the brackets, then read the page back against its before-image. A page that already holds a resolving link to that Entity gets no further link, and its repeated mentions are not candidates. Never link inside a Raw, a quote or quote callout, a code span or block, a URL or Markdown link, frontmatter, an existing link, or the Entity's own page. A shared, partial or context-free name stays unlinked and is reported as a candidate. A mention in another vault is reported, never edited, unless the owner approved that exact edit.
+For each new person Entity, link its title or alias where an existing Wiki page in this vault mentions it, only when context shows the same person and no other Entity or alias shares the name: the first mention per page, none on a page already linking it, brackets only (`[[Entity|original text]]`), then read the page back. Never edit Raw or other immutable source text, quotes, code, URLs, frontmatter or existing links, or another vault. An ambiguous mention stays unlinked and is reported.
 
 ## Step 5 — Update index and log
 
@@ -160,11 +160,11 @@ Check every item and fix failures:
 - the `log.md` entry is appended;
 - the qmd index status is known: when `reindex` reports pending or failed work, run it and report the result.
 
-Then run `lint` once in report mode with its scope set to exactly the files this ingest created or changed. The rest of the vault is only a read-only source for inbound-link lookup; pages that link in are never added to the lint scope. The run applies no fix and does not call ingest back. Its findings go into the report; it does not replace the Raw fidelity checks above or `verify`.
+Then invoke `secondbrain-skills:lint` and `secondbrain-skills:verify` on the Wiki pages this ingest created or changed; lint may also take the Raw written here, for structure. Neither widens to the rest of the vault or adds write permission; each keeps its own approvals.
 
 ## Output
 
-Report: the source (title, URL); where the Raw was saved; pages created, each with one line; pages updated and what changed; key connections added, including person mentions linked and unlinked person-mention candidates; the bounded `lint` findings; the touched count against 10–15; originals in `referenced` or provenance unknown; Inbox and binary originals left in place; any branch stopped by an upstream conflict, with the exact conflict; open questions, gaps and contradictions.
+Report: the source (title, URL); where the Raw was saved; pages created, each with one line; pages updated and what changed; key connections added; the touched count against 10–15; originals in `referenced` or provenance unknown; Inbox and binary originals left in place; any branch stopped by an upstream conflict, with the exact conflict; open questions, gaps and contradictions.
 
 ## Paper Mode
 
