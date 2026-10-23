@@ -91,7 +91,7 @@ For each broken one, `qmd query` the mothership read-only for a renamed equivale
 Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and report every gap with its path:
 
 - **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or an Entity outside the folder the live policy registers for its recorded subtype, never inferred from the name alone. Name the registered folder for the same kind.
-- **Entity identity:** an Entity that breaks `ingest`'s person and channel Entity rules, judged only from its own `aliases` and cited Raw; a case that evidence does not settle is ambiguous. A note following an explicit live-policy exception is not a finding; report that exception's conflict with `ingest` instead.
+- **Person naming:** a person Entity that breaks `ingest`'s person naming rule, judged only from its own `aliases` and cited Raw; a case that evidence does not settle is ambiguous. A note following an explicit live-policy exception is not a finding; report that exception's conflict with `ingest` instead.
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
 - **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
 - **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.
@@ -112,7 +112,7 @@ Report in the conversation using [report](references/report.md):
 8. **Frontmatter Coverage** — v2 fields, Exploration Gate, verification fields, Bias Check, Persona health
 9. **Core Context**
 10. **Cross-Vault Integrity** (mothership only)
-11. **Policy Conformance** — placement, Entity identity, kind values, retired keys and duplicates, old values kept as tags, and writer groups still producing the old shape
+11. **Policy Conformance** — placement, person naming, kind values, retired keys and duplicates, old values kept as tags, and writer groups still producing the old shape
 12. **Not checked**
 13. **Recommendations** — top ten by impact and effort, routed to `audit`, `verify` or `refresh-context` by name where larger
 

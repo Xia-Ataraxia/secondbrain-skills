@@ -61,7 +61,7 @@ Skip for `.md`, `.markdown`, `.txt`. Transcribe audio (`.mp3`, `.wav`, `.m4a`) w
 Read the whole source. Extract:
 
 - key concepts (3–8) worth a Concept page — candidates that may land on existing pages; an abstract or sentence-style title is a legitimate Concept;
-- entities (1–5): people, organizations, channels, products, models;
+- entities (1–5): people, organizations, products, models;
 - practical guidance (0–3) worth a Guide;
 - key claims to track;
 - connections to existing Wiki pages.
@@ -106,7 +106,6 @@ For each extracted concept, entity and guide, update the existing page or create
 - The existing Wiki is not ground truth, and neither is one source. An existing statement changes only when the correction rests on verified evidence (a `verify` result or the owner's confirmation) and the reviewer accepted it. When this source explicitly conflicts with an existing claim, keep both, attributed, with `> [!warning] Contradiction` and the uncertainty stated. A source that is silent on a claim does not contradict it.
 - An Entity exists because the analysis found it significant, never only to resolve an author link.
 - A person Entity is titled with the person's source-confirmed name in its original language and script; localized and romanized forms go in `aliases`. Never infer it from nationality or how a name looks; when sources do not settle it, keep the source's form and report it. An explicit live-policy naming exception wins and is reported.
-- A person and a channel are separate Entities, neither created only to pair with the other. A channel's operator is named only when a source identifies that person; otherwise it stays unknown.
 - A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
 - New pages start `explored: false` and `verificationStatus: unverified`; `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body. `confidence: high` or synthesis-heavy pages carry the Bias Check callout.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
