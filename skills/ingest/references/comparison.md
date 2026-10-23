@@ -16,7 +16,7 @@ Upstream: 구요한's cmds-llm-wiki, commit `54cf2ab150f866bbfcf1aa2c7e03514d14f
 | Step 3 author / Entity | `author` as `"[[Name]]"`, allowed without a target note | Adapt (owner exception): never create an Entity to resolve an author link; link checks exempt intentional author links only. |
 | Step 3.5 Persona: quote / Timeline / Log, maturity unchanged | existing Persona append only | Adopt. |
 | Step 3 Entity folder | live policy's subtype folder (People), else Entity folder | Owner addition. |
-| Step 4: wikilinks, MOC, no orphans | same, after Step 3 readback; unambiguous person mentions linked once per page | Adopt; owner addition for person mentions. |
+| Step 4: wikilinks, MOC, no orphans | same, after Step 3 readback; unambiguous Entity mentions linked once per page | Adopt; owner addition for Entity mentions. |
 | Step 5: `index.md` sections, Stats, Recent Ingests; append `log.md` | restored: catalog sections, Stats recounted from folders, Recent Ingests row, append-only `log.md` | Adopt. Git history does not replace either file. |
 | Commit | none during ingest | Adapt (owner exception): no automatic commit or push; a commit only on a separate owner request, subject `ingest: {source title}` ([git provenance](git-provenance.md)). |
 | Step 6: Review incl. verbatim, links, qmd reindex status | same, then `lint` and `verify` on created/changed pages | Adopt; owner addition for lint and verify. |

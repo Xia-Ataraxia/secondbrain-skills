@@ -30,7 +30,7 @@ Read `index.md` for the current catalog, then count actual files: Raw notes, Wik
 
 A Wiki page with no inbound wikilink from any other note. Suggest the MOC or related page that should hold it. A Raw note linked only from its own Wiki pages is fine; a Raw no Wiki page cites is reported separately as uncompiled evidence.
 
-Report plain-text mentions of a person Entity's title or aliases in Wiki pages in scope as unlinked mention candidates (page, line, text). Skip Raw, quotes, code, URLs, frontmatter, existing links, the Entity's own page, and any page already linking that Entity. Mark shared or partial names ambiguous; a match is a candidate, never proof of the same person.
+Report plain-text mentions of an Entity's title or aliases in Wiki pages in scope as unlinked mention candidates (page, line, text). Skip Raw, quotes, code, URLs, frontmatter, existing links, the Entity's own page, and any page already linking that Entity. Mark shared or partial names ambiguous; a match is a candidate, never proof of the same referent.
 
 ### Step 3: Broken Link Check
 
@@ -90,7 +90,7 @@ For each broken one, `qmd query` the mothership read-only for a renamed equivale
 
 Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and report every gap with its path:
 
-- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or a person Entity outside the People folder the policy registers under Entities. Name the registered folder for the same kind. Take the kind from what the note records (a `person` tag, description or identity statement), never from the name alone; an unsettled kind is a candidate only.
+- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or an Entity outside the subtype folder the policy registers under Entities (for example People). Name the registered folder for the same kind. Take the subtype from what the note records (a tag, description or identity statement), never from the name alone; an unsettled subtype is a candidate only.
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
 - **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
 - **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.

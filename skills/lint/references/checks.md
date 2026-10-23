@@ -20,9 +20,6 @@ rg -l "\[\[<basename>(\||#|\]\])" "<vault>"
 # Link targets per frontmatter key and body: use the PyYAML recipe below
 # (author exemption is by key, never by quoting shape)
 
-# Person mentions (no -w: Korean particles attach to names; read each hit)
-rg -n -F "<name>" "<wiki-scope>"
-
 # Contradiction callouts
 rg -n '> \[!warning\] Contradiction' "<scope>"
 
