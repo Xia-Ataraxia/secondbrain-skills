@@ -30,6 +30,8 @@ Read `index.md` for the current catalog, then count actual files: Raw notes, Wik
 
 A Wiki page with no inbound wikilink from any other note. Suggest the MOC or related page that should hold it. A Raw note linked only from its own Wiki pages is fine; a Raw no Wiki page cites is reported separately as uncompiled evidence.
 
+Report plain-text mentions of an Entity's title or alias in Wiki pages in scope as unlinked mention candidates (page, line, text), skipping quotes, code, URLs, frontmatter, existing links, the Entity's own page and pages already linking it; mark shared or partial names ambiguous.
+
 ### Step 3: Broken Link Check
 
 Wikilinks in body, `source`, `related` and other link fields whose target does not exist. For each, name the likely fix: a renamed target (search for it), a page that should be created, or a link to remove. A link to an Inbox candidate is not broken while the candidate exists.
@@ -88,7 +90,7 @@ For each broken one, `qmd query` the mothership read-only for a renamed equivale
 
 Notes written before the current policy, or by a writer still following an older one, drift from it. Compare each note in scope with what the destination's live policy registers today, and report every gap with its path:
 
-- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane). Name the registered folder for the same kind.
+- **Placement:** a Raw or Wiki note in a folder the live policy's tree does not register (a retired, renumbered or recreated lane), or an Entity outside the folder the live policy registers for its recorded subtype, never inferred from the name alone. Name the registered folder for the same kind.
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
 - **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
 - **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.

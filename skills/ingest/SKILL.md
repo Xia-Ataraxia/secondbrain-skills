@@ -105,6 +105,7 @@ For each extracted concept, entity and guide, update the existing page or create
 - When the runtime cannot provide separate contexts, stop the update of that existing page and report it; new pages and the rest of the run continue.
 - The existing Wiki is not ground truth, and neither is one source. An existing statement changes only when the correction rests on verified evidence (a `verify` result or the owner's confirmation) and the reviewer accepted it. When this source explicitly conflicts with an existing claim, keep both, attributed, with `> [!warning] Contradiction` and the uncertainty stated. A source that is silent on a claim does not contradict it.
 - An Entity exists because the analysis found it significant, never only to resolve an author link.
+- A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
 - New pages start `explored: false` and `verificationStatus: unverified`; `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body. `confidence: high` or synthesis-heavy pages carry the Bias Check callout.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
 
@@ -119,6 +120,8 @@ For a GitHub file, `## Original Content` comes from the raw file at a pinned com
 ## Step 4 — Connect
 
 After Step 3's readback, add `[[wikilinks]]` between all related pages, create or update the relevant Map (MOC), and leave no orphan: every new page is linked from at least one other page.
+
+Where a Wiki page this ingest created or changed, or one mentioning an Entity it created, names an existing Entity's title or alias in plain text and context confirms the same referent, link the first mention (`[[Entity|original text]]`) unless the page already links that Entity, then read the page back. Raw, quotes, code, URLs, frontmatter and existing links stay unchanged; an ambiguous mention is reported as a candidate, not linked.
 
 ## Step 5 — Update index and log
 
@@ -158,6 +161,8 @@ Check every item and fix failures:
 - every new page appears in `index.md` and the Stats counts match the folders;
 - the `log.md` entry is appended;
 - the qmd index status is known: when `reindex` reports pending or failed work, run it and report the result.
+
+Then invoke `secondbrain-skills:lint` and `secondbrain-skills:verify` on the Wiki pages this ingest created or changed, plus the new Raw for lint; each keeps its own contract.
 
 ## Output
 
