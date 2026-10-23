@@ -7,7 +7,7 @@ Upstream: 구요한 (Yohan Koo) `cmds-llm-wiki` `/lint`, commit `54cf2ab` (Codex
 | Prerequisite: read Core Context once per session | read once, plus live policy | Adopt; live policy wins where it defines a field, value or placement. |
 | 1: Inventory Raw, Wiki, Queries, index.md, log.md | Step 1 | Adopt. |
 | 2: Compare actual counts with index.md | Step 1 + Step 6 | Adopt; Stats recounted from folders. |
-| 3: Orphan Wiki pages | Step 2 | Adopt; owner additions: whole vault as link source, uncompiled Raw reported apart, unlinked Entity-mention candidates. |
+| 3: Orphan Wiki pages | Step 2 | Adopt; owner additions: whole vault as link source, uncompiled Raw reported apart, unlinked Entity-mention and Entity reference metadata candidates. |
 | 4: Broken wikilinks — create or remove | Step 3 | Adopt; add rename option and Inbox-candidate exception. Owner exception: quoted `author` wikilinks may stay unresolved and are not reported; no author note is created. |
 | 5: Contradiction callouts, resolved by newer sources | Step 4 | Adopt; lint never removes a callout, possible resolution routed to `verify`. |
 | 6: Low-confidence pages not updated 30+ days (date modified) | Step 5 | Adopt on `date_modified` (owner snake_case key); git age only as a marked fallback; `explored: false` shown as backlog. |

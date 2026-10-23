@@ -17,7 +17,7 @@ Upstream: 구요한's cmds-llm-wiki, commit `54cf2ab150f866bbfcf1aa2c7e03514d14f
 | Step 3.5 Persona: quote / Timeline / Log, maturity unchanged | existing Persona append only | Adopt. |
 | Step 3 Entity folder | live policy's subtype folder | Owner addition. |
 | CJK Person Naming Rule: CJK-named people titled in native script, romanization in `aliases` | every person titled by their source-confirmed original-language real name; handles, channel names and other name forms in `aliases` | Adapt (owner exception): not limited to CJK and never decided by nationality. |
-| Step 4: wikilinks, MOC, no orphans | same, after Step 3 readback, plus Entity mention links | Adopt; owner addition. |
+| Step 4: wikilinks, MOC, no orphans | same, after Step 3 readback, plus Entity mention and Entity reference metadata links | Adopt; owner addition. |
 | Step 5: `index.md` sections, Stats, Recent Ingests; append `log.md` | restored: catalog sections, Stats recounted from folders, Recent Ingests row, append-only `log.md` | Adopt. Git history does not replace either file. |
 | Commit | none during ingest | Adapt (owner exception): no automatic commit or push; a commit only on a separate owner request, subject `ingest: {source title}` ([git provenance](git-provenance.md)). |
 | Step 6: Review incl. verbatim, links, qmd reindex status | same, then `lint` and `verify` | Adopt; owner addition. |
