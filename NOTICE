@@ -67,7 +67,7 @@ and in the README attribution, not inside each package.
 
 One further upstream section is owned elsewhere in this repository: the Mermaid
 diagram-block section of the upstream Markdown skill is answered by
-`skills/obsidian-mermaid/`. That package's own rules were re-derived from public
+the Pele branch of `skills/obsidian-visualize/` (`references/pele*.md`). Its rules were re-derived from public
 Mermaid and Obsidian documentation rather than copied, so it is not listed above;
 the imported section itself survives inside `skills/obsidian-markdown/SKILL.md`
 and is covered by the notice in section 1.
@@ -83,7 +83,6 @@ The following packages contain no upstream-derived file. They are original work
 covered by this repository's `LICENSE`, and no part of section 1's notice applies
 to them:
 
-    skills/obsidian-mermaid/
     skills/obsidian-clipper/
     skills/obsidian-doctor/
     skills/obsidian-sync/
@@ -92,7 +91,8 @@ These are covered by this repository's root `LICENSE`; a package root holds
 only `SKILL.md`.
 
 The original parts of `skills/obsidian-visualize/` are covered the same way;
-its adapted parts additionally carry the notice in section 6 below.
+its Pele references (formerly `skills/obsidian-mermaid/`) are
+original; its adapted parts additionally carry the notice in section 6 below.
 
 The repository-level files (`docs/`,
 `AGENTS.md`, `README.md`, `README.ko.md`, the plugin and marketplace manifests,
@@ -111,9 +111,10 @@ this repository and none of them endorses it. Exact URLs, and where applicable
 exact revisions, are recorded in each package's Git history and attribution
 section.
 
-    Obsidian Help and Obsidian developer documentation   all nine packages
+    Obsidian Help and Obsidian developer documentation   all eight packages
     Mermaid documentation, and the mermaid-js/mermaid
-      diagram detectors on its development branch        skills/obsidian-mermaid
+      diagram detectors on its development branch        skills/obsidian-visualize
+    Pele documentation (pele.run) and obsidianmd/pele  skills/obsidian-visualize
     JSON Canvas 1.0 specification                        skills/obsidian-canvas,
                                                          skills/obsidian-visualize
     zsviczian/obsidian-excalidraw-plugin, including its

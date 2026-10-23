@@ -1,8 +1,8 @@
 # Diagram catalog
 
-Copy-ready starting points for the families this package supports. Replace labels and data; leave the grammar alone.
+Copy-ready starting points for the Pele branch. Replace labels and data; leave the grammar alone.
 
-**Status of these entries:** each block is authored against the current upstream Mermaid grammar documentation. None of them is renderer-verified against your target vault — that is level D in the SKILL's evidence ladder and only opening the note in the target Obsidian produces it. Run the compatibility gate in [`compatibility.md`](compatibility.md) before using anything from the version-gated section.
+**Status of these entries:** each block is authored against the Mermaid grammar documentation, and every block in this file parsed and rendered through `pele.render()` in Obsidian 1.15.0 (installer 1.13.4, desktop) — level B in [`pele.md`](pele.md). None of them is renderer-verified in your target note; only opening it in the target Obsidian produces level D. Run the compatibility gate in [`pele-compatibility.md`](pele-compatibility.md) before using a version-gated family on an app older than 1.15.0.
 
 All examples are synthetic and describe a fictional public library branch.
 
@@ -14,7 +14,7 @@ All examples are synthetic and describe a fictional public library branch.
 
 ## Conservative core
 
-These families have been part of Mermaid long enough that any bundle new enough to render diagrams at all is expected to accept them. Prefer them whenever they can carry the meaning.
+These families have been part of Mermaid long enough that Pele and any older bundle new enough to render diagrams at all are expected to accept them. Prefer them whenever they can carry the meaning.
 
 ### Flowchart
 
@@ -186,7 +186,7 @@ timeline
 
 ## Version-gated
 
-Each family below needs the compatibility gate first, and each entry names the fallback to use when the target bundle rejects it.
+Pele (Obsidian 1.15.0+) renders every family below. Each still needs the compatibility gate first, because a vault is also read on devices whose app predates Pele and ships an older Mermaid bundle; each entry names the fallback to use when that bundle rejects it. The `-beta` spellings are kept because Pele accepts them and older bundles need them.
 
 ### Sankey
 

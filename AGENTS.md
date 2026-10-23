@@ -1,8 +1,8 @@
 # Repository contract
 
-This repository owns twenty-six independent Agent Skills, the `secondbrain-skills` collection: nine native Obsidian skills and seventeen knowledge skills, including four independently usable archival principles, `principle-skill-creating`, and the optional `secondbrain-mode` stance.
+This repository owns twenty-five independent Agent Skills, the `secondbrain-skills` collection: eight native Obsidian skills and seventeen knowledge skills, including four independently usable archival principles, `principle-skill-creating`, and the optional `secondbrain-mode` stance.
 
-- Native: Markdown, Bases, Canvas, Mermaid, visualization, official CLI operations, Web Clipper, plugin/Templater diagnosis, and Headless Sync. Each `skills/obsidian-*/SKILL.md` owns exactly its named feature.
+- Native: Markdown, Bases, Canvas, visualization (Canvas, Excalidraw and Pele diagrams), official CLI operations, Web Clipper, plugin/Templater diagnosis, and Headless Sync. Each `skills/obsidian-*/SKILL.md` owns exactly its named feature.
 - Knowledge: `capture`, `inbox`, `ingest`, `query`, `verify`, `audit`, `lint`, `status`, `reindex`, `refresh-context`, and `onboard`. Each `skills/<name>/SKILL.md` owns exactly its named task and carries no `obsidian-` prefix.
 - Principles: `principle-respect-des-fonds`, `principle-original-order`, `principle-hierarchical-management`, and `principle-collective-description` belong to the knowledge group. They provide contextual guidance and grant no write authorization.
 - Authoring: `principle-skill-creating` decides what a package keeps in Markdown and what it hands to templates, thin scripts and agents; read it before changing a package. `secondbrain-mode` is an optional stance for multi-package work; it dispatches nothing and every package still runs directly.

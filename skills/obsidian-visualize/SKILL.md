@@ -1,6 +1,6 @@
 ---
 name: obsidian-visualize
-description: Chooses the visual form for a piece of knowledge and builds the file that carries it — a JSON Canvas graph of existing notes, or a deterministic .excalidraw.md drawing generated with this package's stdlib script. Use when a request asks for an architecture, data-flow, pipeline, sequence, dependency, or status diagram in a vault, when an Excalidraw drawing must be generated, regenerated, or safely replaced, or when it is unclear whether a Canvas, an Excalidraw drawing, a Mermaid block, or a plain table is the right answer. Also for seeing, inspecting, importing, editing or rendering Excalidraw inside Obsidian, including plugin Mermaid import and 플로우차트·아키텍처도·개념도. Not for Mermaid source inside a note, JSON Canvas schema details, note prose and properties, or installing the Excalidraw plugin — use the obsidian-mermaid, obsidian-canvas, obsidian-markdown, or obsidian-cli package.
+description: Chooses the visual form for vault knowledge and builds it — a JSON Canvas of existing notes, a deterministic .excalidraw.md drawing, or a mermaid block rendered by Pele (Obsidian 1.15+ draws Mermaid with Pele). Use for an architecture, data-flow, pipeline, sequence, dependency or status diagram; a flowchart, sequence, class, state, ER, gantt, journey, pie, mindmap, timeline, sankey, kanban, treemap, architecture or xychart block; a mermaid block showing a parse error, raw text or an empty box in Reading view or Live Preview, or working in mermaid.live but not in the vault; a beta prefix needing a version-gated fallback; generating, replacing, inspecting, importing, editing or rendering Excalidraw in Obsidian, including plugin Mermaid import; or deciding between Canvas, Excalidraw, Pele and a plain table. 플로우차트·아키텍처도·개념도·머메이드·펠레. Not for JSON Canvas schema details, note prose and properties, or installing a plugin — use obsidian-canvas, obsidian-markdown or obsidian-cli.
 license: MIT
 ---
 
@@ -16,16 +16,24 @@ Done means: the form fits what is being shown, every claim in the drawing traces
 | --- | --- | --- |
 | Existing vault notes to navigate — a map of content, a reading path, a note dependency map | **JSON Canvas** (`.canvas`) | Nodes are file references; clicking one opens the note |
 | Free shapes with no backing note — architecture, data flow, deployment, status cards, labelled routes | **Excalidraw** (`.excalidraw.md`) | Arbitrary geometry, styling, bound labels, frames |
-| A small structural diagram that belongs *inside* a note's prose | **Mermaid fence** | Travels with the note; no attachment to manage |
+| A small structural diagram that belongs *inside* a note's prose | **Pele diagram** (a `mermaid` fence) | Travels with the note; no attachment to manage; Obsidian 1.15.0+ draws it with Pele in the vault theme |
 | Values, comparisons, ordered attributes | **Markdown table** | A table that answers the question beats a diagram that decorates it |
 
 This is a decision, not a fallback ladder. Do not deliver a Canvas because Excalidraw geometry looked tedious, and do not deliver an Excalidraw drawing of note titles when the user wants to click through to the notes. If the request names a form, that form is the answer unless it cannot carry the content — then say so before switching.
 
-`obsidian-canvas` owns the `.canvas` node/edge schema, colors, and ID rules; `obsidian-mermaid` owns fenced Mermaid source; `obsidian-markdown` owns note prose, links, and properties. This package owns the choice above, Excalidraw file generation, and the vault-specific checks in the workflow below. Compose those packages by name when the task genuinely reaches into them; nothing here dispatches to them automatically.
+This package owns three branches: Canvas, Excalidraw and Pele. `obsidian-canvas` owns the `.canvas` node/edge schema, colors, and ID rules; `obsidian-markdown` owns note prose, links, and properties. This package owns the choice above, Excalidraw file generation, Pele diagram source, and the vault-specific checks in the workflow below. Compose those packages by name when the task genuinely reaches into them; nothing here dispatches to them automatically.
+
+## Pele branch
+
+A diagram inside a note is a ```` ```mermaid ```` fence. Since Obsidian 1.15.0 the app no longer includes Mermaid and draws that fence with Pele, Obsidian's own renderer for Mermaid 12.1.0 syntax. Follow [`references/pele.md`](references/pele.md) for the meaning-first workflow, family choice, syntax rules, fences, safe note edits, fallbacks and its own evidence ladder; [`references/pele-catalog.md`](references/pele-catalog.md) for copy-ready blocks; and [`references/pele-compatibility.md`](references/pele-compatibility.md) for the app-version gate, Pele's differences from Mermaid and the probes. The rest of this file is the Canvas and Excalidraw branches.
+
+## CLI rule
+
+Run packaged CLIs directly: `obsidian` (owned by `obsidian-cli`) for opening, `eval` and readback, `python3` and `node` for this package's own files. Pele has no CLI; its in-app `pele.render()` is reached through `obsidian eval`, written into the command, not into a launcher. A script here only builds or checks this package's own artifacts — the scene generator, the full-scene importer, the read-only inspector, and the in-app workbench payload. None of them shells out to a CLI, and none may: a wrapper, hook, launcher, queue, debounce or alias around a packaged CLI is the anti-pattern this collection forbids.
 
 ## Evidence ladder
 
-Four separate claims. Never report a higher one on the strength of a lower one.
+The Canvas and Excalidraw branches make four separate claims; the Pele branch's ladder is in its reference. Never report a higher one on the strength of a lower one.
 
 | Level | What it proves | How it is produced |
 | --- | --- | --- |
@@ -186,11 +194,14 @@ Use the plugin's automation API for an authorized selected edit of a plugin-mana
 - Node.js for optional read-only `inspect.mjs` (author checks used 24.21.0). No npm dependency or build is required. `plugin-workbench.js` runs in the admitted Obsidian JavaScript context using its native EA API and Web Crypto; it has no server or browser dependency.
 - Level C needs a target Obsidian installation; `obsidian-cli` owns the command surface for opening a file and reading back what loaded.
 - Level D additionally needs the Excalidraw plugin already installed and enabled in that vault. Its absence is a normal outcome to report, not a failure to work around.
-- Primary sources: the [Excalidraw plugin repository](https://github.com/zsviczian/obsidian-excalidraw-plugin) and its published [ExcalidrawAutomate API surface](https://github.com/zsviczian/obsidian-excalidraw-plugin/blob/master/docs/API/ExcalidrawAutomate.d.ts) for the drawing format and API, and the [JSON Canvas 1.0 spec](https://jsoncanvas.org/spec/1.0/) for the Canvas branch.
+- Primary sources: the [Excalidraw plugin repository](https://github.com/zsviczian/obsidian-excalidraw-plugin) and its published [ExcalidrawAutomate API surface](https://github.com/zsviczian/obsidian-excalidraw-plugin/blob/master/docs/API/ExcalidrawAutomate.d.ts) for the drawing format and API, the [JSON Canvas 1.0 spec](https://jsoncanvas.org/spec/1.0/) for the Canvas branch, and the [Obsidian 1.15.0 changelog](https://obsidian.md/changelog/2026-10-22-desktop-v1.15.0/), the [Pele repository](https://github.com/obsidianmd/pele) and [pele.run/compatibility](https://pele.run/compatibility) for the Pele branch.
+- The Pele branch needs no plugin or script. Level B needs a running Obsidian 1.15.0+ reached through `obsidian eval`; level D needs the target installation.
 
 ## Verification
 
 - [ ] The chosen form matches the selection table, and the reason is stated.
+- [ ] A Pele diagram also passed the verification list in `references/pele.md`.
+- [ ] No script added or run here wraps a packaged CLI.
 - [ ] Every box, label, and arrow traces to inspected evidence; declared configuration is labelled as declared.
 - [ ] Layout came from a deterministic generator, not from hand-placed coordinates.
 - [ ] `Scene.check()` is empty, or every remaining defect is an `overlap:` one that was deliberately allowed and reported.

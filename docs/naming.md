@@ -4,7 +4,7 @@ How packages, their files and the collection are named. The layout is the Agent 
 
 ## The collection
 
-The collection is `secondbrain-skills`: 9 native Obsidian packages and 17 knowledge packages (11 workflow packages, 4 archival principle packages, `principle-skill-creating` and the optional `secondbrain-mode` stance).
+The collection is `secondbrain-skills`: 8 native Obsidian packages and 17 knowledge packages (11 workflow packages, 4 archival principle packages, `principle-skill-creating` and the optional `secondbrain-mode` stance).
 
 Today the manifests name the collection only as descriptive metadata:
 
@@ -22,7 +22,7 @@ A package is one directory, `skills/<name>/`, whose `SKILL.md` declares the same
 
 | Kind | Names | Rule |
 | --- | --- | --- |
-| Native | `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas`, `obsidian-mermaid`, `obsidian-visualize`, `obsidian-cli`, `obsidian-clipper`, `obsidian-doctor`, `obsidian-sync` | Owns one Obsidian format or tool. The names stay exactly as they are. |
+| Native | `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas`, `obsidian-visualize`, `obsidian-cli`, `obsidian-clipper`, `obsidian-doctor`, `obsidian-sync` | Owns one Obsidian format or tool. The names stay exactly as they are. |
 | Knowledge | `capture`, `inbox`, `ingest`, `query`, `verify`, `audit`, `lint`, `status`, `reindex`, `refresh-context`, `onboard` | Owns one knowledge task. No `obsidian-` prefix. |
 
 - A name is one lowercase path segment of letters, digits and single hyphens, at most 64 characters.

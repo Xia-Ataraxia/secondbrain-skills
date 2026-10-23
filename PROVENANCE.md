@@ -22,7 +22,7 @@ no dispatcher, and no shared runtime.
 | F01 | markdown | `skills/obsidian-markdown` | `obsidian-skills` `skills/obsidian-markdown/` (MIT) | imported, then extended |
 | F02 | bases | `skills/obsidian-bases` | `obsidian-skills` `skills/obsidian-bases/` (MIT) | imported, then extended |
 | F03 | canvas | `skills/obsidian-canvas` | `obsidian-skills` `skills/json-canvas/` (MIT) | imported, renamed, then extended |
-| F04 | mermaid | `skills/obsidian-mermaid` | authored here from public Mermaid and Obsidian documentation | original |
+| F04 | mermaid (Pele) | `skills/obsidian-visualize/references/pele*.md` (was `skills/obsidian-mermaid`) | authored here from public Mermaid, Pele and Obsidian documentation; merged into F05 as its Pele branch | original |
 | F05 | visualize | `skills/obsidian-visualize` | original deterministic plugin drawing workflow, extended with MIT pi-extension inspection/layout source | original and adapted |
 | F06 | cli | `skills/obsidian-cli` | `obsidian-skills` `skills/obsidian-cli/` (MIT) | imported, then substantially extended |
 | F07 | clipper | `skills/obsidian-clipper` | authored here from the official Web Clipper documentation, with schema, enumerations, and import-validation facts checked against the MIT-licensed `obsidianmd/obsidian-clipper` source at `6d56d618b00bd970aa738d6a7a61edee27783e81`; nothing vendored | original |
@@ -437,3 +437,10 @@ section), `90. Settings/Templates/Template_Raw Source.md`,
 
 - Owner exception to 구요한's `Template_Raw Source.md` at `54cf2ab`: no `[!info] Source` callout, no `## Metadata` (language and length move to frontmatter), filename `{Title}.md` without a date prefix, no `date_clipped` in the Raw; URL images stay as links and text-bearing images get an OCR blockquote.
 - `evals/` was removed at the owner's direction; the repository keeps no tests and `verify_paper.py` stays as ingest's runtime check.
+
+## Pele branch of obsidian-visualize — 2026-10-23
+
+- Owner direction: `skills/obsidian-mermaid/` merged into `skills/obsidian-visualize/`, which now owns three branches: Canvas, Excalidraw and Pele. Moved with history: `SKILL.md` → `references/pele.md`, `references/diagram-catalog.md` → `references/pele-catalog.md`, `references/compatibility.md` → `references/pele-compatibility.md`. The collection is now 25 packages, 8 native.
+- Sources: Obsidian 1.15.0 desktop changelog (early access, 2026-10-22) <https://obsidian.md/changelog/2026-10-22-desktop-v1.15.0/>; <https://github.com/obsidianmd/pele> (MIT); <https://pele.run/compatibility>; <https://pele.run/security>. Pele targets Mermaid 12.1.0 syntax and has no CLI; the fence stays `mermaid`.
+- Observed: Obsidian 1.15.0, installer 1.13.4, desktop macOS. `window.pele` present after `loadMermaid()`. Every block in `pele-catalog.md` rendered through `pele.render()` called by `obsidian eval` (level B). No note was written; rendered-note QA (level D), `internal-link` navigation and the Excalidraw `addMermaid` path under Pele stay unverified.
+- CLI rule check: no visualize script shells out to a packaged CLI; `plugin-workbench.js` is an in-app payload sent by `obsidian eval`. No wrapper was added.

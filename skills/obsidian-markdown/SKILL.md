@@ -176,14 +176,14 @@ $$
 
 ````markdown
 ```mermaid
-graph TD
+flowchart TD
     A[Start] --> B{Decision}
     B -->|Yes| C[Do this]
     B -->|No| D[Do that]
 ```
 ````
 
-To link Mermaid nodes to Obsidian notes, add `class NodeName internal-link;`.
+To link Mermaid nodes to Obsidian notes, add `class NodeName internal-link;`. Since Obsidian 1.15.0 Pele draws this fence; choosing the diagram family and checking that it renders belong to `obsidian-visualize`.
 
 ## Footnotes
 
