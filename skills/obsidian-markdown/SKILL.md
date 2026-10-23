@@ -2,8 +2,6 @@
 name: obsidian-markdown
 description: Create and edit Obsidian Flavored Markdown (.md) with wikilinks, embeds, callouts, properties, tags, comments, highlights, math, and footnotes, preserving unrelated note content and reading the changed destination back from the source note. Use when working with .md files in an Obsidian vault, or when the user mentions wikilinks, callouts, frontmatter, tags, embeds, block references, or Obsidian notes, or asks in Korean to clean up, organize, or tidy notes such as 노트 정리 or 노트 청소. Not for .canvas graph structure, .base file internals, or vault CLI operations.
 license: MIT
-metadata:
-  version: "0.6.3"
 ---
 
 # Obsidian Flavored Markdown Skill
@@ -178,14 +176,14 @@ $$
 
 ````markdown
 ```mermaid
-graph TD
+flowchart TD
     A[Start] --> B{Decision}
     B -->|Yes| C[Do this]
     B -->|No| D[Do that]
 ```
 ````
 
-To link Mermaid nodes to Obsidian notes, add `class NodeName internal-link;`.
+To link Mermaid nodes to Obsidian notes, add `class NodeName internal-link;`. Since Obsidian 1.15.0 Pele draws this fence; choosing the diagram family and checking that it renders belong to `obsidian-visualize`.
 
 ## Footnotes
 

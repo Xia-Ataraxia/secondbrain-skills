@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/brand/hero.svg" alt="secondbrain-skills: twenty-six independent Agent Skills for Obsidian vaults, nine native and seventeen knowledge packages" width="880">
+  <img src="assets/brand/hero.svg" alt="secondbrain-skills: twenty-five independent Agent Skills for Obsidian vaults, eight native and seventeen knowledge packages" width="880">
 </p>
 
 <p align="center">
@@ -8,7 +8,7 @@
 
 # secondbrain-skills
 
-Twenty-six Agent Skills that let an agent run an Obsidian vault as a second brain: collect a source, keep the original, compile it into a wiki, and answer from it with citations.
+Twenty-five Agent Skills that let an agent run an Obsidian vault as a second brain: collect a source, keep the original, compile it into a wiki, and answer from it with citations.
 
 Each package is one `SKILL.md` that owns one job. There is no root skill, no dispatcher and no shared runtime. Your agent loads the package the task needs and nothing else.
 
@@ -68,8 +68,7 @@ Six more packages hold the stance that the eleven above work from.
 | `obsidian-markdown` | Obsidian Flavored Markdown: wikilinks, embeds, callouts, properties, tags, block references. |
 | `obsidian-bases` | `.base` database views: filters, formulas, summaries, grouping and the function reference. |
 | `obsidian-canvas` | JSON Canvas `.canvas` files: nodes, edges, geometry and stable IDs. |
-| `obsidian-mermaid` | Mermaid blocks that render in the build your app ships. |
-| `obsidian-visualize` | Choosing the visual form for a note and building `.excalidraw.md` scenes. |
+| `obsidian-visualize` | Choosing the visual form for a note: Canvas, `.excalidraw.md` scenes, and Pele diagrams in a `mermaid` fence. |
 | `obsidian-cli` | The official `obsidian` binary: read, create, search, move and audit. |
 | `obsidian-clipper` | Web Clipper templates, selectors and variables. |
 | `obsidian-doctor` | Plugin and Templater failure diagnosis from sanitized evidence. |
@@ -89,11 +88,11 @@ Install through each runtime's own plugin or skill registry, and update the same
 
 Runtimes without a plugin registry (Cursor, generic Agent Skills) read `skills/<name>/` folders from their skill directory; use their own documented import.
 
-Release: `scripts/release.sh <version>` on `main` sets that version everywhere, tags, pushes and publishes the prerelease.
+Release: `scripts/release.sh <version>` on `main` sets that version in the four plugin manifests (skills carry none), tags, pushes and publishes the prerelease.
 
 ## What is verified
 
-The nine Obsidian packages were installed natively on Claude Code and on Hermes, and exercised against an isolated Obsidian 1.12.7 profile. The knowledge packages pass the local format checks only; no runtime load of them is recorded. Do not install the `v0.1.0` tag on Hermes.
+The nine Obsidian packages of that release (`obsidian-mermaid` has since merged into `obsidian-visualize` as its Pele branch) were installed natively on Claude Code and on Hermes, and exercised against an isolated Obsidian 1.12.7 profile. The knowledge packages pass the local format checks only; no runtime load of them is recorded. Do not install the `v0.1.0` tag on Hermes.
 
 Every result, its revision and its limits are in [docs/verification-matrix.md](docs/verification-matrix.md). Safety and data handling are in [docs/security-and-privacy.md](docs/security-and-privacy.md).
 
@@ -111,6 +110,7 @@ AGENTS.md                repository contract for contributors and agents
 - **[Andrej Karpathy](https://github.com/karpathy)**, the LLM Wiki pattern that cmds-llm-wiki builds on.
 - **[Steph Ango (kepano)](https://github.com/kepano/obsidian-skills)**, obsidian-skills (MIT). `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas` and `obsidian-cli` started from it and were modified.
 - **[Jonghak Seo](https://github.com/Jonghakseo/pi-extension)**, pi-extension (MIT). The inspection lint and the skeleton and style references in `obsidian-visualize` are adapted from it.
+- **[Obsidian](https://github.com/obsidianmd/pele)**, Pele (MIT). The Pele branch of `obsidian-visualize` follows its public compatibility and security documentation; no Pele file is shipped.
 
 No endorsement by any of them is claimed. "Obsidian" names the third-party application these skills target.
 

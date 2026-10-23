@@ -1,8 +1,6 @@
 ---
 name: ingest
 description: Turn one selected URL, file, text or Inbox candidate into a preserved Raw source plus 10–15 created or updated Wiki pages, updated Maps, index.md and log.md, in a single run. Use for ingest, paper analysis (12-axis), book notes (책 노트, 독서 노트, 목차 넣어줘), chapter promotion and attributed Persona updates. Not automatic collection, personal profiles or undesignated research questions.
-metadata:
-  version: "0.6.3"
 ---
 
 # Ingest
@@ -74,13 +72,17 @@ When a claim reports another creator's work, attribute it to this source's autho
 
 ## Step 2 — Save Raw Source
 
-Use [raw](templates/raw.md), filename `YYYY-MM-DD-{Title}.md` (today); an Inbox candidate already named that way keeps its name so links to it resolve. The Raw keeps the source's own order and structure; nothing is reordered, regrouped or normalized.
+Use [raw](templates/raw.md), filename `{Title}.md` (`{Title} (YYYY-MM-DD).md` when that name is taken); an Inbox candidate keeps its existing name so links to it resolve. The Raw keeps the source's own order and structure; nothing is reordered, regrouped or normalized.
+
+The Raw body is `# {Title}`, `## Original Content`, and `## Ingest Notes` only when there is something to record.
 
 - Preserve the original verbatim under `## Original Content` — no summaries, no "redacted for brevity", however long. Keep image lines `![alt](url)`, video and media URLs, quote blocks, citation lists and code blocks.
+- Keep each image as its original `![alt](url)`; do not download it.
+- OCR every image that contains text and put the text, as Markdown with spelling unchanged, in a `>` blockquote directly below the image. Record the OCR method and any uncertain reading in `## Ingest Notes`.
 - A clipper body already wrapped in `## Original Content` is copied verbatim. A fetched URL keeps the fetched content.
 - Remove only obvious clipper artifacts (a block repeated by a clipper bug) and say so in `## Ingest Notes`.
-- From a Web Clipper or capture candidate carry over `source_url` → `source`, `author` → `author` as `"[[Name]]"`, `date_clipped`, `published` → `date_published`, `collectionPurpose` and `referenced`. A capture's Source Manifest and Agent Capture Notes go after `## Metadata`, unchanged; they guide Step 3 and never enter Original Content.
-- Never rewrite an existing Raw body. When an already-ingested source changed, ask the owner first: a minor change keeps the Raw; a major change becomes `YYYY-MM-DD-{title}-v2.md` with `supersedes`, the earlier Raw gains `superseded-by`, and both stay. See [source update and reprocessing](references/reingest.md).
+- From a Web Clipper or capture candidate carry over `source_url` → `source`, `author` → `author` as `"[[Name]]"`, `published` → `date_published`, `collectionPurpose` and `referenced`. A capture's Source Manifest and Agent Capture Notes go under `## Ingest Notes`, unchanged; they guide Step 3 and never enter Original Content.
+- Never rewrite an existing Raw body. When an already-ingested source changed, ask the owner first: a minor change keeps the Raw; a major change becomes `{Title}-v2.md` with `supersedes`, the earlier Raw gains `superseded-by`, and both stay. See [source update and reprocessing](references/reingest.md).
 
 Pre-flight before moving on:
 

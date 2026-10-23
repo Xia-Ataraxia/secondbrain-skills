@@ -11,7 +11,8 @@ date_created: {{today}}
 date_modified: {{today}}
 date_ingested: {{acquisition_date}}
 date_published: {{publication_date_when_known}}
-date_clipped: {{capture_date_when_carried_over}}
+language: {{source_language}}
+length: "{{source_length}}"
 tags:
   - raw-source
   - {{topic_tag}}
@@ -23,7 +24,7 @@ mainVaultRelated: []
 mainVaultCmds: {{registered_mothership_category_or_command_reference_in_live_policy_form_or_empty}}
 referenced: []
 status: ingested
-# Omit date_published, date_clipped and source-vault when inapplicable.
+# Omit date_published and source-vault when inapplicable.
 # Converted document: add source-attachment, source-format, conversion-tool, conversion_date, conversion-fidelity.
 # Fill slots as YAML-serialized values: one author item per person; a name containing " or \ is escaped by YAML double-quoted rules inside "[[...]]".
 # mainVaultRelated entries: "[label](obsidian://open?vault=<encoded vault>&file=<encoded path>)".
@@ -31,24 +32,10 @@ status: ingested
 
 # {{title}}
 
-> [!info] Source
-> 원본 출처: {{source}}
-
----
-
 ## Original Content
 
 {{verbatim_source_content}}
 
----
-
-## Metadata
-
-- **인제스트 일시**: {{ingest_datetime}}
-- **원본 형태**: {{original_form}}
-- **언어**: {{language}}
-- **분량**: {{length}}
-
 ## Ingest Notes
 
-{{deduplicated_clipper_artifacts_conversion_limits_batched_inbox_files_or_delete_this_section}}
+{{only_when_there_is_something_to_record_otherwise_delete_this_section}}
