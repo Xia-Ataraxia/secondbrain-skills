@@ -60,7 +60,7 @@ Read the whole source. Extract:
 
 - terms and concepts (3–8 together), candidates that may land on existing pages:
 	- a Term is a name an established field uses independently of this source, decided by [terms](references/terms.md);
-	- a Concept is an idea, pattern or argument the source itself names or develops, titled as a noun phrase;
+	- a Concept is an abstract idea, technique, method or pattern worth its own page that is not a Term, titled `{Topic Name}` in the idea's original language, whichever language that is (`LLM Wiki Pattern`, `비대칭 동업`), whether or not the source names it, with translations in `aliases`; one passage or argument of the source is a claim, not a Concept;
 	- a claim is never a page title: it goes into the body of the Term or Concept it is about, attributed;
 - entities (1–5): people, organizations, products, models;
 - practical guidance (0–3) worth a Guide;
@@ -94,7 +94,7 @@ Inbox cleanup: delete the Inbox original only when the owner's request or the va
 
 ## Step 6 — Compile Wiki pages
 
-For each extracted term, concept, entity and guide, update the existing page or create one: Terms with [term](templates/term.md), Concepts with [concept](templates/concept.md), Entities with [entity](templates/entity.md), Guides with [guide](templates/guide.md). Keep the levels distinct: Raw holds evidence, Wiki pages hold one term, concept, entity or guide each and cite their Raws, Maps group pages.
+For each extracted term, concept, entity and guide, update the existing page or create one: Terms with [term](templates/term.md), Concepts with [concept](templates/concept.md), Entities with [entity](templates/entity.md), Guides with [guide](templates/guide.md). Keep the levels distinct: Raw holds evidence, Wiki pages hold one term, concept, entity or guide each and cite their Raws, Maps group pages. A Concept page lets the owner understand and use an idea: after reading it they know what it is, why it holds, where it applies and how it connects to what they already know. The Raw keeps what was said and where, so the page explains the idea instead of replaying the source, and its Overview says what the idea offers for the Raw's `collectionPurpose`.
 
 - New writing comes only from this source and is attributed to it.
 - An existing page is updated in three separate contexts, in this order:

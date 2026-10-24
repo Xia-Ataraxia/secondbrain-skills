@@ -56,8 +56,25 @@ When a level cannot be reached — no app access, no vault authorization, headle
 | Nested proportions | `treemap-beta` | Version-gated before 1.15.0 |
 | Services, groups, and their links | `architecture-beta` | Version-gated before 1.15.0 |
 | Numeric series over categories | `xychart-beta` | Version-gated before 1.15.0 |
+| Several actors handing off one process | `swimlane-beta` | Pele-only |
+| A page or screen divided into a grid | `block-beta` | Pele-only |
+| Agents splitting work and calling tools | `agentflow-beta` | Pele-only |
+| Versions, branches and merges | `gitGraph` | Pele-only; case-exact keyword |
+| Screens, commands and events changing state | `eventmodeling` | Pele-only |
+| A few subjects profiled on several criteria | `radar-beta` | Pele-only |
+| Items placed on two criteria | `quadrantChart` | Pele-only |
+| Overlap of two or three sets | `venn-beta` | Pele-only |
+| Requirements traced to what satisfies them | `requirementDiagram` | Pele-only |
+| People, systems and external systems | `C4Context` | Pele-only |
+| What actors want from a system | `usecase-beta` | Pele-only |
+| Fixed-width fields of an identifier | `packet-beta` | Pele-only |
+| A notation rule as EBNF | `railroad-ebnf-beta` | Pele-only |
+| Folder and file paths | `treeView-beta` | Pele-only |
+| Causes of one problem by category | `ishikawa-beta` | Pele-only |
+| Work sorted into Cynefin domains | `cynefin-beta` | Pele-only |
+| Value chain by visibility and evolution | `wardley-beta` | Pele-only |
 
-Pele also renders the newer Mermaid 12.1.0 families listed in [`pele-compatibility.md`](pele-compatibility.md); use one only when every device that reads the note runs 1.15.0+.
+Each catalog pattern also names when to avoid its family and the size past which it stops being readable. Use a Pele-only family only when every device that reads the note runs 1.15.0+.
 
 Split a diagram at a real boundary (phase, actor, subsystem) as soon as labels overlap or edges cross unreadably. Pele scales wide diagrams down and lets the reader zoom and pan; that is not readability. Two readable diagrams beat one complete unreadable one.
 
@@ -72,7 +89,8 @@ Each rule below was rechecked with `pele.render()` in Obsidian 1.15.0.
 - **Quote troublesome labels.** Parentheses, colons, slashes, `#`, and non-ASCII belong inside `"..."`: `id1["Renewal (second request)"]`. Quote the label, not the identifier, and do not add quotes to grammars that take bare keys, such as `architecture-beta` service ids.
 - **Escape with entity codes when quoting is not enough.** `#quot;` for a double quote, `#35;` for `#`, decimal codes like `#9829;`.
 - **Line breaks.** Use `<br/>`, or a Markdown string label — a double-quoted label whose text is wrapped in backticks — which also takes `**bold**`. Pele also breaks on a literal `\n` inside a quoted label, but older bundles print the two characters, so do not write it.
-- **No HTML labels.** Pele draws labels as SVG text; arbitrary HTML is not rendered.
+- **No HTML labels.** Pele draws labels as SVG text; arbitrary HTML is not rendered. `<code>`, `<kbd>`, `<sub>` and `<sup>` draw as plain text in Obsidian 1.15.0; write a literal angle bracket as `#lt;` and `#gt;`.
+- **Math labels.** A `$$...$$` label is typeset by the host. Obsidian 1.15.0 typesets it with MathJax in a rendered note; a bare `pele.render()` call shows the TeX source. Math works in flowchart, swimlane, sequence, state, class, ER, mindmap, kanban, block, requirement and use case.
 - **Subgraph `direction` holds in Pele** even when an edge crosses the boundary; older bundles ignore it then. Do not rely on it for layout that must survive both.
 - **Comments are `%%` at line start.** They are not Markdown comments and not HTML comments.
 - **No themes.** `theme` and `themeVariables` colors do not apply; the vault theme decides colors.

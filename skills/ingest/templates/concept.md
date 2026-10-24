@@ -29,13 +29,15 @@ status: active
 
 ## Overview
 
-{{definition_and_scope_from_this_source}}
+{{what_the_idea_is_and_why_it_matters_in_the_pages_own_words}}
 
 ---
 
 ## Details
 
-{{source_grounded_explanation}}
+### {{reader_question_such_as_how_it_works_why_it_holds_where_it_applies}}
+
+{{explanation_compiled_from_every_source_in_source}}
 
 <!-- Only when this source explicitly conflicts with an existing claim; keep both, attributed, uncertainty stated. Silence is not a contradiction. -->
 > [!warning] Contradiction

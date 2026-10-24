@@ -14,7 +14,7 @@ A Term page lets the owner understand a name a field uses: after reading it they
 
 ## Title
 
-1. Title it with the full name in its original language; use Korean only when the term originates in Korean.
+1. Title it with the full name in its original language, whichever language that is.
 2. Append `(ACRONYM)` when the field uses an acronym: `Retrieval-Augmented Generation (RAG)`.
 3. Add a parenthetical qualifier only when two unrelated Terms would otherwise share a title.
 4. Put everything else in `aliases`: translations, other scripts, spelling variants, years, former and incorrect forms.
