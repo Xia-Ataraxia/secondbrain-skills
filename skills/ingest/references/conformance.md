@@ -1,4 +1,4 @@
-# Page review
+# Conformance
 
 Every Wiki page, of any kind, is written to these rules. After writing, check each item against the page and record it as present or absent with the offending line; a page passes only when every item is absent. A check that was not run is reported as not run, never as absent.
 
