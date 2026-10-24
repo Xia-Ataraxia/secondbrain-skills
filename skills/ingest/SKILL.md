@@ -5,8 +5,6 @@ description: Turn one selected URL, file, text or Inbox candidate into a preserv
 
 # Ingest
 
-Built on 구요한's `/ingest` (cmds-llm-wiki `54cf2ab`). The baseline is the Codex flow his agent skill `agents/skills/ingest/SKILL.md` delegates to, `codex/commands/ingest.md`: its step order and names are kept, numbered 1–10. Detail the Codex command leaves to the Claude command (Step 1 wording, Step 7, Book Mode) comes from `claude/commands/ingest.md`; the two are vendor variants of one procedure. Owner exceptions are stated where they apply. Earlier decisions against his version are in [comparison](references/comparison.md).
-
 Execute every step in order. Asking for ingest authorizes the writes this recipe names in the destination vault — Raw, Wiki pages, Maps, `index.md`, `log.md` — under the vault's live policy. It does not authorize deleting an Inbox original or any other file, committing, pushing, or writing into a mothership. [Frontmatter](references/frontmatter.md) governs every key; YAML uses 2 spaces, the body tabs, YAML wikilinks are quoted.
 
 Read the vault's Core Context once per session before the first ingest. Use the reuse axes actually registered in its §2 (normally 5–9), never a fixed list.
@@ -25,7 +23,7 @@ Per-material acquisition detail: [articles](references/articles.md), [videos](re
 
 ## Category detection
 
-Pick the Raw `category` in this order: the Inbox lane the file sits in; a `category` in Web Clipper frontmatter; inference from the content; default `Articles`. Save into the destination's Raw folder for that category (upstream layout `10. Raw Sources/11. Articles` … `16. AI Research`).
+Pick the Raw `category` in this order: the Inbox lane the file sits in; a `category` in Web Clipper frontmatter; inference from the content; default `Articles`. Save into the destination's Raw folder for that category.
 
 ## Step 1 — Collection purpose (미래의 나에게 보내는 편지)
 
@@ -50,7 +48,7 @@ Skip when Core Context registers no mothership. Otherwise search it read-only wi
 
 Notes the owner names in the task or explicitly confirms go through the same four checks and join the list. Fill `mainVaultCmds` only with a category or command reference the Core Context or mothership actually registers, copied exactly in its registered form and with the cardinality the live policy defines; leave it empty when none fits. Never invent or impose a classification. Record the stat-verified list in `mainVaultRelated` on the Raw and the relevant Wiki pages, and list it in the report. Ask no further question here. Never write into the mothership.
 
-Use `obsidian://open`, the form the Codex command and its link check use, unless the live policy names another form such as `obsidian://advanced-uri`.
+Use `obsidian://open` unless the live policy names another form such as `obsidian://advanced-uri`.
 
 ## Step 3 — Format conversion
 
@@ -60,7 +58,10 @@ Skip for `.md`, `.markdown`, `.txt`. Transcribe audio (`.mp3`, `.wav`, `.m4a`) w
 
 Read the whole source. Extract:
 
-- key concepts (3–8) worth a Concept page — candidates that may land on existing pages; an abstract or sentence-style title is a legitimate Concept;
+- terms and concepts (3–8 together), candidates that may land on existing pages:
+	- a Term is a name an established field already uses independently of this source (a field, method or phenomenon such as `강화학습` or `방사통`); record the field as its `domain`;
+	- a Concept is an idea, pattern or argument the source itself names or develops, titled as a noun phrase; a name only this source's author uses stays a Concept until an independent source uses it;
+	- a claim is never a page title: it goes into the body of the Term or Concept it is about, attributed;
 - entities (1–5): people, organizations, products, models;
 - practical guidance (0–3) worth a Guide;
 - key claims to track;
@@ -89,11 +90,11 @@ Pre-flight before moving on:
 - images, media URLs, quotes, citations and code blocks survived;
 - the 7 required properties are present.
 
-Inbox cleanup: upstream finishes this step as a move by deleting the Inbox original. Delete it only when the owner's request or the vault's live policy authorizes removing it, and only after the pre-flight passes; when several Inbox files went into one Raw, the same applies to each and `## Ingest Notes` lists them. Without that authorization leave the original in place and report it as awaiting cleanup. A URL, an external file or raw text leaves nothing to delete.
+Inbox cleanup: delete the Inbox original only when the owner's request or the vault's live policy authorizes removing it, and only after the pre-flight passes; when several Inbox files went into one Raw, the same applies to each and `## Ingest Notes` lists them. Without that authorization leave the original in place and report it as awaiting cleanup. A URL, an external file or raw text leaves nothing to delete.
 
 ## Step 6 — Compile Wiki pages
 
-For each extracted concept, entity and guide, update the existing page or create one: Concepts with [concept](templates/concept.md), Entities with [entity](templates/entity.md), Guides with [guide](templates/guide.md). Keep the levels distinct: Raw holds evidence, Wiki pages hold one concept, entity or guide each and cite their Raws, Maps group pages.
+For each extracted term, concept, entity and guide, update the existing page or create one: Terms with [term](templates/term.md), Concepts with [concept](templates/concept.md), Entities with [entity](templates/entity.md), Guides with [guide](templates/guide.md). Keep the levels distinct: Raw holds evidence, Wiki pages hold one term, concept, entity or guide each and cite their Raws, Maps group pages.
 
 - New writing comes only from this source and is attributed to it.
 - An existing page is updated in three separate contexts, in this order:
@@ -105,6 +106,8 @@ For each extracted concept, entity and guide, update the existing page or create
 - An Entity exists because the analysis found it significant, never only to resolve an author link.
 - Title a person Entity with their source-confirmed real name in its original language and script; put handles, channel names, localized names and romanizations in `aliases`. Never infer a real name; if unconfirmed, report it without presenting an alias as a real name. An explicit live-policy naming exception wins and is reported.
 - A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
+- Title a Term by its established name in its field; put translations, abbreviations and spelling variants in `aliases`. Before creating one, search titles and aliases for the same referent under any of those names; a match is updated, never duplicated. A named individual thing (a product, model or dataset) is an Entity, not a Term.
+- A new Term goes into the folder the live policy registers for Terms; when none is registered, it goes into the Concept folder with `layer: terms` and the report says so. An existing page is not moved or retyped.
 - Set `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
 
@@ -126,8 +129,8 @@ Where a Wiki page this ingest created or changed, or one mentioning an Entity it
 
 Update `index.md`, completing all four:
 
-- each new Wiki page under its section (Concepts, Entities, Guides, Maps) as `- [[Page Name]] — one-line description`;
-- the Stats table recounted from the folders (Raw Sources, Wiki Pages, Concepts, Entities, Guides, MOCs, Queries), never incremented by guess;
+- each new Wiki page under its section (Terms, Concepts, Entities, Guides, Maps) as `- [[Page Name]] — one-line description`;
+- the Stats table recounted from the folders (Raw Sources, Wiki Pages, Terms, Concepts, Entities, Guides, MOCs, Queries; Terms counted by `layer: terms` when they share the Concept folder), never incremented by guess;
 - one Recent Ingests row at the top: date, Raw link, pages touched;
 - the index's modification date.
 
@@ -153,7 +156,7 @@ Check every item and fix failures:
 
 - the Raw has `## Original Content` with a substantive verbatim body (compared against the Inbox body before any deletion);
 - the Inbox original is deleted when deletion was authorized, otherwise reported as awaiting cleanup;
-- every new `source`, `related` and body wikilink resolves, except intentional person wikilinks in `author`, which may have no note; no Entity or author note was created only to make a link resolve; no duplicate page was created;
+- every new `source`, `related` and body wikilink resolves, except intentional person wikilinks in `author`, which may have no note; no Entity or author note was created only to make a link resolve; no duplicate page was created, and no new Term duplicates an existing title or alias for the same referent;
 - every updated existing page still holds every valid statement, link and frontmatter value of its before-image, apart from reviewed corrections;
 - every new Wiki page has `explored: false`; every `confidence: high` page has a Bias Check with `Counter-argument:` and `Data gap:` lines;
 - every `mainVaultRelated` link resolves on the mothership filesystem with both `vault` and `file` percent-encoded, no literal placeholder remains, `mainVaultCmds` holds only a reference the mothership actually registers, copied exactly, and no bare `[[…]]` to a mothership note appears in a body;
@@ -165,7 +168,7 @@ Then invoke `secondbrain-skills:lint` and `secondbrain-skills:verify` on the Wik
 
 ## Output
 
-Report: the source (title, URL); where the Raw was saved; pages created, each with one line; pages updated and what changed; key connections added; the touched count against 10–15; originals in `referenced` or provenance unknown; Inbox and binary originals left in place; any branch stopped by an upstream conflict, with the exact conflict; open questions, gaps and contradictions.
+Report: the source (title, URL); where the Raw was saved; pages created, each with one line; pages updated and what changed; key connections added; the touched count against 10–15; originals in `referenced` or provenance unknown; Inbox and binary originals left in place; Terms placed in the Concept folder for lack of a registered Terms folder; open questions, gaps and contradictions.
 
 ## Paper Mode
 
@@ -175,7 +178,7 @@ Follow [papers](references/papers.md) with [paper hub](templates/paper-hub.md) a
 
 Follow [books](references/books.md): Steps 1 and 2 once for the whole book, B-1 TOC and chapter URL pattern, B-2 Book Index, B-3 chapter stubs, B-4 a small set of book-level pages, B-5 `index.md` and one `log.md` entry; on Promotion append `## [YYYY-MM-DD] promote | {book} ch{NN}`. Never compile unread chapter content.
 
-Upstream contradiction on this branch only: Book Mode saves the Index and stubs in the Articles folder with `category: Articles`, while the schema reserves the Books folder for books. When the live policy or the owner's task names the folder and `category` for books, follow it. Otherwise run Steps 1, 2 and B-1, then stop before the B-2 and B-3 writes and report the conflict with the TOC found.
+The Book Index and chapter stubs go into the Books Raw folder with `category: Books`, unless the live policy or the owner's task names another folder and `category` for books.
 
 ## Tools
 

@@ -18,8 +18,8 @@ Done means:
 - the report names the collections refreshed, the document and vector counts
   from qmd's own status, and anything qmd reported as failed.
 
-Upstream runs `qmd update`, `qmd embed`, `qmd status` over the registered
-`wiki`, `raw_sources` and `queries` collections (Inbox excluded until ingest).
+Run `qmd update`, `qmd embed`, `qmd status` over the registered collections,
+usually `wiki`, `raw_sources` and `queries` (Inbox excluded until ingest).
 Refresh only the collections the live qmd configuration already registers; confirm
 command names with `qmd --help` on this host. Do not change qmd models, the
 embedding model or its environment variable, network access, or the collections

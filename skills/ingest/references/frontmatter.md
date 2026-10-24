@@ -1,6 +1,6 @@
 # Frontmatter — single source
 
-Schema of 구요한's cmds-llm-wiki at commit `54cf2ab150f866bbfcf1aa2c7e03514d14febe20`: `CLAUDE.md` Frontmatter Standards, `90. Settings/Templates/Template_Raw Source.md`, `90. Settings/Templates/Template_Wiki Page.md` and the Claude/Codex `ingest.md` Step 2–3 blocks. Two owner exceptions only: date keys are snake_case, and `referenced` lists originals and earlier captures. The destination's live policy wins wherever it defines a field, value or placement; this schema fills the rest. One meaning has one field.
+The destination's live policy wins wherever it defines a field, value or placement; this schema fills the rest. One meaning has one field.
 
 ## Writing rules
 
@@ -8,7 +8,7 @@ Schema of 구요한's cmds-llm-wiki at commit `54cf2ab150f866bbfcf1aa2c7e03514d1
 - Wikilinks inside YAML are double-quoted: `"[[Name]]"`. Body wikilinks are bare.
 - `description` is English, one or two sentences, always double-quoted (`description: ""` when empty).
 - Dates are ISO 8601 (`YYYY-MM-DD`, time optional). An existing value keeps its form.
-- New keys are camelCase, except the snake_case date keys below and the upstream kebab-case keys kept as named (`source-vault`, `source-attachment`, `source-format`, `conversion-tool`, `conversion-fidelity`, `superseded-by`). The owner's snake_case date keys are exactly `date_created`, `date_modified`, `date_ingested`, `date_published` and `conversion_date`; upstream's verification-field timestamps `exploredDate` and `verifiedAt` keep their upstream names.
+- New keys are camelCase, except the snake_case date keys below and these kebab-case keys (`source-vault`, `source-attachment`, `source-format`, `conversion-tool`, `conversion-fidelity`, `superseded-by`). The snake_case date keys are exactly `date_created`, `date_modified`, `date_ingested`, `date_published` and `conversion_date`; the verification timestamps are `exploredDate` and `verifiedAt`.
 - Unknown applicable metadata stays unknown, never invented. An inapplicable optional key is omitted.
 - Fill every slot as a value serialized by YAML's own rules, never by pasting raw text. A person name containing `"` or `\` inside a double-quoted `"[[Name]]"` follows YAML double-quoted escaping (`\"`, `\\`). Emit lists as YAML lists, one item per existing value; never collapse several existing items into one string.
 - A Persona's `source` keeps every existing item as a separate list item and appends this Raw.
@@ -20,7 +20,7 @@ Schema of 구요한's cmds-llm-wiki at commit `54cf2ab150f866bbfcf1aa2c7e03514d1
 | `type` | role value from the table below |
 | `aliases` | list of alternative names |
 | `description` | English, double-quoted |
-| `author` | list. People are quoted wikilinks `"[[Name]]"` whether or not that note exists; a missing target is not a reason to create an Entity. Raw: the original author(s). Wiki and other agent-written pages: the author the live policy names, otherwise the writing agent's role name (`Claude`, `Codex`, …) as upstream. |
+| `author` | list. People are quoted wikilinks `"[[Name]]"` whether or not that note exists; a missing target is not a reason to create an Entity. Raw: the original author(s). Wiki and other agent-written pages: the author the live policy names, otherwise the writing agent's role name (`Claude`, `Codex`, …). |
 | `date_created` | creation date of this note |
 | `date_modified` | last modification date of this note |
 | `tags` | list |
@@ -35,6 +35,7 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Raw Source | `raw-source` | — | `ingested` | raw.md |
 | Book Index (Raw) | `raw-source` | — | `ingested` | book-index.md |
 | Book chapter (Raw) | `raw-source` | — | `stub` → `reading` → `completed` | book-chapter.md |
+| Term | `wiki-page` | `terms`; Paper promotions `theory` or `method` when the field already names them | `active` | term.md |
 | Concept | `wiki-page` | `concepts`; Paper promotions `theory`, `method` or `scale` | `active` | concept.md |
 | Entity | `wiki-page` | `entities` | `active` | entity.md |
 | Guide | `wiki-page` | `guides` | `active` | guide.md |
@@ -78,6 +79,7 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Related knowledge | `related` | Quoted wikilink list. |
 | Confidence | `confidence` | `high` (well-sourced), `medium` (partial), `low` (speculative). A page resting only on secondary claims is not well-sourced. |
 | Reuse unit | `layer` | Per the Roles table. |
+| Field | `domain` | Term only, required: list of the established fields that use the name, such as `machine learning` or `rehabilitation medicine`. |
 | Exploration gate | `explored` | `false` on every new page; `true` only after a human read it or a source-backed review loop verified it, with optional `exploredBy`, `exploredDate`. |
 | Verification state | `verificationStatus` | `unverified` on every new page; `verify` sets `verified`, `partial`, `unverified` or `disputed` with `verifiedAt`, `verifiedBy`. |
 | Claim classification | `claimType`, `evidenceScope` | Optional at ingest; record only when the classification is clear. `claimType`: `definition`, `empirical`, `theoretical`, `historical`, `prescriptive`, `interpretive` or `mixed`. `evidenceScope`: `single-source`, `multi-source-primary`, `multi-source-mixed`, `synthesis-only` or `user-original`. |

@@ -8,7 +8,7 @@ license: MIT
 
 Answer a question by searching the wiki, synthesizing information, and optionally saving the result.
 
-Read [[Core Context]] once per session before substantial query work. The reuse axes are those registered in its §2; do not assume a fixed list or count. Decisions against 구요한's `/query` are in [comparison](references/comparison.md).
+Read [[Core Context]] once per session before substantial query work. The reuse axes are those registered in its §2; do not assume a fixed list or count.
 
 ## Input
 

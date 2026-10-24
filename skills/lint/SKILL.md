@@ -8,7 +8,7 @@ license: MIT
 
 LLM Wiki lint / health check: inventory against `index.md`, orphans, broken links, contradictions, stale pages, index sync, MOC coverage, frontmatter coverage (collectionPurpose, Exploration Gate, verification fields, Bias Check, Persona health), Core Context freshness and cross-vault link integrity. Lint reads structure, not meaning — whether a claim is true is `verify`, whether a cluster agrees with itself is `audit`.
 
-Lint is report-first. A lint run writes nothing — no note, no `index.md` edit, no `log.md` entry. Every finding comes back as a report, and the owner picks which fixes to apply. Decisions against the reference workflow are recorded in [comparison](references/comparison.md).
+Lint is report-first. A lint run writes nothing — no note, no `index.md` edit, no `log.md` entry. Every finding comes back as a report, and the owner picks which fixes to apply.
 
 Tools: `obsidian-cli` for unresolved links and backlinks when Obsidian is running, `rg` otherwise; `qmd query` for a renamed target; `git log` only as a fallback age when `date_modified` is absent. Null-safe recipes are in [checks](references/checks.md).
 
@@ -71,7 +71,7 @@ Every Wiki page should be reachable from at least one MOC. List uncovered pages 
 - **Exploration Gate:** `explored` on every Wiki page — missing → "add `explored: false` on next touch"; `false` is backlog, not an error; `explored: true` without `exploredBy` or `exploredDate` → incomplete review metadata.
 - **Verification fields:** `claimType`, `evidenceScope`, `verificationStatus` on every Wiki page; missing → route through `verify` when touched; `verificationStatus` outside `verified|partial|unverified|disputed`, or `verified`/`partial` without `verifiedAt` and `verifiedBy` → finding; `verificationStatus: disputed` or `disputed: true` → high-priority `verify` queue.
 - **Bias Check:** every `confidence: high` page and synthesis-heavy guide carries `> [!note] Bias Check` with both `Counter-argument:` and `Data gap:`; missing → quality-control gap.
-- **Persona health:** `personaOf` resolves to an existing Entity; `personaMaturity` valid per live policy; Simulation Boundary and Accumulation Log present; Persona content does not leak into shared Entity or Concept pages; the Entity's `source` holds no Raw the Persona has not absorbed (accumulation backlog). Spot-check one Quote Bank quote per Persona against the cited Raw's `## Original Content`; a mismatch is a fabrication-level finding.
+- **Persona health:** `personaOf` resolves to an existing Entity; `personaMaturity` valid per live policy; Simulation Boundary and Accumulation Log present; Persona content does not leak into shared Entity, Term or Concept pages; the Entity's `source` holds no Raw the Persona has not absorbed (accumulation backlog). Spot-check one Quote Bank quote per Persona against the cited Raw's `## Original Content`; a mismatch is a fabrication-level finding.
 
 ### Step 9: Core Context Freshness
 
@@ -94,6 +94,7 @@ Notes written before the current policy, or by a writer still following an older
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
 - **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
 - **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.
+- **Term and claim candidates:** a Concept whose title is a name an established field uses independently of its sources, reported as a Term candidate with that field; a Concept titled as a sentence-style claim, reported as a claim candidate with the Term or Concept it is about when one exists. A Term without `domain` is a gap. Retyping, retitling or moving is an owner-picked fix, never automatic.
 
 Then group the drifted notes by the provenance fields they record (`source_extraction`, `ingest_kind`, `store`, `source_kind`, `source_locator` host or session) and report each group with its newest `date_created`. A group still gaining notes means a writer is still producing the old shape. Name it as the recorded provenance only: never infer a producer from mtime, counts or file names. Report where that writer's instructions live when a recorded field points to them, as a finding for the owner. Lint does not edit another tool's configuration.
 
@@ -111,7 +112,7 @@ Report in the conversation using [report](references/report.md):
 8. **Frontmatter Coverage** — v2 fields, Exploration Gate, verification fields, Bias Check, Persona health
 9. **Core Context**
 10. **Cross-Vault Integrity** (mothership only)
-11. **Policy Conformance** — placement, kind values, retired keys and duplicates, old values kept as tags, and writer groups still producing the old shape
+11. **Policy Conformance** — placement, kind values, retired keys and duplicates, old values kept as tags, Term and claim candidates, and writer groups still producing the old shape
 12. **Not checked**
 13. **Recommendations** — top ten by impact and effort, routed to `audit`, `verify` or `refresh-context` by name where larger
 

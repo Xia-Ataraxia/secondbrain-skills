@@ -92,19 +92,16 @@ claude plugin install secondbrain-skills@secondbrain-skills
 
 그 릴리스의 Obsidian 패키지 아홉 개(`obsidian-mermaid`는 이후 `obsidian-visualize`의 Pele 분기로 합쳐졌습니다)는 Claude Code와 Hermes에 네이티브로 설치했고, 격리된 Obsidian 1.12.7 프로필에서 실행해 봤습니다. 지식 패키지는 로컬 형식 검사만 통과했고 런타임 로드 기록은 없습니다. Hermes에는 `v0.1.0` 태그를 설치하지 마십시오.
 
-결과와 리비전, 한계는 모두 [docs/verification-matrix.md](docs/verification-matrix.md)에, 안전과 데이터 처리는 [docs/security-and-privacy.md](docs/security-and-privacy.md)에 있습니다.
-
 ## 저장소 구성
 
 ```
 skills/<name>/SKILL.md   패키지 하나. 나머지는 모두 옆의 하위 폴더에 둡니다
-docs/                    이름 규칙, 계약, 검증 매트릭스, 보안
 AGENTS.md                기여자와 에이전트를 위한 저장소 계약
 ```
 
 ## 감사의 말
 
-- **[구요한 (Yohan Koo)](https://github.com/johnfkoo951/cmds-llm-wiki)**, cmds-llm-wiki. 지식 패키지는 그의 명령 위에 쌓았습니다. 커밋 `54cf2ab`에서 Codex 명령을 기준으로 다시 읽어 단계 순서와 섹션 이름, 용어, 스키마, `index.md`·`log.md` 기록을 그대로 두고, 그 위에 소유자가 명시한 예외(snake_case 날짜 키, `referenced`, 대상 노트 없는 저자 위키링크, 자동 커밋·삭제 없음, 깨끗한 맥락의 Wiki 갱신)를 더했습니다. 무엇을 받아들이고 바꾸고 버렸는지는 각 패키지의 `references/comparison.md`에 있습니다. 원 저장소의 파일은 하나도 담지 않았습니다. Paper Mode P-7 검증기 `skills/ingest/scripts/verify_paper.py`는 그의 검증 단계를 그의 스크립트 없이 이 저장소가 직접 구현한 것입니다. 원 저장소는 라이선스를 공개하지 않았고, 여기서 그것을 재라이선스하지 않습니다. 이 복원은 아직 검증되지 않은 후보이며 자세한 내용은 [PROVENANCE.md](PROVENANCE.md)에 있습니다.
+- **[구요한 (Yohan Koo)](https://github.com/johnfkoo951/cmds-llm-wiki)**, cmds-llm-wiki. 지식 패키지는 그의 명령에서 출발했고, 지금은 이 저장소가 정본이며 소유자의 결정에 따라 달라진 부분이 있습니다. 원 저장소의 파일은 하나도 담지 않았습니다. Paper Mode P-7 검증기 `skills/ingest/scripts/verify_paper.py`는 그의 스크립트 없이 이 저장소가 직접 구현한 것입니다. 원 저장소는 라이선스를 공개하지 않았고, 여기서 그것을 재라이선스하지 않습니다.
 - **[Andrej Karpathy](https://github.com/karpathy)**, cmds-llm-wiki가 바탕으로 삼은 LLM Wiki 패턴.
 - **[Steph Ango (kepano)](https://github.com/kepano/obsidian-skills)**, obsidian-skills (MIT). `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas`, `obsidian-cli`는 여기서 출발해 수정했습니다.
 - **[Jonghak Seo](https://github.com/Jonghakseo/pi-extension)**, pi-extension (MIT). `obsidian-visualize`의 검사 린트와 skeleton·style 참조는 여기서 가져와 고쳤습니다.
@@ -114,4 +111,4 @@ AGENTS.md                기여자와 에이전트를 위한 저장소 계약
 
 ## 라이선스
 
-MIT. [LICENSE](LICENSE)를 참고하십시오. 원 저작물의 허가 고지는 [NOTICE](NOTICE)에, 출처 리비전과 미확정 권리 사항은 [PROVENANCE.md](PROVENANCE.md)에 있습니다. `assets/`의 그림은 직접 제작한 원본이며 [assets/asset-ledger.json](assets/asset-ledger.json)에 기록되어 있습니다.
+MIT. [LICENSE](LICENSE)를 참고하십시오. 원 저작물의 허가 고지는 [NOTICE](NOTICE)에 있습니다. `assets/`의 그림은 직접 제작한 원본이며 [assets/asset-ledger.json](assets/asset-ledger.json)에 기록되어 있습니다.

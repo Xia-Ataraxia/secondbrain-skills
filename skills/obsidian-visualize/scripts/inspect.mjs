@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Adapted from Jonghak Seo pi-extension; see ../NOTICE and ../PROVENANCE.md.
+// Adapted from Jonghak Seo pi-extension; see ../references/NOTICE.
 // Read-only inspection and layout lint. No server, browser, or writer.
 import fs from "node:fs";
 import path from "node:path";

@@ -6,8 +6,6 @@ license: MIT
 
 # Capture
 
-Port of 구요한's `/capture-tabs` (AI Research Capture), cmds-llm-wiki commit `54cf2ab`, Codex command as baseline. His steps, names and fields are kept; owner exceptions are listed in [comparison](references/comparison.md).
-
 Capture is the pre-ingest capture layer: it preserves evidence in the Inbox and stops at the candidate note unless the owner routes it on. Compiling it is `ingest`; reviewing what waits is `inbox`. Read the destination's Core Context once per session before the first capture.
 
 ## Purpose

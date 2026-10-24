@@ -5,7 +5,7 @@ description: Initializes a fresh personal or knowledge vault through a short own
 
 # Onboard
 
-Turn a starting vault into the owner's vault in about ten minutes by interviewing them and filling everything in, without requiring or creating a counterpart vault. The skeleton is 구요한's `/onboard` (commit `54cf2ab`, shipped as a Claude command only; there is no Codex counterpart); decisions against it are in [comparison](references/comparison.md).
+Turn a starting vault into the owner's vault in about ten minutes by interviewing them and filling everything in, without requiring or creating a counterpart vault.
 
 ## Philosophy
 
