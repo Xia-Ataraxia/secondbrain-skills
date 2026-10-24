@@ -103,7 +103,7 @@ For each extracted term, concept, entity and guide, update the existing page or 
 	3. Apply the reviewed patch, read the page back and compare it with the before-image. Links to and from the page are added only after this validation (Step 8).
 - When the runtime cannot provide separate contexts, stop the update of that existing page and report it; new pages and the rest of the run continue.
 - The existing Wiki is not ground truth, and neither is one source. An existing statement changes only when the correction rests on verified evidence (a `verify` result or the owner's confirmation) and the reviewer accepted it. When this source explicitly conflicts with an existing claim, keep both, attributed, with `> [!warning] Contradiction` and the uncertainty stated. A source that is silent on a claim does not contradict it.
-- An Entity exists because the analysis found it significant, never only to resolve an author link.
+- An Entity exists because the analysis found it significant. Every Raw author whose real name the source confirms is also a person Entity: update the existing one or create it with this Raw in `source`, and link it from the Raw's `author`.
 - Title a person Entity with their source-confirmed real name in its original language and script; put handles, channel names, localized names and romanizations in `aliases`. Never infer a real name; if unconfirmed, report it without presenting an alias as a real name. An explicit live-policy naming exception wins and is reported.
 - A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
 - Title and structure a Term by [terms](references/terms.md). Before creating one, search titles and aliases for the same referent under any of its names; a match is updated, never duplicated, and a new sense becomes a section of the existing page.
@@ -156,7 +156,7 @@ Check every item and fix failures:
 
 - the Raw has `## Original Content` with a substantive verbatim body (compared against the Inbox body before any deletion);
 - the Inbox original is deleted when deletion was authorized, otherwise reported as awaiting cleanup;
-- every new `source`, `related` and body wikilink resolves, except intentional person wikilinks in `author`, which may have no note; no Entity or author note was created only to make a link resolve; no duplicate page was created, and no new Term duplicates an existing title or alias for the same referent;
+- every new `source`, `related` and body wikilink resolves, except `author` links to a person whose real name the source does not confirm; every confirmed author has a person Entity; no duplicate page was created, and no new Term duplicates an existing title or alias for the same referent;
 - every updated existing page still holds every valid statement, link and frontmatter value of its before-image, apart from reviewed corrections;
 - every new Wiki page has `explored: false`; every `confidence: high` page has a Bias Check with `Counter-argument:` and `Data gap:` lines;
 - every `mainVaultRelated` link resolves on the mothership filesystem with both `vault` and `file` percent-encoded, no literal placeholder remains, `mainVaultCmds` holds only a reference the mothership actually registers, copied exactly, and no bare `[[…]]` to a mothership note appears in a body;

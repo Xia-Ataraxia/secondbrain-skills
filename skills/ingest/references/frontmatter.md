@@ -80,6 +80,7 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Confidence | `confidence` | `high` (well-sourced), `medium` (partial), `low` (speculative). A page resting only on secondary claims is not well-sourced. |
 | Reuse unit | `layer` | Per the Roles table. |
 | Field | `domain` | Term only: list of the fields of its Senses sections, such as `reinforcement learning`; omitted for self-contained jargon. |
+| Definition status | `definitionStatus` | Term only: `consensus`, `contested` or `emerging`. |
 | Exploration gate | `explored` | `false` on every new page; `true` only after a human read it or a source-backed review loop verified it, with optional `exploredBy`, `exploredDate`. |
 | Verification state | `verificationStatus` | `unverified` on every new page; `verify` sets `verified`, `partial`, `unverified` or `disputed` with `verifiedAt`, `verifiedBy`. |
 | Claim classification | `claimType`, `evidenceScope` | Optional at ingest; record only when the classification is clear. `claimType`: `definition`, `empirical`, `theoretical`, `historical`, `prescriptive`, `interpretive` or `mixed`. `evidenceScope`: `single-source`, `multi-source-primary`, `multi-source-mixed`, `synthesis-only` or `user-original`. |

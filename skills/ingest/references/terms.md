@@ -24,15 +24,17 @@ A Term page lets the owner understand a name a field uses: after reading it they
 
 Fill [term](../templates/term.md):
 
-- **TL;DR:** state the insight or trade-off that makes the term matter, not the definition again.
-- **Definition:** state what every sense shares, cited, with its status `consensus`, `contested` or `emerging`; claim `consensus` only when the sources show agreement.
-- **Explanation:** explain what it is and how it works for a reader meeting it for the first time: the mechanism, a worked example, and the problem it solves. Link each vault Term or Concept it relies on at first use instead of re-explaining it, and connect it to the owner's own notes and earlier queries the vault search returns.
+- **TL;DR:** in two sentences, state what every sense shares and the trade-off that makes the term matter. Record in `definitionStatus` whether that definition is `consensus`, `contested` or `emerging`; claim `consensus` only when the sources show agreement.
+- **Explanation:** explain it for a reader meeting it for the first time, under `###` headings phrased as the reader's questions (what it changes, why it works, how it behaves as a parameter varies, what problem it solves). Write one idea per short sentence, put formulas in display math, show the worked example as a table, and bold the one sentence a reader must keep. Link each vault Term or Concept it relies on at first use instead of re-explaining it, and connect it to the owner's own notes and earlier queries the vault search returns.
 - **Where It Is Used:** list the fields and situations that use it, with Entities as examples, even for a single-sense term.
 - **Origin:** write a paragraph on where the word comes from, its first documented use (who, where, when, cited from the primary source) and when each later sense appeared; add bullets only when a sequence needs them. Write an unknown point as unknown.
 - **Senses:** add one `### {field}` section per sense only when the meaning varies by field, each with that field's definition, since when it is used that way, examples and its own typed relations; list those fields in `domain`.
-- **Literature Review:** give one entry per source with what it adds, walked up to the source that establishes the claim.
+- **Literature Review:** give one `### [[Author]] (year): what it adds` entry per source, walked up to the source that establishes the claim, with bold-labelled bullets.
 - **Personal Insights:** leave the owner's own notes as they are.
 - **Related Terms:** type each link as broader, narrower, related or confused-with; never make one page both broader and related; put a relation that holds for one sense in that sense section.
+- **References:** list each Raw with its author and role, then each of the owner's notes the page draws on.
+
+Link a note in another vault (the mothership) as `[title](obsidian://open?vault=<vault>&file=<path>)`, both components URL-encoded, never as a `[[path]]` wikilink.
 
 Keep a superseded definition with its date and source when adding a new one.
 

@@ -15,7 +15,10 @@ domain:
 source:
   - "[[{{raw_source}}]]"
 related: []
+mainVaultRelated:
+  - "[{{owner_note_title}}](obsidian://open?vault={{encoded_vault}}&file={{encoded_path}})"
 confidence: {{high|medium|low}}
+definitionStatus: {{consensus|contested|emerging}}
 layer: terms
 explored: false
 verificationStatus: unverified
@@ -25,31 +28,43 @@ status: active
 # {{full_name_in_original_language_with_acronym}}
 
 > [!abstract] TL;DR
-> {{why_the_term_matters_not_its_definition}}
-
-{{shared_definition}} ([[{{raw_source}}]])
-
-Definition status: {{consensus|contested|emerging}}
-
----
+> {{shared_definition}} {{trade_off_that_makes_it_matter}}
 
 ## Explanation
 
-{{what_it_is_and_how_it_works_for_a_first_time_reader_linking_known_vault_terms_at_first_use}}
+### {{reader_question_what_it_changes}}
 
-{{worked_example}}
+{{short_sentences_linking_known_vault_terms_at_first_use}}
 
-{{connection_to_the_owners_notes_and_queries}}
+$$
+{{formula}}
+$$
+
+### {{reader_question_why_it_works}}
+
+{{mechanism_from_the_primary_source}} ([[{{raw_source}}|{{author_year}}]])
+
+**{{one_sentence_to_keep}}**
+
+### {{reader_question_how_it_behaves}}
+
+| {{parameter}} | {{steps}} | {{result}} |
+| :--- | :--- | :--- |
+| {{value}} | {{trace}} | {{outcome}} |
+
+### {{reader_question_what_problem_it_solves}}
+
+{{problem_and_connection_to_owner_notes}} ([{{owner_note_title}}](obsidian://open?vault={{encoded_vault}}&file={{encoded_path}}))
 
 ## Where It Is Used
 
-- {{field_or_situation}}: {{how_it_is_used_there_with_entity_examples}}
+- **{{field_or_situation}}:** {{how_it_is_used_there_with_entity_examples}}
 
 ## Origin
 
-{{paragraph_on_etymology_first_documented_use_with_primary_source_and_later_senses}}
+{{paragraph_on_first_documented_use_with_primary_source}}
 
-- {{dated_step_when_a_sequence_needs_it}}
+**{{method_origin_versus_name_origin}}** {{paragraph_on_the_name_and_later_senses}}
 
 ## Senses
 
@@ -68,27 +83,24 @@ Definition status: {{consensus|contested|emerging}}
 > Counter-argument: {{counter_argument}}
 > Data gap: {{data_gap}}
 
----
-
 ## Literature Review
 
-### [[{{raw_source}}]]
+### [[{{author}}|{{author_short}}]] ({{year}}): {{what_it_adds}}
 
-{{what_this_source_contributes_that_others_do_not}}
+[[{{raw_source}}]] {{summary}}
 
-- {{attributed_claim}}
+- **{{aspect}}:** {{attributed_claim}}
 
 ## Personal Insights
 
 ## Related Terms
 
-- Broader: [[{{broader_term}}]]
-- Narrower: [[{{narrower_term}}]]
-- Related: [[{{related_term}}]]
-- Confused with: [[{{often_confused_term}}]]
+- **Broader:** [[{{broader_term}}]]
+- **Narrower:** [[{{narrower_term}}]]
+- **Related:** [[{{related_term}}]]
+- **Confused with:** [[{{often_confused_term}}]] — {{how_they_differ}}
 
----
+## References
 
-## Sources
-
-- [[{{raw_source}}]]
+- [[{{raw_source}}]] — [[{{author}}|{{author_short}}]] ({{year}}), {{role}}
+- [{{owner_note_title}}](obsidian://open?vault={{encoded_vault}}&file={{encoded_path}})
