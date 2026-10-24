@@ -33,17 +33,9 @@ Fill [term](../templates/term.md):
 - **Literature Review:** give one `### [[Author]] (year): what it adds` entry per source, walked up to the source that establishes the claim, with bold-labelled bullets.
 - **Personal Insights:** leave the owner's own notes as they are.
 - **Related Terms:** group links under labels in the page's language with the type in parentheses: broader (contains this term), narrower (a kind or variant of it), related split into what it is made of, other methods for the same problem and where it is used, and confused-with (often mixed up with it). Give each link one line saying why; state how a confused-with term differs. Never make one page both broader and related; put a relation that holds for one sense in that sense section.
-- **References:** list each Raw with its author and role, then each of the owner's notes the page draws on. Cite a source that has a Raw by its Raw only; its URL lives in the Raw.
-
-Link a note in another vault (the mothership) as `[title](obsidian://open?vault=<vault>&file=<path>)`, both components URL-encoded, never as a `[[path]]` wikilink.
+- **References:** list each Raw with its author and role, then each of the owner's notes the page draws on.
 
 When a relation or a numeric behavior is easier to see than to read (how senses derive from one another, how a parameter changes a trajectory), add a Pele diagram by `obsidian-visualize` beside the text that states it.
-
-Write the field's jargon in its original-language name (`Kipping Pull-up`, `Adaptive Optimizer`, `learning rate`), with the sentence around it in the page's language; quotations stay verbatim.
-
-State a cited fact directly with its citation; never open it with "according to X" when the citation already names X, and attribute in prose only when sources disagree.
-
-Keep acquisition and process out of the page: which sources could not be read, blocked sites, second-hand checks and what was verified belong in the run report. Write an unknown fact once as unknown.
 
 Keep a superseded definition with its date and source when adding a new one.
 

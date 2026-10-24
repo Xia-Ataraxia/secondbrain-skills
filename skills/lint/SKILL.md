@@ -81,6 +81,8 @@ Read Core Context `snapshot_date`. Compare it with the latest modification of th
 
 Skipped when no mothership is configured. Ignore links inside code spans and fenced blocks — those are examples.
 
+- **Link form:** report every Wiki page that breaks `ingest` Step 6's link rules: a `[[…]]` to a mothership note, or an `obsidian://` URL in a body or property (`moc` included) that is not `[label](obsidian://...)`.
+
 - **`mainVaultRelated`:** each entry must be `[label](obsidian://open?vault=<vault>&file=<path>)` with both components encoded by `urllib.parse.quote(value, safe='')`. Flag a wrong vault name, unencoded or double-encoded components. Decode `file` and stat it under the mothership root, with and without `.md`. Report source note → missing target.
 - **`mainVaultCmds`:** each value must exactly match a reference the Core Context or mothership actually registers (compare after stripping a pipe alias). Flag unregistered, invented or reformatted values; never suggest a guessed code.
 
