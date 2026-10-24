@@ -37,7 +37,13 @@ Never resolve step 4 by assuming, by quoting a version number from another machi
 
 The optional-suffix pattern is the useful general rule: when both spellings are accepted, the `-beta` one also works on older bundles.
 
-Families Pele added beyond the old catalog — `quadrantChart`, `requirementDiagram`, `gitGraph`, `C4*`, `block`, `packet`, `radar-beta`, `venn-beta`, `ishikawa`, `wardley-beta`, `railroad-*`, `treeView-beta`, `cynefin-beta`, `eventmodeling`, `usecase-beta`, `agentflow-beta`, `swimlane-beta` — need 1.15.0+ everywhere the note is read. Take their grammar from Pele's and Mermaid's documentation, not from memory.
+Families Pele added beyond the old catalog — `quadrantChart`, `requirementDiagram`, `gitGraph`, `C4*`, `block`, `packet`, `radar-beta`, `venn-beta`, `ishikawa`, `wardley-beta`, `railroad-*`, `treeView-beta`, `cynefin-beta`, `eventmodeling`, `usecase-beta`, `agentflow-beta`, `swimlane-beta` — need 1.15.0+ everywhere the note is read. Start from their patterns in the catalog's Pele-only section, not from memory. Pele also accepts `C4Container`, `C4Component`, `C4Dynamic`, `C4Deployment`, `railroad-beta`, `railroad-abnf-beta`, `railroad-peg-beta`, and the unsuffixed `block`, `packet` and `ishikawa`.
+
+## The Pele inside the app lags Pele releases
+
+Obsidian bundles one Pele build and moves it only when the app updates, so a feature in Pele's release notes is not evidence for the vault. In Obsidian 1.15.0 (installer 1.13.4), `pele.render()` rejected a Hangul sankey node name and drew `<kbd>` and `<code>` label tags as plain text, both of which Pele 1.9.0 supports. Probe a feature from a recent release before relying on it, and keep the older form when the probe fails.
+
+Host options are the app's choice, not the note's. Obsidian 1.15.0 typesets `$$...$$` labels with MathJax in a rendered note (observed through Obsidian's Markdown renderer), while a bare `pele.render()` call without a `math` resolver shows the TeX source. The narrow-width switch from `LR` to `TB`, sankey gradients and the size limits are host options too; a note cannot set them.
 
 A `---` delimited config header or a `%%{init}%%` directive is accepted by Pele, but configuration support varies by diagram type, and on older bundles it is version-gated on its own. If a block fails, remove the config and retest before concluding the family is unsupported.
 
@@ -137,6 +143,8 @@ Do not invent a renderer version. The app reports app and installer versions; th
 - Obsidian 1.15.0 desktop changelog (early access, 2026-10-22), for the switch to Pele, the removed setting, `--mermaid-*` variables and the `loadMermaid()`/`window.pele` surface — <https://obsidian.md/changelog/2026-10-22-desktop-v1.15.0/>
 - Pele repository, MIT — <https://github.com/obsidianmd/pele>
 - Pele compatibility table and differences from Mermaid — <https://pele.run/compatibility>
+- Pele release notes, for features added after the build an app bundles — <https://github.com/obsidianmd/pele/releases>
+- CMDSPACE Pele gallery, for use, avoid and size guidance per family observed in Pele 1.9.0 — <https://pele.cmdspace.work/>
 - Pele security and size limits — <https://pele.run/security>
 - Mermaid documentation, for grammar — <https://mermaid.js.org/intro/>
 - Mermaid flowchart syntax, including quoting and entity-code escapes — <https://mermaid.js.org/syntax/flowchart.html>

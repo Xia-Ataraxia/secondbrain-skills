@@ -108,6 +108,7 @@ AGENTS.md                repository contract for contributors and agents
 - **[Steph Ango (kepano)](https://github.com/kepano/obsidian-skills)**, obsidian-skills (MIT). `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas` and `obsidian-cli` started from it and were modified.
 - **[Jonghak Seo](https://github.com/Jonghakseo/pi-extension)**, pi-extension (MIT). The inspection lint and the skeleton and style references in `obsidian-visualize` are adapted from it.
 - **[Obsidian](https://github.com/obsidianmd/pele)**, Pele (MIT). The Pele branch of `obsidian-visualize` follows its public compatibility and security documentation; no Pele file is shipped.
+- **[Yohan Koo (구요한)](https://pele.cmdspace.work/)**, the CMDSPACE Pele gallery. The use, avoid and size guidance and the observed pitfalls in the `obsidian-visualize` Pele catalog were consulted from it; every example there is this repository's own.
 
 No endorsement by any of them is claimed. "Obsidian" names the third-party application these skills target.
 
