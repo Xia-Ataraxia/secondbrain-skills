@@ -37,6 +37,12 @@ Fill [term](../templates/term.md):
 
 Link a note in another vault (the mothership) as `[title](obsidian://open?vault=<vault>&file=<path>)`, both components URL-encoded, never as a `[[path]]` wikilink.
 
+Write the field's jargon in its original-language name (`Kipping Pull-up`, `Adaptive Optimizer`, `learning rate`), with the sentence around it in the page's language; quotations stay verbatim.
+
+State a cited fact directly with its citation; never open it with "according to X" when the citation already names X, and attribute in prose only when sources disagree.
+
+Keep acquisition and process out of the page: which sources could not be read, blocked sites, second-hand checks and what was verified belong in the run report. Write an unknown fact once as unknown.
+
 Keep a superseded definition with its date and source when adding a new one.
 
 Link a Term as a whole page, never a heading inside it.
