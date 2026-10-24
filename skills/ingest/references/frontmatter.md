@@ -35,7 +35,7 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Raw Source | `raw-source` | — | `ingested` | raw.md |
 | Book Index (Raw) | `raw-source` | — | `ingested` | book-index.md |
 | Book chapter (Raw) | `raw-source` | — | `stub` → `reading` → `completed` | book-chapter.md |
-| Term | `wiki-page` | `terms`; Paper promotions `theory` or `method` when the field already names them | `active` | term.md, rules in terms.md |
+| Term | `wiki-page` | `terms` | `active` | term.md, rules in terms.md |
 | Concept | `wiki-page` | `concepts`; Paper promotions `theory`, `method` or `scale` | `active` | concept.md |
 | Entity | `wiki-page` | `entities` | `active` | entity.md |
 | Guide | `wiki-page` | `guides` | `active` | guide.md |

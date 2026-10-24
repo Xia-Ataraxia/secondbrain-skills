@@ -10,36 +10,47 @@ effort: {{runtime_effort_or_default}}
 date_created: {{today}}
 date_modified: {{today}}
 tags: []
-domain: []
+domain:
+  - "{{sense_field}}"
 source:
   - "[[{{raw_source}}]]"
 related: []
 confidence: {{high|medium|low}}
-layer: {{terms|theory|method}}
+layer: terms
 explored: false
 verificationStatus: unverified
 status: active
-# domain lists the fields of the Senses sections; omit it for self-contained jargon.
 ---
 
 # {{full_name_in_original_language_with_acronym}}
 
 > [!abstract] TL;DR
-> {{essential_insight_not_a_restated_definition}}
+> {{why_the_term_matters_not_its_definition}}
 
-{{shared_definition_stating_what_every_sense_has_in_common}} ([[{{raw_source}}]])
+{{shared_definition}} ([[{{raw_source}}]])
 
 Definition status: {{consensus|contested|emerging}}
 
 ---
 
+## Explanation
+
+{{what_it_is_and_how_it_works_for_a_first_time_reader_linking_known_vault_terms_at_first_use}}
+
+{{worked_example}}
+
+{{connection_to_the_owners_notes_and_queries}}
+
+## Where It Is Used
+
+- {{field_or_situation}}: {{how_it_is_used_there_with_entity_examples}}
+
 ## Origin
 
-- Etymology: {{word_origin_or_unknown}}
-- First documented use: {{who_where_when_with_primary_source_or_unknown}}
-- Later senses: {{when_each_later_sense_appeared}}
+{{paragraph_on_etymology_first_documented_use_with_primary_source_and_later_senses}}
 
-<!-- Only when the meaning varies by field; one section per sense. Omit the whole Senses block otherwise. -->
+- {{dated_step_when_a_sequence_needs_it}}
+
 ## Senses
 
 ### {{field}}
@@ -48,13 +59,11 @@ Definition status: {{consensus|contested|emerging}}
 
 - Since: {{when_this_sense_is_used}}
 - Examples: {{examples_linking_entities}}
-- Related in this field: [[{{sense_specific_term}}]]
+- {{Broader|Narrower|Related|Confused with}}: [[{{sense_specific_term}}]]
 
-<!-- Only when this source explicitly conflicts with an existing definition; keep both, attributed, uncertainty stated. Silence is not a contradiction. -->
 > [!warning] Contradiction
 > {{definition_a_with_source}} / {{definition_b_with_source}}
 
-<!-- Only for confidence: high or synthesis-heavy pages. -->
 > [!note] Bias Check
 > Counter-argument: {{counter_argument}}
 > Data gap: {{data_gap}}
@@ -70,8 +79,6 @@ Definition status: {{consensus|contested|emerging}}
 - {{attributed_claim}}
 
 ## Personal Insights
-
-<!-- The owner's own notes. Ingest leaves this section as it finds it. -->
 
 ## Related Terms
 

@@ -16,7 +16,7 @@ Status is read-only and points at the skill that would act. Run from the vault r
 2. **Recent history.** Read the last five relevant entries from `log.md` (append-only, newest at the bottom). Git history is not a proxy for `log.md`; a missing `log.md` is reported as missing, not filled from commits.
 3. **Count actual files:**
    - `10. Raw Sources/**/*.md` → raw sources
-   - the Terms folder the vault registers → terms; without one, `layer: terms` pages in the Concept folder
+   - the Terms folder the vault registers → terms, plus `layer: terms` pages in the Concept folder
    - `20. Wiki/21. Concepts/*.md` → concepts, excluding `layer: terms` pages
    - `20. Wiki/22. Entities/*.md` → entities
    - `20. Wiki/23. Guides/*.md` → guides

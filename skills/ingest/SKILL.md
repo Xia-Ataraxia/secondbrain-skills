@@ -107,7 +107,7 @@ For each extracted term, concept, entity and guide, update the existing page or 
 - Title a person Entity with their source-confirmed real name in its original language and script; put handles, channel names, localized names and romanizations in `aliases`. Never infer a real name; if unconfirmed, report it without presenting an alias as a real name. An explicit live-policy naming exception wins and is reported.
 - A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
 - Title and structure a Term by [terms](references/terms.md). Before creating one, search titles and aliases for the same referent under any of its names; a match is updated, never duplicated, and a new sense becomes a section of the existing page.
-- A new Term goes into the folder the live policy registers for Terms; when none is registered, it goes into the Concept folder with `layer: terms` and the report says so. An existing page is not moved or retyped.
+- A new Term goes into the folder the live policy registers for Terms; when none is registered, it goes into the Concept folder and the report says so. Ingest never moves or retypes an existing page.
 - Set `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
 
