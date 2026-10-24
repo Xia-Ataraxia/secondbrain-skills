@@ -95,10 +95,18 @@ $$
 
 ## Related Terms
 
-- **Broader:** [[{{broader_term}}]]
-- **Narrower:** [[{{narrower_term}}]]
-- **Related:** [[{{related_term}}]]
-- **Confused with:** [[{{often_confused_term}}]] — {{how_they_differ}}
+- **{{broader_label}} (Broader)**
+	- [[{{broader_term}}]] — {{why}}
+- **{{narrower_label}} (Narrower)**
+	- [[{{narrower_term}}]] — {{why}}
+- **{{components_label}} (Related)**
+	- [[{{component_term}}]] — {{why}}
+- **{{alternatives_label}} (Related)**
+	- [[{{alternative_method}}]] — {{why}}
+- **{{used_in_label}} (Related)**
+	- [[{{field_or_tool}}]]
+- **{{confused_with_label}} (Confused with)**
+	- [[{{often_confused_term}}]] — {{how_they_differ}}
 
 ## References
 

@@ -31,8 +31,8 @@ Fill [term](../templates/term.md):
 - **Senses:** add one `### {field}` section per sense only when the meaning varies by field, each with that field's definition, since when it is used that way, examples and its own typed relations; list those fields in `domain`.
 - **Literature Review:** give one `### [[Author]] (year): what it adds` entry per source, walked up to the source that establishes the claim, with bold-labelled bullets.
 - **Personal Insights:** leave the owner's own notes as they are.
-- **Related Terms:** type each link as broader, narrower, related or confused-with; never make one page both broader and related; put a relation that holds for one sense in that sense section.
-- **References:** list each Raw with its author and role, then each of the owner's notes the page draws on.
+- **Related Terms:** group links under labels in the page's language with the type in parentheses: broader (contains this term), narrower (a kind or variant of it), related split into what it is made of, other methods for the same problem and where it is used, and confused-with (often mixed up with it). Give each link one line saying why; state how a confused-with term differs. Never make one page both broader and related; put a relation that holds for one sense in that sense section.
+- **References:** list each Raw with its author and role, then each of the owner's notes the page draws on. Cite a source that has a Raw by its Raw only; its URL lives in the Raw.
 
 Link a note in another vault (the mothership) as `[title](obsidian://open?vault=<vault>&file=<path>)`, both components URL-encoded, never as a `[[path]]` wikilink.
 

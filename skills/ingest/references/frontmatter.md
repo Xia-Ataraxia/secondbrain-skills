@@ -86,7 +86,7 @@ No `created_by` or `authorship` default. A vault whose live policy defines its o
 | Claim classification | `claimType`, `evidenceScope` | Optional at ingest; record only when the classification is clear. `claimType`: `definition`, `empirical`, `theoretical`, `historical`, `prescriptive`, `interpretive` or `mixed`. `evidenceScope`: `single-source`, `multi-source-primary`, `multi-source-mixed`, `synthesis-only` or `user-original`. |
 | Conflict | `disputed` | Set only by `verify`; `audit` only queues it, ingest never sets it. |
 | Page state | `status` | `active`. |
-| Mothership links | `mainVaultRelated`, `mainVaultCmds` | Optional, same form as on the Raw. |
+| Mothership links | `mainVaultRelated`, `mainVaultCmds` | Optional, same form as on the Raw. Any other property that links into another vault (for example a kept `moc`) uses the same `"[label](obsidian://...)"` form, never a bare URL. |
 | Persona | `personaOf`, `personaMaturity`, `personaDomains` | Persona only; ingest never changes `personaMaturity`. |
 | Paper | `paperType`, `citekey`, `doi`, `targetManuscript`; atoms add `analysisStep` (integer 2–12), `analysisStepName`, `paperHub` | Paper Mode only. |
 | Map | `topic`, `related` | Map only. |
