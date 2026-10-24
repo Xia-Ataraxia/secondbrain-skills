@@ -14,4 +14,4 @@ Name a highlight reel or another programme's trailer in `## Ingest Notes`; it is
 No word count, transcript size or successful response proves completeness.
 The vault's live policy decides whether the destination is a video or YouTube leaf.
 
-Analysis cites timestamp spans and keeps conflicting statements visible.
+Analysis keeps conflicting statements visible; timestamps stay in the Raw.
