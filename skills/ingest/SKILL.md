@@ -59,8 +59,8 @@ Skip for `.md`, `.markdown`, `.txt`. Transcribe audio (`.mp3`, `.wav`, `.m4a`) w
 Read the whole source. Extract:
 
 - terms and concepts (3–8 together), candidates that may land on existing pages:
-	- a Term is a name an established field already uses independently of this source (a field, method or phenomenon such as `강화학습` or `방사통`); record the field as its `domain`;
-	- a Concept is an idea, pattern or argument the source itself names or develops, titled as a noun phrase; a name only this source's author uses stays a Concept until an independent source uses it;
+	- a Term is a name an established field uses independently of this source, decided by [terms](references/terms.md);
+	- a Concept is an idea, pattern or argument the source itself names or develops, titled as a noun phrase;
 	- a claim is never a page title: it goes into the body of the Term or Concept it is about, attributed;
 - entities (1–5): people, organizations, products, models;
 - practical guidance (0–3) worth a Guide;
@@ -98,16 +98,16 @@ For each extracted term, concept, entity and guide, update the existing page or 
 
 - New writing comes only from this source and is attributed to it.
 - An existing page is updated in three separate contexts, in this order:
-	1. Writer — a fresh context given only the vault's approved policy, this run's extraction and the Raw's `## Original Content`. It never sees the existing page's prose or examples; the page's path, title, aliases, `type`, `layer` and `source` list may be passed to fix identity and target. It drafts only source-grounded additions for that page.
-	2. Preservation reviewer — a separate context given the page's before-image and the writer's proposal. It first checks that every valid existing statement, link and frontmatter value survives, then reduces the proposal to the minimal patch: additions under the relevant sections, the Raw appended to `source`, `date_modified` updated. It drops anything the source does not support and never regenerates the page.
+	1. Writer — a fresh context given only the vault's approved policy, this run's extraction and the Raw's `## Original Content`. It never sees the existing page's prose or examples; the page's path, title, aliases, `type`, `layer` and `source` list may be passed to fix identity and target. For a Term it also receives excerpts of the owner's notes and earlier queries that vault search returns for the term, each with its path. It drafts only source-grounded additions for that page; an owner excerpt is quoted as the owner's own context, never as evidence for a fact.
+	2. Preservation reviewer — a separate context given the page's before-image and the writer's proposal. It first checks that every valid existing statement, link and frontmatter value survives, then reduces the proposal to the minimal patch: additions under the relevant sections, the Raw appended to `source`, `date_modified` updated. It drops anything the source does not support, except a connection quoting an owner excerpt by its path, and never regenerates the page.
 	3. Apply the reviewed patch, read the page back and compare it with the before-image. Links to and from the page are added only after this validation (Step 8).
 - When the runtime cannot provide separate contexts, stop the update of that existing page and report it; new pages and the rest of the run continue.
 - The existing Wiki is not ground truth, and neither is one source. An existing statement changes only when the correction rests on verified evidence (a `verify` result or the owner's confirmation) and the reviewer accepted it. When this source explicitly conflicts with an existing claim, keep both, attributed, with `> [!warning] Contradiction` and the uncertainty stated. A source that is silent on a claim does not contradict it.
 - An Entity exists because the analysis found it significant, never only to resolve an author link.
 - Title a person Entity with their source-confirmed real name in its original language and script; put handles, channel names, localized names and romanizations in `aliases`. Never infer a real name; if unconfirmed, report it without presenting an alias as a real name. An explicit live-policy naming exception wins and is reported.
 - A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
-- Title a Term by its established name in its field; put translations, abbreviations and spelling variants in `aliases`. Before creating one, search titles and aliases for the same referent under any of those names; a match is updated, never duplicated. A named individual thing (a product, model or dataset) is an Entity, not a Term.
-- A new Term goes into the folder the live policy registers for Terms; when none is registered, it goes into the Concept folder with `layer: terms` and the report says so. An existing page is not moved or retyped.
+- Title and structure a Term by [terms](references/terms.md). Before creating one, search titles and aliases for the same referent under any of its names; a match is updated, never duplicated, and a new sense becomes a section of the existing page.
+- A new Term goes into the folder the live policy registers for Terms; when none is registered, it goes into the Concept folder and the report says so. Ingest never moves or retypes an existing page.
 - Set `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
 

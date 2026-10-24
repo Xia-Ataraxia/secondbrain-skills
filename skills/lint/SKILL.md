@@ -59,7 +59,7 @@ Check `log.md`: present, append-only shape (`## [YYYY-MM-DD] op | title` entries
 
 ### Step 7: MOC Coverage
 
-Every Wiki page should be reachable from at least one MOC. List uncovered pages with the MOC they most likely belong to, MOC links to notes that no longer exist, page ↔ MOC back-link gaps, and MOCs whose lists have grown past easy reading. Judge placement by hierarchy: a page is read through its parent MOC, Raw evidence and compiled knowledge are different roles, a chapter belongs under its Book Index. A MOC or Paper hub that is a bare list without saying what its collection covers and lacks is a finding. Suggest placement from live policy; never move a note as a lint fix.
+Every Wiki page should be reachable from at least one MOC. List uncovered pages with the MOC they most likely belong to, MOC links to notes that no longer exist, page ↔ MOC back-link gaps, and MOCs whose lists have grown past easy reading. Judge placement by hierarchy: a page is read through its parent MOC, Raw evidence and compiled knowledge are different roles, a chapter belongs under its Book Index. A MOC or Paper hub that is a bare list without saying what its collection covers and lacks is a finding. Suggest placement from live policy; moves happen only as a policy conformance fix.
 
 ### Step 8: Frontmatter Coverage
 
@@ -94,7 +94,7 @@ Notes written before the current policy, or by a writer still following an older
 - **Kind values:** `type`, `category`, layer or role values that differ from the value live policy assigns to that folder or kind, or are missing.
 - **Retired keys and duplicates:** keys the live policy says not to use (for example removed provenance keys), and the same property written twice in different spellings (`date modified` beside `date_modified`), with both values.
 - **Old values carried as tags:** where live policy keeps a replaced value as a tag (for example `reference/<old type>`), a note whose replaced value is not kept.
-- **Term and claim candidates:** a Concept whose title is a name an established field uses independently of its sources, reported as a Term candidate with that field; a Concept titled as a sentence-style claim, reported as a claim candidate with the Term or Concept it is about when one exists. A Term without `domain` is a gap. Retyping, retitling or moving is an owner-picked fix, never automatic.
+- **Terms:** judge each Term and Concept by `ingest`'s Term rules and report Term candidates, Entity candidates and Term titles that break them, each with its target title and folder, plus links to a heading inside a Term and missing Term sections. A Concept titled as a sentence-style claim is reported as a claim candidate with the Term or Concept it is about when one exists. Decide only from evidence in the note and its sources; an empty or unsourced note is reported as undecided.
 
 Then group the drifted notes by the provenance fields they record (`source_extraction`, `ingest_kind`, `store`, `source_kind`, `source_locator` host or session) and report each group with its newest `date_created`. A group still gaining notes means a writer is still producing the old shape. Name it as the recorded provenance only: never infer a producer from mtime, counts or file names. Report where that writer's instructions live when a recorded field points to them, as a finding for the owner. Lint does not edit another tool's configuration.
 
@@ -127,10 +127,16 @@ Apply only the fixes the owner picks — add a page to a MOC, add an `index.md` 
 - set `type`, `category`, layer or role to the live-policy value, keeping the replaced value where live policy says it is kept (for example the `reference/<old type>` tag, added only when absent and in the note's existing list style);
 - move a note from an unregistered folder to the registered folder for its kind without overwriting: stop on a name collision or an existing note for the same source, never merge, then update every link to the old path, as in a confirmed rename;
 - drop a duplicate spelling of a property only when both copies are in the note and live policy names the spelling that stays; record the dropped value in the fix report;
-- drop a retired key only when live policy says to remove it from existing notes, not only from new ones.
+- drop a retired key only when live policy says to remove it from existing notes, not only from new ones;
+- retitle a Term in place: rename it to the reported title and add the old title to `aliases`, keeping its folder and `layer`;
+- reclassify a Term or Entity candidate: set `layer`, move it to the folder the live policy registers for that kind and retitle it as above; stop when the live policy registers no folder for the kind.
 
-Before each batch, keep a copy of every note it changes outside the vault and check that the note still matches what the report read; if it changed, re-read it and re-show the diff. Bodies stay byte-for-byte unchanged, including Raw `## Original Content`. A writer still producing the old shape keeps producing it until its owner changes its instructions, so report it again rather than re-running the fix in a loop.
+For both, stop on a title collision or on an existing note for the same referent, and never merge. Then change only these body parts: the H1, an incorrect or former form named in `## Origin`, and every link to the old title or path in this vault, keeping display text and anchors. Report inbound references from other vaults and from Raw `## Original Content` as unrepaired, with paths, and never rewrite them.
+
+Approving a group approves its batches; show each batch's diff before applying it and read it back before the next. Missing Term sections are filled by `ingest`, not by lint: by reprocessing the Term's existing Raws, or, when it cites only external sources, by ingesting a cited source the owner selects as a new Raw first; with neither, the sections stay missing and are reported.
+
+Before each batch, keep a copy of every note it changes outside the vault and check that the note still matches what the report read; if it changed, re-read it and re-show the diff. Bodies stay byte-for-byte unchanged, including Raw `## Original Content`, apart from the body parts a Term or Entity reclassification names. A writer still producing the old shape keeps producing it until its owner changes its instructions, so report it again rather than re-running the fix in a loop.
 
 **Cross-vault fix mode** requires explicit opt-in for that run. It patches only `mainVaultRelated` / `mainVaultCmds` in this vault's Raw and Wiki notes, using a stat-verified target or an exactly registered reference; it never writes mothership originals. Show the diff and ask OK per batch of at most ten.
 
-Never as a lint fix: delete a note, rename a note's file name, move a note other than a policy conformance fix, remove a Contradiction callout, set `explored: true`, change `confidence` or `verificationStatus` (those belong to `verify`), invent a `collectionPurpose`, `mainVaultCmds` or other unknown value, create an author note, or migrate metadata not explicitly authorized.
+Never as a lint fix: delete a note, rename a note's file name or move a note other than by a policy conformance fix, remove a Contradiction callout, set `explored: true`, change `confidence` or `verificationStatus` (those belong to `verify`), invent a `collectionPurpose`, `mainVaultCmds` or other unknown value, create an author note, or migrate metadata not explicitly authorized.
