@@ -13,7 +13,7 @@ Upstream: 구요한 `/onboard`, commit `54cf2ab`. At that commit it exists only 
 | Q2 운영 모드 Mode A / Mode B | same; mothership read-only always | Adopt. |
 | Q3 (Mode B) 모선 경로·이름 | same plus existence and `obsidian-cli` registration check | Adopt with checks. |
 | Q4 §1 정체성 + 연속성 선언 | same | Adopt. |
-| Q5 §2 재활용 축 5–9 (7 권장) | 5–9 owner-defined axes; examples only as prompts | Adopt range; never a fixed list. These registered axes feed `ingest` Step 0. |
+| Q5 §2 재활용 축 5–9 (7 권장) | 5–9 owner-defined axes; examples only as prompts | Adopt range; never a fixed list. These registered axes feed `ingest` Step 1. |
 | 옵션 §3 프레임워크 / §4 철학 3–5 | same | Adopt. |
 | Failure mode: passive 모드 | same; nothing invented | Adopt. |
 | Fill F1 placeholder sed (Mode A / B) | same token lists, fresh targets only | Adapt: never replaces tokens in an existing vault's files. |

@@ -337,7 +337,7 @@ section), `90. Settings/Templates/Template_Raw Source.md`,
   command is the port baseline; Claude-only detail fills gaps, and Claude/Codex
   step ordering is treated as a vendor variant, not a contradiction.
 - Restored upstream semantics: Codex ingest order (0 → 0-a → 0.5 → 1 → 2 → 3/3.5
-  → 4 → 5 → 6), `index.md` catalog/Stats/Recent sections and append-only
+  → 4 → 5 → 6, numbered 1–10 here), `index.md` catalog/Stats/Recent sections and append-only
   `log.md` across the operations that keep them upstream, the original
   role/`type`/`layer`/`category` schema, the claim taxonomy and verification
   fields, Paper Mode's twelve axes and hub/atom shapes, Book Mode scaffolding

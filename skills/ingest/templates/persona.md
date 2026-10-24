@@ -20,7 +20,7 @@ related: {{existing_related}}
 
 # {{existing_persona_title}}
 
-<!-- Append recipe for an EXISTING Persona card only (Step 3.5). Never create a Persona during ingest; creation is owner-nominated. Keep every existing key, value and section; change only what is listed here. -->
+<!-- Append recipe for an EXISTING Persona card only (Step 7). Never create a Persona during ingest; creation is owner-nominated. Keep every existing key, value and section; change only what is listed here. -->
 
 ## Quote Bank
 

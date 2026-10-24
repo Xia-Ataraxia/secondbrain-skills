@@ -6,7 +6,7 @@ Upstream: 구요한's cmds-llm-wiki, commit `54cf2ab150f866bbfcf1aa2c7e03514d14f
 | --- | --- | --- |
 | Input by material; blank → inbox | same; per-material acquisition references | Adopt. |
 | Category Detection: Inbox lane → Clipper `category` → inference → Articles | same order; destination's Raw folder for that category | Adopt; live placement wins where defined. |
-| Step order (Codex): 0 → 0-a → 0.5 → 1 → 2 → 3 (+3.5) → 4 → 5 → 6 | same names and order | Adopt the Codex baseline order. |
+| Step order (Codex): 0 → 0-a → 0.5 → 1 → 2 → 3 (+3.5) → 4 → 5 → 6 | same names and order, numbered 1–10 | Adopt the Codex baseline order; adapt: sequential numbering. |
 | Step 0: one collection-purpose question (미래의 나에게 보내는 편지), reuse axes from Core Context | one question; skipped when the task or candidate already states `collectionPurpose`; delegation ("알아서", "자동으로") infers and records inference and reason | Adapt (owner exception): skip and delegation rules. Core Context read once per session; reuse axes are those registered in its §2, never a fixed list. |
 | Step 0-a: mothership search, stat check, deeplinks; `mainVaultRelated`, `mainVaultCmds` | read-only; `obsidian://open` with vault and file each encoded with `urllib.parse.quote(value, safe='')`, stat-verified | Adapt (owner exception): `mainVaultCmds` only a category or command reference the Core Context or mothership actually registers, copied exactly, cardinality per live policy, empty if none; never a hardcoded taxonomy or invented value. |
 | Step 0.5: binary conversion, attachment, five conversion fields | same fields | Adopt; date key is `conversion_date` (owner snake_case exception), other kebab keys kept. |
@@ -17,7 +17,7 @@ Upstream: 구요한's cmds-llm-wiki, commit `54cf2ab150f866bbfcf1aa2c7e03514d14f
 | Step 3.5 Persona: quote / Timeline / Log, maturity unchanged | existing Persona append only | Adopt. |
 | Step 3 Entity folder | live policy's subtype folder | Owner addition. |
 | CJK Person Naming Rule: CJK-named people titled in native script, romanization in `aliases` | every person titled by their source-confirmed original-language real name; handles, channel names and other name forms in `aliases` | Adapt (owner exception): not limited to CJK and never decided by nationality. |
-| Step 4: wikilinks, MOC, no orphans | same, after Step 3 readback, plus Entity mention and reference links | Adopt; owner addition. |
+| Step 4: wikilinks, MOC, no orphans | same, after Step 6 readback, plus Entity mention and reference links | Adopt; owner addition. |
 | Step 5: `index.md` sections, Stats, Recent Ingests; append `log.md` | restored: catalog sections, Stats recounted from folders, Recent Ingests row, append-only `log.md` | Adopt. Git history does not replace either file. |
 | Commit | none during ingest | Adapt (owner exception): no automatic commit or push; a commit only on a separate owner request, subject `ingest: {source title}` ([git provenance](git-provenance.md)). |
 | Step 6: Review incl. verbatim, links, qmd reindex status | same, then `lint` and `verify` | Adopt; owner addition. |
