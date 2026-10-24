@@ -60,7 +60,7 @@ Read the whole source. Extract:
 
 - terms and concepts (3–8 together), candidates that may land on existing pages:
 	- a Term is a name an established field uses independently of this source, decided by [terms](references/terms.md);
-	- a Concept is an abstract idea, technique, method or pattern that stays useful beyond this source, titled as a noun phrase; one passage or argument of the source is not a Concept but a claim;
+	- a Concept is an idea, method or pattern that the source or its author names but no established field uses yet, titled with that name; a passage or argument the agent would have to name itself is a claim, not a Concept;
 	- a claim is never a page title: it goes into the body of the Term or Concept it is about, attributed;
 - entities (1–5): people, organizations, products, models;
 - practical guidance (0–3) worth a Guide;
