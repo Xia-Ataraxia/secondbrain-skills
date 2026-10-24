@@ -94,13 +94,10 @@ Release: `scripts/release.sh <version>` on `main` sets that version in the four 
 
 The nine Obsidian packages of that release (`obsidian-mermaid` has since merged into `obsidian-visualize` as its Pele branch) were installed natively on Claude Code and on Hermes, and exercised against an isolated Obsidian 1.12.7 profile. The knowledge packages pass the local format checks only; no runtime load of them is recorded. Do not install the `v0.1.0` tag on Hermes.
 
-Every result, its revision and its limits are in [docs/verification-matrix.md](docs/verification-matrix.md). Safety and data handling are in [docs/security-and-privacy.md](docs/security-and-privacy.md).
-
 ## Repository layout
 
 ```
 skills/<name>/SKILL.md   one package; everything else sits in a subfolder beside it
-docs/                    naming, contracts, verification matrix, security
 AGENTS.md                repository contract for contributors and agents
 ```
 

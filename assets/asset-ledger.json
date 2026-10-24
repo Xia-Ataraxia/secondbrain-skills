@@ -104,7 +104,7 @@
   "excluded": [
     {
       "what": "Local probe captures taken while exercising an isolated neutral Obsidian profile (application screenshots, CLI logs).",
-      "why": "They are untracked local evidence under an ignored directory, not repository assets, and an application screenshot would redistribute third-party UI. Their findings are summarised in docs/verification-matrix.md instead.",
+      "why": "They are untracked local evidence under an ignored directory, not repository assets, and an application screenshot would redistribute third-party UI.",
       "tracked": false
     },
     {

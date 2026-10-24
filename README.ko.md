@@ -92,13 +92,10 @@ claude plugin install secondbrain-skills@secondbrain-skills
 
 그 릴리스의 Obsidian 패키지 아홉 개(`obsidian-mermaid`는 이후 `obsidian-visualize`의 Pele 분기로 합쳐졌습니다)는 Claude Code와 Hermes에 네이티브로 설치했고, 격리된 Obsidian 1.12.7 프로필에서 실행해 봤습니다. 지식 패키지는 로컬 형식 검사만 통과했고 런타임 로드 기록은 없습니다. Hermes에는 `v0.1.0` 태그를 설치하지 마십시오.
 
-결과와 리비전, 한계는 모두 [docs/verification-matrix.md](docs/verification-matrix.md)에, 안전과 데이터 처리는 [docs/security-and-privacy.md](docs/security-and-privacy.md)에 있습니다.
-
 ## 저장소 구성
 
 ```
 skills/<name>/SKILL.md   패키지 하나. 나머지는 모두 옆의 하위 폴더에 둡니다
-docs/                    이름 규칙, 계약, 검증 매트릭스, 보안
 AGENTS.md                기여자와 에이전트를 위한 저장소 계약
 ```
 

@@ -93,8 +93,7 @@ The original parts of `skills/obsidian-visualize/` are covered the same way;
 its Pele references (formerly `skills/obsidian-mermaid/`) are
 original; its adapted parts additionally carry the notice in section 6 below.
 
-The repository-level files (`docs/`,
-`AGENTS.md`, `README.md`, `README.ko.md`, the plugin and marketplace manifests,
+The repository-level files (`AGENTS.md`, `README.md`, `README.ko.md`, the plugin and marketplace manifests,
 and this file) are likewise authored here.
 
 
@@ -181,7 +180,7 @@ This file is an attribution record. It is not a statement about deployment: this
 repository is an unpublished candidate, and nothing here installs it on a host,
 publishes it to a marketplace, or retires, replaces, or supersedes any other
 project — including either source named above, both of which remain their owners'
-to maintain. See `docs/cutover.md` for what a change of ownership would require.
+to maintain.
 
 
 6. MIT-licensed source absorption: pi-extension
