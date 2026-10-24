@@ -15,7 +15,7 @@ tags:
   - raw-source
   - {{book_slug}}
 source: "{{preface_or_index_url}}"
-category: {{category_per_live_policy_or_owner_task}}
+category: {{Books|live_policy_or_owner_task_category}}
 collectionPurpose: "{{owner_answer_verbatim_or_stated_inference_with_reason}}"
 source-vault: "{{mothership_vault_name}}"
 mainVaultRelated: []
@@ -23,7 +23,6 @@ mainVaultCmds: {{registered_mothership_category_or_command_reference_in_live_pol
 referenced: []
 status: ingested
 # No chapter keys on the Index. Omit date_published and source-vault when inapplicable.
-# category and folder: Books vs upstream Articles is decided by live policy or the owner's task (references/books.md).
 ---
 
 # {{book_title}}

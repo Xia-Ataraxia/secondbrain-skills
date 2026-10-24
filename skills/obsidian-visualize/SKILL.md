@@ -105,8 +105,8 @@ and [`scripts/plugin-workbench.js`](scripts/plugin-workbench.js) (native
 ExcalidrawAutomate snapshot, selected update, Mermaid addition and PNG export).
 Read [`references/skeleton.md`](references/skeleton.md) for upstream shorthand
 adaptation boundaries and [`references/style.md`](references/style.md) for
-palette/spacing/layout recipes. Their lineage and capability mapping are in
-[`PROVENANCE.md`](references/PROVENANCE.md) and [`source-map.json`](references/source-map.json).
+palette/spacing/layout recipes. Their capability mapping is in
+[`source-map.json`](references/source-map.json).
 
 Resolve exact artifact and authorized effect; inspect current bytes and live
 preimages; preserve everything outside the selected ids/fields; use the selected
@@ -212,4 +212,4 @@ Use the plugin's automation API for an authorized selected edit of a plugin-mana
 
 ## Attribution
 
-The deterministic generator, full-scene adapter, native workbench helper and plugin workflow are original work under the repository's MIT `LICENSE`. Inspection/layout lint and the skeleton/style resources are adapted from Jonghak Seo's MIT-licensed pi-extension at the pin in [PROVENANCE.md](references/PROVENANCE.md), with its full grant retained in [NOTICE](references/NOTICE). No standalone app, font, binary or Obsidian plugin is redistributed. See Git history for source facts, versions, modifications and unrun runtime checks.
+The deterministic generator, full-scene adapter, native workbench helper and plugin workflow are original work under the repository's MIT `LICENSE`. Inspection/layout lint and the skeleton/style resources are adapted from Jonghak Seo's MIT-licensed pi-extension at the pin in [source-map.json](references/source-map.json), with its full grant retained in [NOTICE](references/NOTICE). No standalone app, font, binary or Obsidian plugin is redistributed. See Git history for source facts, versions, modifications and unrun runtime checks.

@@ -6,8 +6,6 @@ license: MIT
 
 # Inbox
 
-Built on 구요한's `/inbox` (LLM Wiki Inbox Scanner, commit `54cf2ab`). His step skeleton and names are kept; the owner's rules are stacked on top. Every decision against his version is recorded in [comparison](references/comparison.md).
-
 Scan `00. Inbox/` for pending candidates, preview them, and route the selected ones through `ingest`. Read Core Context once per session; its §2 reuse axes are the ones offered for purpose. Scanning, previewing and counting write nothing. Ingest owns Raw, Wiki, Maps, `index.md` and `log.md`. The only file action this skill performs itself is the Step 6 cleanup, and only after an explicit yes.
 
 Tools: `obsidian-cli` or plain file reads over the vault; `rg` over frontmatter for counts and locators; `qmd` when a locator is missing and you need a likely existing Raw.
@@ -21,7 +19,7 @@ Tools: `obsidian-cli` or plain file reads over the vault; `rg` over frontmatter 
 
 ## Inbox Structure
 
-Read the destination's actual `00. Inbox/` and the lanes it has; never assume a layout. Upstream lanes are Articles, Papers, Transcripts, Clippings and AI Research plus the root; a vault may add `{NN Agent}` session lanes (e.g. `01 Chat`, `04 GJC`) or dated subfolders, which are scanned like any lane.
+Read the destination's actual `00. Inbox/` and the lanes it has; never assume a layout. The usual lanes are Articles, Papers, Transcripts, Clippings and AI Research plus the root; a vault may add `{NN Agent}` session lanes (e.g. `01 Chat`, `04 GJC`) or dated subfolders, which are scanned like any lane.
 
 A note in a lane has its kind assigned by where it sits. A note at the Inbox root is uncategorized: say so rather than guessing a lane; `ingest` settles its placement. A note still in the Inbox is pending. A `capture` note (`type: inbox`, `capture_status`, `captureMode`, dated filename) is a normal candidate; read those keys, never rewrite them.
 

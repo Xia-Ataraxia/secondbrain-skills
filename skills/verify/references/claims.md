@@ -64,7 +64,7 @@ Count lines of evidence, not links: two Raw from the same creator, or a secondar
 | Single source OR `synthesis-only` OR created < 7 days ago | `low` |
 | Counter-evidence present and unresolved | `disputed` |
 
-The `low` row's "created < 7 days ago" reads the page's `date_created`. The `high` row's "age > 30 days" names no field upstream (page creation, last change, or source age are all plausible), so that condition is reported as unknown: a page otherwise meeting `high` is reported as "`high` pending age basis", never promoted to `high` on an assumed clock, and no OVERCLAIM is raised against a declared `high` on age alone. The source-count, source-type and counter-evidence conditions stay usable as stated. The `disputed` row is reported as the page's `disputed` / `verificationStatus` state; the `confidence` field itself stays within high/medium/low (schema).
+The `low` row's "created < 7 days ago" reads the page's `date_created`. The `high` row's "age > 30 days" names no field (page creation, last change, or source age are all plausible), so that condition is reported as unknown: a page otherwise meeting `high` is reported as "`high` pending age basis", never promoted to `high` on an assumed clock, and no OVERCLAIM is raised against a declared `high` on age alone. The source-count, source-type and counter-evidence conditions stay usable as stated. The `disputed` row is reported as the page's `disputed` / `verificationStatus` state; the `confidence` field itself stays within high/medium/low (schema).
 
 The bands overlap and leave gaps, and they are kept as written; no resolving threshold is added. Report the overlap to the owner as stated uncertainty, naming which rows apply:
 

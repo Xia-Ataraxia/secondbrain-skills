@@ -8,7 +8,7 @@ license: MIT
 
 Whole-vault knowledge integrity audit. Audit applies the same three criteria as `verify` — 지식요건해당성 (Eligibility), 정합성 (Consistency), 확증가능성 (Confirmability) — at scale, through Map clusters and prioritized sampling. It does not verify every page; it scores the sampled scope, surfaces drift patterns and ranks the next `verify` calls. Audit is the planner; `verify` is the worker.
 
-Audit is a read-only diagnostic on the vault. It never regenerates the Wiki, rewrites a page, or sets a page property; follow-ups route to `verify`, `lint` or `ingest`. An owner goal to improve the entire Wiki becomes a ranked queue of single-page follow-ups, never blanket regeneration. The only writes are the report note and its `log.md` entry, both only after the owner approves saving. A `--no-save` or unapproved run writes nothing — no report, no log entry, no index change. Never commit or push; commit only when the owner separately asks. Decisions against the reference workflow are recorded in [comparison](references/comparison.md).
+Audit is a read-only diagnostic on the vault. It never regenerates the Wiki, rewrites a page, or sets a page property; follow-ups route to `verify`, `lint` or `ingest`. An owner goal to improve the entire Wiki becomes a ranked queue of single-page follow-ups, never blanket regeneration. The only writes are the report note and its `log.md` entry, both only after the owner approves saving. A `--no-save` or unapproved run writes nothing — no report, no log entry, no index change. Never commit or push; commit only when the owner separately asks.
 
 Every finding is stated against what was actually read. Unread pages are "not examined", never "clean"; a score covers only the examined scope and says so.
 
@@ -82,7 +82,7 @@ The target population is the union of, in priority order:
 1. **All `confidence: high` pages** — read in full, not sampled.
 2. **Stale unexplored backlog** — `explored: false` and `date_modified` more than 30 days ago.
 3. **Disputed pages** — `disputed: true` or `verificationStatus: disputed`, even if previously verified.
-4. **Random 10% stratified sample of the remainder** — stratified by `layer` (concepts, entities, guides, and the vault's other layers) and Maps; never plain random.
+4. **Random 10% stratified sample of the remainder** — stratified by `layer` (terms, concepts, entities, guides, and the vault's other layers) and Maps; never plain random.
 
 State each group's size and the total sampled against the total in scope.
 

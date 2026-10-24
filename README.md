@@ -106,7 +106,7 @@ AGENTS.md                repository contract for contributors and agents
 
 ## Acknowledgements
 
-- **[Yohan Koo (구요한)](https://github.com/johnfkoo951/cmds-llm-wiki)**, cmds-llm-wiki. The knowledge packages are built on its commands, re-read at commit `54cf2ab` with the Codex commands as baseline: their step order, section names, terms, schema and `index.md`/`log.md` bookkeeping are kept, with the owner's stated exceptions (snake_case dates, `referenced`, author wikilinks, no automatic commit or deletion, clean-context Wiki updates) stacked on top. Each package's `references/comparison.md` records what was adopted, adapted or rejected. No upstream file is shipped: the Paper Mode P-7 verifier `skills/ingest/scripts/verify_paper.py` is this repository's own implementation of his verification step, written without his script. The upstream publishes no licence and nothing here relicenses it. This restoration is an unverified candidate; see [PROVENANCE.md](PROVENANCE.md).
+- **[Yohan Koo (구요한)](https://github.com/johnfkoo951/cmds-llm-wiki)**, cmds-llm-wiki. The knowledge packages started from its commands; this repository is now their canonical source and diverges where the owner decided. No upstream file is shipped: the Paper Mode P-7 verifier `skills/ingest/scripts/verify_paper.py` is this repository's own implementation, written without his script. The upstream publishes no licence and nothing here relicenses it.
 - **[Andrej Karpathy](https://github.com/karpathy)**, the LLM Wiki pattern that cmds-llm-wiki builds on.
 - **[Steph Ango (kepano)](https://github.com/kepano/obsidian-skills)**, obsidian-skills (MIT). `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas` and `obsidian-cli` started from it and were modified.
 - **[Jonghak Seo](https://github.com/Jonghakseo/pi-extension)**, pi-extension (MIT). The inspection lint and the skeleton and style references in `obsidian-visualize` are adapted from it.
@@ -116,4 +116,4 @@ No endorsement by any of them is claimed. "Obsidian" names the third-party appli
 
 ## License
 
-MIT. See [LICENSE](LICENSE); upstream grants are reproduced in [NOTICE](NOTICE), and source revisions and open rights questions are in [PROVENANCE.md](PROVENANCE.md). Art in `assets/` is original work recorded in [assets/asset-ledger.json](assets/asset-ledger.json).
+MIT. See [LICENSE](LICENSE); upstream grants are reproduced in [NOTICE](NOTICE). Art in `assets/` is original work recorded in [assets/asset-ledger.json](assets/asset-ledger.json).

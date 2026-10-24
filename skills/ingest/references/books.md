@@ -1,14 +1,14 @@
 # Books
 
-Book Mode of 구요한's `/ingest` (cmds-llm-wiki `54cf2ab`, Claude command `## Book Ingest Mode`): one Book Index plus N chapter stubs, filled progressively as chapters are actually read. Knowledge is compiled when read, not when scraped; a stub is a navigable future-compile target, never evidence that the chapter was read.
+Book Mode: one Book Index plus N chapter stubs, filled progressively as chapters are actually read. Knowledge is compiled when read, not when scraped; a stub is a navigable future-compile target, never evidence that the chapter was read.
 
 ## Steps 1 and 2
 
 Run SKILL Steps 1 and 2 once for the whole book: one purpose covers every chapter and is inherited by each stub's `collectionPurpose`.
 
-## Folder and category conflict
+## Folder and category
 
-Upstream Book Mode writes the Index and stubs to the Articles folder with `category: Articles`, while the schema reserves the Books folder (`category: Books`). When the live policy or the owner's task names the folder and `category` for books, follow it. Otherwise run Steps 1, 2 and B-1, then stop before the B-2 and B-3 writes and report the conflict with the TOC found. The templates leave `category` and placement to that decision.
+The Index and stubs go into the Books Raw folder with `category: Books`, unless the live policy or the owner's task names another folder and `category` for books.
 
 ## B-1 — Fetch TOC and chapter URL pattern
 
@@ -39,7 +39,7 @@ Compile only what the TOC and preface support, through SKILL Step 6:
 - Entity for the book itself (native title);
 - Entity for the author only when the analysis finds the author significant, never just to resolve the `author` link;
 - optional Entity for a companion site;
-- 1–3 Concepts the preface names as anchors of the whole book;
+- 1–3 Terms or Concepts the preface names as anchors of the whole book;
 - optional 0–1 Guide when the preface itself gives a reusable methodology (for example reading paths);
 - the Book Index linked from the relevant Map, created when none exists (Step 8).
 

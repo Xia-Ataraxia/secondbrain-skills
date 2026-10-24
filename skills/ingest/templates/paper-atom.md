@@ -59,7 +59,7 @@ verificationStatus: unverified
 
 ## 원문 근거
 
-<!-- Upstream guidance: two to six quotes per atom, not a quota. Hard: verbatim from the Raw's Original Content and a page-first locator in every header. -->
+<!-- Guidance: two to six quotes per atom, not a quota. Hard: verbatim from the Raw's Original Content and a page-first locator in every header. -->
 
 > [!quote] 원문 (p.{{page}}, §{{section}})
 > "{{verbatim_from_raw_original_content}}"

@@ -17,7 +17,7 @@ tags:
   - {{book_slug}}
   - {{topic_tag_from_toc}}
 source: "{{verified_direct_chapter_url}}"
-category: {{category_per_live_policy_or_owner_task}}
+category: {{Books|live_policy_or_owner_task_category}}
 collectionPurpose: "{{inherited_book_purpose}}"
 mainVaultRelated: []
 mainVaultCmds: {{inherited_or_empty}}

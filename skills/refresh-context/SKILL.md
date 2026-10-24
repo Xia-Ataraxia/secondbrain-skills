@@ -6,7 +6,7 @@ license: MIT
 
 # Refresh Context
 
-[[Core Context]] is the owner's **시점 snapshot** — who they are at a point in time: §1 identity and continuity statement, §2 reuse axes, §3 frameworks, §4 philosophy, §5 mothership references. When the owner's thinking develops, or the (optional) mothership changes, the snapshot must follow. Every `ingest` purpose question and every `query` answer is tailored to it, so a stale snapshot quietly bends all later work. The sources stay the truth; this skill brings the snapshot back in line with them and nothing more. The skeleton is 구요한's `/refresh-context`; decisions against it are in [comparison](references/comparison.md).
+[[Core Context]] is the owner's **시점 snapshot** — who they are at a point in time: §1 identity and continuity statement, §2 reuse axes, §3 frameworks, §4 philosophy, §5 mothership references. When the owner's thinking develops, or the (optional) mothership changes, the snapshot must follow. Every `ingest` purpose question and every `query` answer is tailored to it, so a stale snapshot quietly bends all later work. The sources stay the truth; this skill brings the snapshot back in line with them and nothing more.
 
 The note is usually `Core Context.md`, sometimes a derived file such as `90. Settings/Derived/agent-context.md`; use the one the vault's AGENTS file names.
 
@@ -41,7 +41,7 @@ Re-read every essay in the frontmatter `source` list in full. Then scan for **ne
 
 ## Step 3-b: (optional, with a mothership) Scan Recent Permanent Notes
 
-Scan, read-only, the mothership's Permanent Notes folder — the one Core Context registers (upstream layout: `30. Permanent Notes/`) — for notes modified in the last 60 days (`find "$PERMANENT" -name '*.md' -mtime -60`, or `git -C "$MOTHERSHIP" log --since="60 days ago" --name-only -- "$PERMANENT"`). They are evidence of philosophy drift for §3/§4, not new `source` entries: quote the line behind each proposed change in Step 4. No Permanent Notes folder registered: skip and say so; never guess one from folder names.
+Scan, read-only, the mothership's Permanent Notes folder — the one Core Context registers (usually `30. Permanent Notes/`) — for notes modified in the last 60 days (`find "$PERMANENT" -name '*.md' -mtime -60`, or `git -C "$MOTHERSHIP" log --since="60 days ago" --name-only -- "$PERMANENT"`). They are evidence of philosophy drift for §3/§4, not new `source` entries: quote the line behind each proposed change in Step 4. No Permanent Notes folder registered: skip and say so; never guess one from folder names.
 
 ## Step 4: Diff & Propose
 

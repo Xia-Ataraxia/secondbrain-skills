@@ -1,6 +1,6 @@
 # Agent sessions (owner extension)
 
-Not in 구요한's `/capture-tabs`; added by the owner. It uses the same note shape, fields and routes as the main procedure.
+Session capture uses the same note shape, fields and routes as the main procedure.
 
 ## Unit: the topic
 

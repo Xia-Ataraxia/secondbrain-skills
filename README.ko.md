@@ -104,7 +104,7 @@ AGENTS.md                기여자와 에이전트를 위한 저장소 계약
 
 ## 감사의 말
 
-- **[구요한 (Yohan Koo)](https://github.com/johnfkoo951/cmds-llm-wiki)**, cmds-llm-wiki. 지식 패키지는 그의 명령 위에 쌓았습니다. 커밋 `54cf2ab`에서 Codex 명령을 기준으로 다시 읽어 단계 순서와 섹션 이름, 용어, 스키마, `index.md`·`log.md` 기록을 그대로 두고, 그 위에 소유자가 명시한 예외(snake_case 날짜 키, `referenced`, 대상 노트 없는 저자 위키링크, 자동 커밋·삭제 없음, 깨끗한 맥락의 Wiki 갱신)를 더했습니다. 무엇을 받아들이고 바꾸고 버렸는지는 각 패키지의 `references/comparison.md`에 있습니다. 원 저장소의 파일은 하나도 담지 않았습니다. Paper Mode P-7 검증기 `skills/ingest/scripts/verify_paper.py`는 그의 검증 단계를 그의 스크립트 없이 이 저장소가 직접 구현한 것입니다. 원 저장소는 라이선스를 공개하지 않았고, 여기서 그것을 재라이선스하지 않습니다. 이 복원은 아직 검증되지 않은 후보이며 자세한 내용은 [PROVENANCE.md](PROVENANCE.md)에 있습니다.
+- **[구요한 (Yohan Koo)](https://github.com/johnfkoo951/cmds-llm-wiki)**, cmds-llm-wiki. 지식 패키지는 그의 명령에서 출발했고, 지금은 이 저장소가 정본이며 소유자의 결정에 따라 달라진 부분이 있습니다. 원 저장소의 파일은 하나도 담지 않았습니다. Paper Mode P-7 검증기 `skills/ingest/scripts/verify_paper.py`는 그의 스크립트 없이 이 저장소가 직접 구현한 것입니다. 원 저장소는 라이선스를 공개하지 않았고, 여기서 그것을 재라이선스하지 않습니다.
 - **[Andrej Karpathy](https://github.com/karpathy)**, cmds-llm-wiki가 바탕으로 삼은 LLM Wiki 패턴.
 - **[Steph Ango (kepano)](https://github.com/kepano/obsidian-skills)**, obsidian-skills (MIT). `obsidian-markdown`, `obsidian-bases`, `obsidian-canvas`, `obsidian-cli`는 여기서 출발해 수정했습니다.
 - **[Jonghak Seo](https://github.com/Jonghakseo/pi-extension)**, pi-extension (MIT). `obsidian-visualize`의 검사 린트와 skeleton·style 참조는 여기서 가져와 고쳤습니다.
@@ -114,4 +114,4 @@ AGENTS.md                기여자와 에이전트를 위한 저장소 계약
 
 ## 라이선스
 
-MIT. [LICENSE](LICENSE)를 참고하십시오. 원 저작물의 허가 고지는 [NOTICE](NOTICE)에, 출처 리비전과 미확정 권리 사항은 [PROVENANCE.md](PROVENANCE.md)에 있습니다. `assets/`의 그림은 직접 제작한 원본이며 [assets/asset-ledger.json](assets/asset-ledger.json)에 기록되어 있습니다.
+MIT. [LICENSE](LICENSE)를 참고하십시오. 원 저작물의 허가 고지는 [NOTICE](NOTICE)에 있습니다. `assets/`의 그림은 직접 제작한 원본이며 [assets/asset-ledger.json](assets/asset-ledger.json)에 기록되어 있습니다.

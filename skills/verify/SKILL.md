@@ -8,7 +8,7 @@ license: MIT
 
 Verify that one Wiki page meets the quality requirements of a knowledge unit. `verify` owns the verification values; `query` only reads them to decide how strongly it may speak, so a verdict kinder than the evidence does real damage downstream.
 
-The claim taxonomy, evidence scopes, primary/secondary judgment and confidence meaning are in [claims](references/claims.md). Field names and values follow `ingest`'s frontmatter reference. Decisions against the reference workflow are in [comparison](references/comparison.md).
+The claim taxonomy, evidence scopes, primary/secondary judgment and confidence meaning are in [claims](references/claims.md). Field names and values follow `ingest`'s frontmatter reference.
 
 ## Input
 

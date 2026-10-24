@@ -6,7 +6,6 @@ derived from MIT-licensed upstream work; the rest is authored here. This file
 records which is which, file by file, so the notice travels with the copies that
 require it.
 
-Narrative lineage is in `PROVENANCE.md`.
 The additive plugin-first visualization lineage is mapped separately in
 `skills/obsidian-visualize/references/source-map.json`; the authenticated native records
 are not rewritten by this addition.
@@ -198,7 +197,7 @@ Upstream package: packages/skill-excalidraw/skills/excalidraw
 
 Original source hashes/bytes, complete tree exclusions and the owning F05
 mapping are in skills/obsidian-visualize/references/source-map.json. Modifications are
-recorded in the package Git history and PROVENANCE. No standalone app, font,
+recorded in the package Git history. No standalone app, font,
 binary or Obsidian plugin is copied. The following upstream grant is also
 retained verbatim in skills/obsidian-visualize/references/NOTICE for independent installs:
 
