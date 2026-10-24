@@ -13,7 +13,6 @@ Every Wiki page, of any kind, is written to these rules. After writing, check ea
 | 7 | Field jargon translated | a translated term where the field uses the original (`키핑 풀업`, `적응형 옵티마이저`) | the original-language name inside sentences in the page's language; quotations stay verbatim |
 | 8 | A Term written from one field only | `domain` or Senses missing a sense that dictionaries, vault links or the owner's notes use | collect every sense first, as [terms](terms.md) says |
 | 9 | Related links without a reason | a `[[link]]` in Related Terms with no line saying why | group label plus one line per link |
-| 10 | Locators in the page | a timestamp, page or section locator (`(12:34)`, `p. 5`, `§3`) anywhere in a Term, Concept, Entity or Guide, quotations included | remove it; the Raw keeps the locators and Sources names the Raw |
-| 11 | Source replay | Details that walk the source in its order, one bullet per passage, or that mostly quote or paraphrase it | explain the idea in the page's own words: what it is, how it works, why it holds, where it applies and where it stops; quote at most a line that carries the idea |
+| 10 | Source replay | Details that walk the source in its order, one bullet per passage, or that mostly quote or paraphrase it | explain the idea in the page's own words: what it is, how it works, why it holds, where it applies and where it stops; quote at most a line that carries the idea |
 
-Link a note in this vault as `[[Note Name]]`, without its folder path, and a web page as `[title](https://...)`.
+Link a note in this vault as `[[Note Name]]` and a web page as `[title](https://...)`.
