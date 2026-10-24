@@ -122,7 +122,7 @@ For a GitHub file, `## Original Content` comes from the raw file at a pinned com
 
 After Step 3's readback, add `[[wikilinks]]` between all related pages, create or update the relevant Map (MOC), and leave no orphan: every new page is linked from at least one other page.
 
-Where a Wiki page this ingest created or changed, or one mentioning an Entity it created, names an existing Entity's title or alias in plain text and context confirms the same referent, link the first mention (`[[Entity|original text]]`) unless the page already links that Entity, then read the page back. Raw, quotes, code, URLs, frontmatter and existing links stay unchanged; an ambiguous mention is reported as a candidate, not linked.
+Where a Wiki page this ingest created or changed, or one mentioning an Entity it created, names an existing Entity's title or alias in plain text and context confirms the same referent, link the first mention (`[[Entity|original text]]`) unless the page already links that Entity, then read the page back. In those pages and this ingest's Raw, a frontmatter value under a key the schema or live policy defines as an Entity reference likewise links to the existing same-vault Entity it names, only when identity is confirmed and the key's meaning stays unchanged. Raw `## Original Content`, quotes, code, URLs, other frontmatter and existing links stay unchanged; an ambiguous mention or value is reported as a candidate, not linked.
 
 ## Step 5 — Update index and log
 

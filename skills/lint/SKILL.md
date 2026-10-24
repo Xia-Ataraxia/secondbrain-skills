@@ -30,7 +30,7 @@ Read `index.md` for the current catalog, then count actual files: Raw notes, Wik
 
 A Wiki page with no inbound wikilink from any other note. Suggest the MOC or related page that should hold it. A Raw note linked only from its own Wiki pages is fine; a Raw no Wiki page cites is reported separately as uncompiled evidence.
 
-Report plain-text mentions of an Entity's title or alias in Wiki pages in scope as unlinked mention candidates (page, line, text), skipping quotes, code, URLs, frontmatter, existing links, the Entity's own page and pages already linking it; mark shared or partial names ambiguous.
+Report plain-text mentions of an Entity's title or alias in Wiki pages in scope as unlinked mention candidates (page, line, text), skipping quotes, code, URLs, frontmatter, existing links, the Entity's own page and pages already linking it; mark shared or partial names ambiguous. Report Entity reference frontmatter that ingest Step 4 would link as metadata candidates.
 
 ### Step 3: Broken Link Check
 
