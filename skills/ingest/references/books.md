@@ -2,13 +2,13 @@
 
 Book Mode of 구요한's `/ingest` (cmds-llm-wiki `54cf2ab`, Claude command `## Book Ingest Mode`): one Book Index plus N chapter stubs, filled progressively as chapters are actually read. Knowledge is compiled when read, not when scraped; a stub is a navigable future-compile target, never evidence that the chapter was read.
 
-## Steps 0 and 0-a
+## Steps 1 and 2
 
-Run SKILL Steps 0 and 0-a once for the whole book: one purpose covers every chapter and is inherited by each stub's `collectionPurpose`.
+Run SKILL Steps 1 and 2 once for the whole book: one purpose covers every chapter and is inherited by each stub's `collectionPurpose`.
 
 ## Folder and category conflict
 
-Upstream Book Mode writes the Index and stubs to the Articles folder with `category: Articles`, while the schema reserves the Books folder (`category: Books`). When the live policy or the owner's task names the folder and `category` for books, follow it. Otherwise run Steps 0, 0-a and B-1, then stop before the B-2 and B-3 writes and report the conflict with the TOC found. The templates leave `category` and placement to that decision.
+Upstream Book Mode writes the Index and stubs to the Articles folder with `category: Articles`, while the schema reserves the Books folder (`category: Books`). When the live policy or the owner's task names the folder and `category` for books, follow it. Otherwise run Steps 1, 2 and B-1, then stop before the B-2 and B-3 writes and report the conflict with the TOC found. The templates leave `category` and placement to that decision.
 
 ## B-1 — Fetch TOC and chapter URL pattern
 
@@ -34,14 +34,14 @@ Upstream Book Mode writes the Index and stubs to the Articles folder with `categ
 
 ## B-4 — Book-level Wiki only (small set)
 
-Compile only what the TOC and preface support, through SKILL Step 3:
+Compile only what the TOC and preface support, through SKILL Step 6:
 
 - Entity for the book itself (native title);
 - Entity for the author only when the analysis finds the author significant, never just to resolve the `author` link;
 - optional Entity for a companion site;
 - 1–3 Concepts the preface names as anchors of the whole book;
 - optional 0–1 Guide when the preface itself gives a reusable methodology (for example reading paths);
-- the Book Index linked from the relevant Map, created when none exists (Step 4).
+- the Book Index linked from the relevant Map, created when none exists (Step 8).
 
 Never precompile chapter-specific pages.
 
@@ -56,10 +56,10 @@ Trigger: the owner runs ingest on a chapter stub or describes reading that chapt
 
 1. Fetch the chapter from the stub's `source`. Only `status: stub` whose Original Content is still exactly the placeholder is promotable.
 2. Replace only the placeholder with the verbatim chapter text; set `status: completed` for the full chapter or `reading` when only part was obtained; update `date_modified`. Every other byte stays, including Source, TOC Preview, human Reading Notes and the navigation keys. A later `reading` → `completed` needs the missing text actually obtained.
-3. Compile the chapter's Wiki pages by SKILL Step 3, updating existing pages first under its clean-context rule; Steps 3.5 and 4 apply.
+3. Compile the chapter's Wiki pages by SKILL Step 6, updating existing pages first under its clean-context rule; Steps 7 and 8 apply.
 4. In the Book Index change only this chapter: its TOC checkbox `- [ ]` → `- [x]` and its Progress Tracking row to `| N | [[chapter]] | reading-or-completed | YYYY-MM-DD |`. All other Index bytes, human notes included, stay.
-5. Update `index.md` per Step 5 and append to `log.md`: `## [YYYY-MM-DD] promote | {book} ch{NN}`.
-6. Read back the chapter, the Index and every touched page, then report qmd reindex status (Step 6).
+5. Update `index.md` per Step 9 and append to `log.md`: `## [YYYY-MM-DD] promote | {book} ch{NN}`.
+6. Read back the chapter, the Index and every touched page, then report qmd reindex status (Step 10).
 
 ## Bibliographic acquisition
 

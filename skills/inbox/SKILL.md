@@ -60,7 +60,7 @@ Ask scope and purpose mode in one turn:
 1. **Scope** — 전부 / 카테고리만 / 선택만: all, one lane, or named notes. No answer selects nothing; the whole Inbox is never assumed.
 2. **Purpose mode** — 미래의 나에게 보내는 편지:
    - **Shared** — one `collectionPurpose` for the whole selection, applied to every note;
-   - **Per-file** — `ingest` asks its Step 0 question per note;
+   - **Per-file** — `ingest` asks its Step 1 question per note;
    - **Auto-infer** — "알아서/자동으로": `ingest` infers from the source and Core Context §2, recording the inference and its reason in `collectionPurpose`.
 
 A candidate that already carries `collectionPurpose`, or a purpose the task already states, is reused and not asked again; when every selected note has one, ask scope only. Never attach a purpose the owner did not give, approve or delegate.
