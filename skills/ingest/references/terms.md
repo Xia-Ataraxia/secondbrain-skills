@@ -5,6 +5,7 @@ A Term page lets the owner understand a name a field uses: after reading it they
 ## What is a Term
 
 - Make a Term for a name an established field uses independently of this source, whether self-contained jargon (`ReplicaSet`) or a shared word whose meaning varies by field (`AI Agent`).
+- Before writing, collect every sense the name has: its general-dictionary and encyclopedia senses, how vault notes already link or use it, and how the owner uses it; never take the source's field as the only one.
 - Keep related senses on one page when one definition can state what they share (AI Agent: anything that perceives its environment and acts on it, covering the reinforcement learning agent and the LLM-based agent).
 - Split unrelated meanings under one name into separate Terms (`Transformer (Machine Learning)`, `Transformer (Electrical Engineering)`).
 - Make a named individual thing (a product, service, model, dataset or organization such as `OpenClaw` or `Claude Code`) an Entity and link it from the Term as an example.
