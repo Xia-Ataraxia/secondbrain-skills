@@ -58,7 +58,15 @@ $$
 
 ## Where It Is Used
 
-- **{{field_or_situation}}:** {{how_it_is_used_there_with_entity_examples}}
+| {{field_label}} | {{what_it_does_label}} |
+| :--- | :--- |
+| {{field}} | {{what_it_does_there}} |
+
+### {{field}}
+
+- **{{use}}:** {{one_use_in_short_sentences}} ([[{{raw_source}}|{{author_year}}]])
+- **{{owner_notes_label}}**
+	- {{owner_use}} ([{{short_label}}](obsidian://open?vault={{encoded_vault}}&file={{encoded_path}}))
 
 ## Origin
 
