@@ -108,13 +108,7 @@ For each extracted term, concept, entity and guide, update the existing page or 
 - A new Entity goes into the folder the live policy registers for its subtype, otherwise the Entity folder; an existing Entity is not moved.
 - Title and structure a Term by [terms](references/terms.md). Before creating one, search titles and aliases for the same referent under any of its names; a match is updated, never duplicated, and a new sense becomes a section of the existing page.
 - A new Term goes into the folder the live policy registers for Terms; when none is registered, it goes into the Concept folder and the report says so. Ingest never moves or retypes an existing page.
-Every Wiki page, of any kind, is written this way:
-
-- Link a note in this vault as `[[wikilink]]`; link a note in another vault (the mothership), in the body or in any property, as `[title](obsidian://open?vault=<vault>&file=<path>)` with both components URL-encoded; link the web as `[title](https://...)`.
-- Cite a source that has a Raw by its Raw only; its URL lives in the Raw.
-- Write a field's jargon in its original-language name (`Kipping Pull-up`, `learning rate`) inside sentences in the page's language; quotations stay verbatim.
-- State a cited fact directly with its citation; attribute in prose ("according to X") only when sources disagree.
-- Keep acquisition and process out of the page: sources that could not be read, blocked sites, second-hand checks and what was verified go in the run report. Write an unknown fact once as unknown.
+Write every Wiki page to [page review](references/page-review.md).
 
 - Set `explored: true` only after a human or agent completed the Exploration Gate check and documented it in the page body.
 - When the classification is clear, set `claimType` and `evidenceScope` for later `verify`.
@@ -168,7 +162,7 @@ Check every item and fix failures:
 - every updated existing page still holds every valid statement, link and frontmatter value of its before-image, apart from reviewed corrections;
 - every new Wiki page has `explored: false`; every `confidence: high` page has a Bias Check with `Counter-argument:` and `Data gap:` lines;
 - every `mainVaultRelated` link resolves on the mothership filesystem with both `vault` and `file` percent-encoded, no literal placeholder remains, `mainVaultCmds` holds only a reference the mothership actually registers, copied exactly;
-- every touched Wiki page follows Step 6's writing rules: no `[[…]]` to a mothership note and no bare `obsidian://` URL in a body or property, no web URL beside a source that has a Raw, no "according to X" before a citation naming X, no acquisition or process notes, and field jargon in its original-language name;
+- every touched Wiki page passes [page review](references/page-review.md), each item recorded present or absent in the run report;
 - every new page appears in `index.md` and the Stats counts match the folders;
 - the `log.md` entry is appended;
 - the qmd index status is known: when `reindex` reports pending or failed work, run it and report the result.
